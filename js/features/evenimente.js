@@ -118,8 +118,8 @@
   }
 
   const sources = {
-    sample: { label: 'Date de exemplu', list: async () => window.EXEMPLE_EVENIMENTE || [] },
-    api: { label: null, list: async () => (await App.api('/events/', { auth: false })).events.map(fromApi) },
+    sample: { list: async () => window.EXEMPLE_EVENIMENTE || [] },
+    api: { list: async () => (await App.api('/events/', { auth: false })).events.map(fromApi) },
   };
   let source = sources[App.cfg.eventsSource] || sources.sample;
 
@@ -243,7 +243,6 @@
         openId: null,
         ignoreClose: false,
         dialog: h('dialog', { class: 'ev-dialog', 'aria-labelledby': 'ev-title' }),
-        banner: h('p', { class: 'mock-banner', hidden: true }),
         finder: h('form', { class: 'finder', role: 'search' }),
         bar: h('div', { class: 'result-bar' }),
         results: h('div', { 'aria-live': 'polite' }),
@@ -258,7 +257,7 @@
       el.append(
         h('div', { class: 'heading' }, h('div', null, h('h2', null, 'Oportunități de voluntariat'),
           h('p', { class: 'lead', style: 'margin:8px 0 0' }, 'Alege după loc, cauză, vârstă și program. Deschide o oportunitate ca să vezi ce ai de făcut.'))),
-        ui.banner, ui.finder, ui.bar, ui.results, ui.dialog);
+        ui.finder, ui.bar, ui.results, ui.dialog);
     },
 
     show(el, route) {
@@ -303,10 +302,6 @@
     paint() {
       const ui = this.ui;
       const items = store.items;
-      ui.banner.hidden = !source.label;
-      ui.banner.textContent = source.label
-        ? source.label + ': oportunitățile de mai jos sunt inventate, ca să putem testa pagina. Nu te poți înscrie la ele pe bune.'
-        : '';
       this.filters = FILTERS.map((f) => Object.assign({}, f, { current: f.options ? f.options(items) : [] }))
         .filter((f) => f.type === 'search' || f.current.length);
       // O valoare venită din link sau rămasă din alt moment, care nu mai există în date, se ignoră.
@@ -449,7 +444,6 @@
       items.forEach((ev) => { if (ev.cause) counts.set(ev.cause, (counts.get(ev.cause) || 0) + 1); });
       return [...counts].map(([name, count]) => ({ name, count })).sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, 'ro'));
     },
-    isSample: () => !!source.label,
     setSource(newSource) {
       source = newSource;
       store.items = null;

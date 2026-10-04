@@ -349,6 +349,10 @@ nav button.active {
   align-content: start;
 }
 
+.field[hidden] {
+  display: none;
+}
+
 .field>span {
   font-weight: 700;
   font-size: .95rem;

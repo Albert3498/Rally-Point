@@ -88,11 +88,8 @@
         const [upcoming, causes] = await Promise.all([App.evenimente.upcoming(5), App.evenimente.causes()]);
         this.loaded = true;
         App.fill(dom.boardSlot,
-          App.evenimente.isSample()
-            ? h('p', { class: 'mock-banner' }, 'Date de exemplu: oportunitățile de mai jos sunt inventate, ca să putem testa pagina.')
-            : null,
           upcoming.length
-            ? h('div', { class: 'board' + (this.flipped ? '' : ' flip') }, [ui.head(), upcoming.map((ev, i) => ui.row(ev, i))])
+            ? h('div', { class: 'board light' + (this.flipped ? '' : ' flip') }, [ui.head(), upcoming.map((ev, i) => ui.row(ev, i))])
             : h('div', { class: 'panel-note' }, h('h3', null, 'Încă nu sunt oportunități publicate'),
               h('p', null, 'Revino în câteva zile.')));
         this.flipped = true;

@@ -225,6 +225,7 @@
     if (access === 'public') return true;
     if (access === 'guest') return !session.name;
     if (!session.name) return false;
+    if (access === 'organization') return session.role === 'organization';
     return access === 'user' || session.role === 'admin';
   }
 

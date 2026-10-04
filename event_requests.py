@@ -159,10 +159,16 @@ def require_admin(account: dict = Depends(get_current_account)) -> dict:
     return account
 
 
+def require_organization(account: dict = Depends(get_current_account)) -> dict:
+    if account["role"] != "organization":
+        raise HTTPException(status_code=403, detail="organization access required")
+    return account
+
+
 @event_router.post("/event-requests/", status_code=201, response_model=EventRequestOut)
 def submit_event_request(
     data: EventRequestCreate,
-    account: dict = Depends(get_current_account),
+    account: dict = Depends(require_organization),
     db: sqlite3.Connection = Depends(get_db),
 ):
     now = now_iso()
@@ -187,7 +193,7 @@ def submit_event_request(
 
 @event_router.get("/event-requests/me/", response_model=list[EventRequestOut])
 def list_my_event_requests(
-    account: dict = Depends(get_current_account),
+    account: dict = Depends(require_organization),
     db: sqlite3.Connection = Depends(get_db),
 ):
     rows = db.execute(
@@ -200,7 +206,7 @@ def list_my_event_requests(
 @event_router.get("/event-requests/{request_id}/", response_model=EventRequestOut)
 def get_my_event_request(
     request_id: int,
-    account: dict = Depends(get_current_account),
+    account: dict = Depends(require_organization),
     db: sqlite3.Connection = Depends(get_db),
 ):
     row = db.execute(
@@ -254,4 +260,3 @@ def review_event_request(
         raise HTTPException(status_code=409, detail="only pending requests can be reviewed")
     row = db.execute(f"SELECT {COLUMNS} FROM event_requests WHERE id=?", (request_id,)).fetchone()
     return row_to_out(row)
-

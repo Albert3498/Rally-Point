@@ -16,7 +16,7 @@ def post(headers, **overrides):
 
 @pytest.fixture(scope="module")
 def owner():
-    return make_user("Edge Owner")
+    return make_user("Edge Owner", role="organization")
 
 
 @pytest.fixture(scope="module")
@@ -105,7 +105,7 @@ def test_review_changes_updated_at_but_not_created_at(owner, admin):
 
 # 11
 def test_token_of_deleted_user_stops_working():
-    headers = make_user("Soon Deleted")
+    headers = make_user("Soon Deleted", role="organization")
     assert 200 == client.get("/event-requests/me/", headers=headers).status_code
     delete_user("Soon Deleted")
     r = client.get("/event-requests/me/", headers=headers)

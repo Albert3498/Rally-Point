@@ -35,13 +35,16 @@ def make_user(name, role="user"):
 
 @pytest.fixture(scope="module")
 def alice():
-    return make_user("Alice Tester")
+    return make_user("Alice Tester", role="organization")
 
 
 @pytest.fixture(scope="module")
 def bob():
-    return make_user("Bob Tester")
+    return make_user("Bob Tester", role="organization")
 
+@pytest.fixture(scope="module")
+def student():
+    return make_user("Student Tester")
 
 @pytest.fixture(scope="module")
 def admin():
@@ -87,6 +90,21 @@ def test_submit_success_sets_server_fields_and_trims(alice):
 
 def test_requires_authentication():
     assert client.post("/event-requests/", json=payload()).status_code in (401, 403)
+
+
+def test_students_cannot_submit_event_requests(student):
+    r = client.post("/event-requests/", headers=student, json=payload())
+    assert 403 == r.status_code
+
+
+def test_admins_cannot_submit_event_requests(admin):
+    r = client.post("/event-requests/", headers=admin, json=payload())
+    assert 403 == r.status_code
+
+
+def test_students_cannot_view_my_event_requests(student):
+    r = client.get("/event-requests/me/", headers=student)
+    assert 403 == r.status_code
 
 
 def test_start_in_past_is_rejected(alice):

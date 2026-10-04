@@ -25,7 +25,7 @@
   App.register({
     id: 'request-event',
     label: 'Propune un eveniment',
-    access: 'user',
+    access: 'organization',
     order: 30,
     render(el) {
       const f = {

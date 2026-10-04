@@ -6,7 +6,7 @@
   App.register({
     id: 'my-requests',
     label: 'Cererile mele',
-    access: 'user',
+    access: 'organization',
     order: 40,
     render(el) {
       this.list = h('div', { class: 'stack' });

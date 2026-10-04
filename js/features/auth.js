@@ -90,9 +90,7 @@
         field('Data nașterii', inputs.birthdate, 'Conturile de elev sunt doar pentru vârsta 14–18 ani.'),
         field('Aptitudini', inputs.aptitudes, 'Separate prin virgulă. Altor utilizatori le vor folosi la căutare.'),
       ];
-      const organizationOnly = [
-        field('Email de contact', inputs.email, 'Folosit pentru a lua legătura cu organizația.'),
-      ];
+      const contactEmail = field('Email de contact', inputs.email, 'Folosit pentru a lua legătura cu tine.');
       function syncAccountType() {
         const isOrg = inputs.type.value === 'organization';
         nameLabel.textContent = isOrg ? 'Numele organizației' : 'Nume';
@@ -100,10 +98,9 @@
           ? 'Litere, cifre, spații și - . & , ( )'
           : 'Doar litere și spații.';
         studentOnly.forEach((f) => { f.hidden = isOrg; });
-        organizationOnly.forEach((f) => { f.hidden = !isOrg; });
         inputs.birthdate.disabled = isOrg;
         inputs.aptitudes.disabled = isOrg;
-        inputs.email.disabled = !isOrg;
+        inputs.email.disabled = false;
         inputs.email.required = isOrg;
       }
       inputs.type.addEventListener('change', syncAccountType);
@@ -114,7 +111,7 @@
         h('label', { class: 'field' }, nameLabel, inputs.name, nameHint),
         field('Parolă', inputs.password),
         studentOnly[0],
-        organizationOnly,
+        contactEmail,
         h('div', { class: 'row' },
           field('Oraș', inputs.city),
           field('Țară', inputs.country)),
@@ -134,9 +131,9 @@
           city: inputs.city.value,
           country: inputs.country.value,
         };
-        if (isOrg) {
-          body.email = inputs.email.value;
-        } else {
+        const email = inputs.email.value.trim();
+        if (email) body.email = email;
+        if (!isOrg) {
           body.birthdate = inputs.birthdate.value;
           body.aptitudes = inputs.aptitudes.value.split(',').map((a) => a.trim()).filter(Boolean);
         }
