@@ -1,7 +1,7 @@
 import bcrypt
 from pydantic import BaseModel,field_validator
 import sqlite3
-from fastapi import APIRouter,HTTPException,Depends
+from fastapi import APIRouter,HTTPException,Depends,Query
 from fastapi.security import HTTPBearer,HTTPAuthorizationCredentials
 import os
 import jwt
@@ -40,10 +40,48 @@ with sqlite3.connect("userdata.db") as setup_conn:
         setup_conn.execute("ALTER TABLE userdata ADD COLUMN name VARCHAR(255)")
     if "birthdate" not in current_columns:
         setup_conn.execute("ALTER TABLE userdata ADD COLUMN birthdate TEXT")
+    if "city" not in current_columns:
+        setup_conn.execute("ALTER TABLE userdata ADD COLUMN city VARCHAR(255)")
+    if "country" not in current_columns:
+        setup_conn.execute("ALTER TABLE userdata ADD COLUMN country VARCHAR(255)")
+    setup_conn.execute("""
+        CREATE TABLE IF NOT EXISTS user_aptitudes(
+            user_id INTEGER NOT NULL REFERENCES userdata(id),
+            aptitude VARCHAR(100) NOT NULL,
+            PRIMARY KEY(user_id,aptitude)
+        )
+    """)
+    setup_conn.execute("CREATE INDEX IF NOT EXISTS idx_user_aptitudes_aptitude ON user_aptitudes(aptitude)")
+def clean_text(value: str, label: str) -> str:
+    value = " ".join(value.split())
+    if not value or not all(char.isalpha() or char in " -'" for char in value):
+        raise ValueError(f"{label} can contain only letters, spaces, hyphens and apostrophes")
+    return value.title()
 class Registration(BaseModel):
     password: str
     name: str
     birthdate: date
+    city: str
+    country: str
+    aptitudes: list[str] = []
+
+    @field_validator("city")
+    @classmethod
+    def format_city(cls, value: str) -> str:
+        return clean_text(value, "City")
+
+    @field_validator("country")
+    @classmethod
+    def format_country(cls, value: str) -> str:
+        return clean_text(value, "Country")
+
+    @field_validator("aptitudes")
+    @classmethod
+    def format_aptitudes(cls, values: list[str]) -> list[str]:
+        cleaned = {" ".join(v.split()).lower() for v in values}
+        if "" in cleaned:
+            raise ValueError("Aptitudes cannot be empty")
+        return sorted(cleaned)
 
     @field_validator("name")
     @classmethod
@@ -76,8 +114,13 @@ def create_user(personal_data:Registration,db:sqlite3.Connection=Depends(get_db)
     ).decode()
     try:
         cur.execute(
-            "INSERT INTO userdata(name,password,birthdate) VALUES(?,?,?)",
-            (personal_data.name,hashed_password,personal_data.birthdate.isoformat())
+            "INSERT INTO userdata(name,password,birthdate,city,country) VALUES(?,?,?,?,?)",
+            (personal_data.name,hashed_password,personal_data.birthdate.isoformat(),
+             personal_data.city,personal_data.country)
+        )
+        cur.executemany(
+            "INSERT INTO user_aptitudes(user_id,aptitude) VALUES(?,?)",
+            [(cur.lastrowid,a) for a in personal_data.aptitudes]
         )
         db.commit()
         return{"id":cur.lastrowid}
@@ -114,3 +157,35 @@ def get_current_user(credentials: HTTPAuthorizationCredentials=Depends(security)
 @auth_router.get("/whoami/")
 def whoami(user=Depends(get_current_user)):
     return user
+@auth_router.get("/users/search/")
+def search_users(
+    aptitude:list[str]=Query(default=[]),
+    city:str|None=None,
+    country:str|None=None,
+    user=Depends(get_current_user),
+    db:sqlite3.Connection=Depends(get_db)
+):
+    wanted=sorted({" ".join(a.split()).lower() for a in aptitude if a.strip()})
+    query="SELECT id,name,city,country FROM userdata WHERE 1=1"
+    params:list=[]
+    if city:
+        query+=" AND lower(city)=lower(?)"
+        params.append(city.strip())
+    if country:
+        query+=" AND lower(country)=lower(?)"
+        params.append(country.strip())
+    if wanted:
+        marks=",".join("?"*len(wanted))
+        query+=(" AND id IN (SELECT user_id FROM user_aptitudes WHERE aptitude IN ("+marks+")"
+                " GROUP BY user_id HAVING COUNT(DISTINCT aptitude)=?)")
+        params.extend(wanted)
+        params.append(len(wanted))
+    rows=db.execute(query,params).fetchall()
+    return[
+        {
+            "id":r[0],"name":r[1],"city":r[2],"country":r[3],
+            "aptitudes":[a[0] for a in db.execute(
+                "SELECT aptitude FROM user_aptitudes WHERE user_id=? ORDER BY aptitude",(r[0],))]
+        }
+        for r in rows
+    ]
