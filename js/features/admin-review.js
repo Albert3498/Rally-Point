@@ -11,6 +11,12 @@
     render(el) {
       this.list = h('div', { class: 'stack' });
       this.status = h('p', { class: 'status-line' });
+      this.syncStatus = h('p', { class: 'status-line', role: 'status' });
+      this.syncButton = h('button', {
+        type: 'button',
+        class: 'btn primary',
+        onclick: () => this.syncAutomaticEvents(),
+      }, 'Sincronizează evenimente externe');
       this.filter = h('select', { name: 'status' },
         h('option', { value: 'pending' }, 'În așteptare'),
         h('option', { value: 'approved' }, 'Aprobate'),
@@ -21,9 +27,31 @@
         h('div', { class: 'heading' },
           h('div', null, h('div', { class: 'eyebrow' }, 'Administrare'), h('h2', null, 'Cereri de evenimente')),
           h('label', { class: 'field inline' }, h('span', null, 'Stare'), this.filter)),
+        h('section', { class: 'panel' },
+          h('h3', null, 'Evenimente automate'),
+          h('p', null, 'Importă sau actualizează anunțurile furnizorului extern.'),
+          this.syncButton,
+          this.syncStatus),
         this.status, this.list);
     },
     show() { this.load(); },
+
+    async syncAutomaticEvents() {
+      this.syncButton.disabled = true;
+      this.syncStatus.className = 'status-line';
+      this.syncStatus.textContent = 'Se sincronizează…';
+      try {
+        const result = await App.api('/events/automatic-sync', { method: 'POST' });
+        const count = result.count || 0;
+        this.syncStatus.textContent = `${count} evenimente externe sincronizate.`;
+        App.toast('Evenimentele au fost sincronizate.');
+      } catch (err) {
+        this.syncStatus.className = 'status-line error';
+        this.syncStatus.textContent = err.message;
+      } finally {
+        this.syncButton.disabled = false;
+      }
+    },
 
     async load() {
       this.status.className = 'status-line';

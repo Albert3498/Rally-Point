@@ -1,11 +1,14 @@
 CREATE TABLE IF NOT EXISTS events (
-    id INTEGER PRIMARY KEY,
-    title VARCHAR(255),
-    city VARCHAR(255),
-    date DATETIME2,
-    pay_type VARCHAR(255),
-    pay INTEGER DEFAULT 0, 
-    action VARCHAR(255),
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT,
+    city TEXT,
+    country TEXT,
+    date TEXT,
+    pay_type TEXT,
+    pay INTEGER DEFAULT 0,
+    action TEXT,
     accessibility BOOLEAN,
-    language VARCHAR(255)
-)
+    language TEXT,
+    source TEXT,
+    external_id TEXT
+);

@@ -35,11 +35,13 @@
     </div>
   </footer>
 
-  <!-- Settings (read by core.js and the features):
-       apiBase       - address of the API (default http://127.0.0.1:8000)
-       eventsSource  - 'sample' = example opportunities from js/data/, 'api' = real events from GET /events/
-       applySource   - 'mock' = demo only (the server has no applications endpoint yet), 'api' = real endpoint (not built yet) -->
-  <script>window.APP_CONFIG = { eventsSource: 'sample', applySource: 'mock' };</script>
+  <!-- Point apiBase at the FastAPI server. Use the backend event list by default. -->
+  <script>
+    window.APP_CONFIG = {
+      apiBase: 'http://127.0.0.1:8000',
+      eventsSource: 'api'
+    };
+  </script>
   <script src="js/core.js"></script>
 
   <!-- Features. To add one: create js/features/<name>.js and list it here (see the header of js/core.js). -->

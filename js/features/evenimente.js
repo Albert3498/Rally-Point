@@ -273,58 +273,22 @@
       this.loadAndPaint(wanted);
     },
 
-    hide() {
-      const ui = this.ui;
-      if (ui && ui.dialog.open) { ui.ignoreClose = true; ui.dialog.close(); ui.openId = null; }
-    },
-
-    async loadAndPaint(wanted, force) {
-      const ui = this.ui;
-      ui.bar.replaceChildren();
-      ui.results.replaceChildren(skeleton(4));
-      ui.results.setAttribute('aria-busy', 'true');
-      try {
-        await loadItems(force);
-        ui.results.removeAttribute('aria-busy');
-        this.paint();
-        this.syncDialog(wanted);
-      } catch (err) {
-        ui.results.removeAttribute('aria-busy');
-        ui.finder.replaceChildren();
-        ui.results.replaceChildren(h('div', { class: 'panel-note error', role: 'alert' },
-          h('h3', null, 'Nu am putut încărca oportunitățile'),
-          h('p', null, err.message),
-          h('div', { class: 'actions' },
-            h('button', { type: 'button', class: 'btn', onclick: () => this.loadAndPaint(wanted, true) }, 'Încearcă din nou'))));
-      }
-    },
-
-    // Reconstruiește controalele (după încărcare sau după ștergerea unor filtre) și apoi lista.
-    paint() {
-      const ui = this.ui;
-      const items = store.items;
-      ui.banner.hidden = !source.label;
-      ui.banner.textContent = source.label
-        ? source.label + ': oportunitățile de mai jos sunt inventate, ca să putem testa pagina. Nu te poți înscrie la ele pe bune.'
-        : '';
-      this.filters = FILTERS.map((f) => Object.assign({}, f, { current: f.options ? f.options(items) : [] }))
-        .filter((f) => f.type === 'search' || f.current.length);
-      // O valoare venită din link sau rămasă din alt moment, care nu mai există în date, se ignoră.
-      this.filters.forEach((f) => {
-        const v = ui.values[f.key];
-        if (v && f.type !== 'search' && !f.current.some(([val]) => val === v)) delete ui.values[f.key];
-      });
-
-      const search = this.filters.find((f) => f.type === 'search');
-      const chips = this.filters.find((f) => f.type === 'chips');
-      const selects = this.filters.filter((f) => f.type === 'select');
-      this.chipButtons = [];
-
-      const searchField = search && h('label', { class: 'field search' }, h('span', null, search.label),
-        h('input', {
-          type: 'search', placeholder: search.placeholder, value: ui.values.search || '', autocomplete: 'off',
-          oninput: (e) => { ui.values.search = e.target.value.trim().toLowerCase(); this.refresh(); },
-        }));
+      // Controalele se refac din datele încărcate: un select apare doar dacă există valori pentru el.
+      this.buildControls = () => {
+        controls.replaceChildren(...FILTERS.map((f) => {
+          if (f.type === 'search') {
+            return h('label', { class: 'field' }, h('span', null, f.label),
+              h('input', { type: 'search', placeholder: f.placeholder, value: state.values[f.key] || '',
+                oninput: (e) => { state.values[f.key] = e.target.value.trim(); apply(); } }));
+          }
+          const options = [...new Set(state.items.map((ev) => ev[f.key]).filter(Boolean))].sort();
+          if (!options.length) return null;
+          return h('label', { class: 'field' }, h('span', null, f.label),
+            h('select', { onchange: (e) => { state.values[f.key] = e.target.value; apply(); } },
+              h('option', { value: '' }, f.all),
+              options.map((o) => h('option', { value: o, selected: state.values[f.key] === o }, o))));
+        }).filter(Boolean));
+      };
 
       const chipGroup = chips && h('div', { role: 'group', 'aria-label': chips.label, class: 'chip-row' },
         [['', 'Toate']].concat(chips.current).map(([value, label]) => {
