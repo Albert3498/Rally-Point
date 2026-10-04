@@ -1,5 +1,5 @@
 /*
- * Volunteer IT front end - core.
+ * Volunteer front end - core.
  *
  * HOW TO ADD A FEATURE
  *   1. Create js/features/<name>.js and add a <script> tag for it in interface.html
@@ -255,7 +255,7 @@
     views.forEach((v) => v.el && v.el.classList.toggle('active', v === view));
     if (view.show) view.show(view.body, r);
     renderNav();
-    document.title = (view.label ? view.label + ' · ' : '') + 'Volunteer IT';
+    document.title = (view.label ? view.label + ' · ' : '') + 'Volunteer';
 
     const anchor = r.sub && document.getElementById(r.sub);
     if (anchor) anchor.scrollIntoView({ behavior: 'smooth' });
@@ -274,6 +274,7 @@
   const App = {
     cfg, h, api, ApiError, toast, session, onSession, login, logout, refreshSession, normalizeName,
     register, addNav, go, fmtDate, ui: {},
+    getView: (id) => views.get(id),
   };
   window.App = App;
 

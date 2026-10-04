@@ -37,6 +37,6 @@
   });
 
   // Shortcuts to the two sections of the home page (they scroll, they are not separate pages).
-  App.addNav({ label: 'Activități IT', href: '#/home/activities', order: 1 });
+  App.addNav({ label: 'Activități', href: '#/home/activities', order: 1 });
   App.addNav({ label: 'Ghid', href: '#/home/guide', order: 2 });
 })();
