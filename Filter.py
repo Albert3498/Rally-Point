@@ -1,16 +1,16 @@
 import datetime
 import sqlite3
-from fastapi import APIRouter, HTTPException, Depends, Query
+from functools import lru_cache
+from fastapi import APIRouter, HTTPException, Query
 from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
 
 filter_router = APIRouter()
 
+# Initialize Nominatim geocoder cu user agent specific
+geolocator = Nominatim(user_agent="romania_events_app")
 
-# Initialize Nominatim geocoder
-geolocator = Nominatim(user_agent="city_distance_app")
-
-# --- Database Setup ---
+# --- Database Setup (Conform create.sql) ---
 def init_db():
     conn = sqlite3.connect("events.db")
     cursor = conn.cursor()
@@ -18,10 +18,7 @@ def init_db():
     CREATE TABLE IF NOT EXISTS events (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         title TEXT,
-        country TEXT,
         city TEXT,
-        latitude REAL,
-        longitude REAL,
         date TEXT,
         pay_type TEXT,
         pay INTEGER DEFAULT 0,
@@ -35,77 +32,117 @@ def init_db():
 
 init_db()
 
-# --- Allowed Filter Values ---
-ALLOWED_ACTIONS = {'direct', 'logistics', 'creative / digital'}
-ALLOWED_PAY = {'free', 'paid'}
-ALLOWED_LANGUAGES = {'Romanian', 'English', 'Russian', 'French', 'Arabic', 'Spanish', 'Sign Language'}
+# --- Cache pentru coordonatele orașelor din România ---
+@lru_cache(maxsize=128)
+def get_city_coordinates(city_name: str):
+    """
+    Caută coordonatele unui oraș din România folosind Nominatim.
+    Rezultatele sunt păstrate în cache pentru a evita rate-limiting-ul.
+    """
+    try:
+        location = geolocator.geocode(
+            query={"city": city_name, "country": "Romania"},
+            country_codes="ro"
+        )
+        if location:
+            return (location.latitude, location.longitude)
+    except Exception:
+        pass
+    return None
+
+# --- Valori permise adaptate pentru România ---
+ALLOWED_ACTIONS = {'direct', 'logistics', 'creative / digital', 'voluntariat', 'educație', 'cultural'}
+ALLOWED_PAY = {'free', 'paid', 'gratuit', 'platit'}
+ALLOWED_LANGUAGES = {
+    'Romanian', 'Română',
+    'English', 'Engleză',
+    'Hungarian', 'Maghiară',
+    'German', 'Germană',
+    'Ukrainian', 'Ucraineană',
+    'Sign Language', 'Limbajul semnelor'
+}
 
 @filter_router.get("/events/")
-def event(
-    city: str | None = None,
-    country: str | None = None,
-    distance: int | None = None,
-    pay: str | None = None,
-    name: str | None = None,
-    date: datetime.date | None = None,
-    action: str | None = None,
-    accessibility: bool | None = None,
-    language: str | None = None
+def get_events(
+    city: str | None = Query(None, description="Orașul din România"),
+    country: str | None = Query("România", description="Țara (implicit România)"),
+    distance: int | None = Query(None, description="Raza maximă de căutare în km"),
+    pay: str | None = Query(None, description="Tip plată: free/paid sau gratuit/platit"),
+    name: str | None = Query(None, description="Căutare după titlul evenimentului"),
+    date: datetime.date | None = Query(None, description="Data minimă a evenimentului (YYYY-MM-DD)"),
+    action: str | None = Query(None, description="Tipul de acțiune/categorie"),
+    accessibility: bool | None = Query(None, description="Accesibilitate persoane cu dizabilități"),
+    language: str | None = Query(None, description="Limba de desfășurare")
 ):
-    # 1. Validate parameters only when provided
-    if pay is not None and pay not in ALLOWED_PAY:
-        raise HTTPException(status_code=400, detail="Invalid pay option")
-    if action is not None and action not in ALLOWED_ACTIONS:
-        raise HTTPException(status_code=400, detail="Invalid action option")
+    # 1. Validare parametri
+    if pay is not None and pay.lower() not in ALLOWED_PAY:
+        raise HTTPException(status_code=400, detail="Opțiune invalidă pentru plată (ex: gratuit, platit, free, paid)")
+    if action is not None and action.lower() not in ALLOWED_ACTIONS:
+        raise HTTPException(status_code=400, detail="Tip de acțiune invalid")
     if language is not None and language not in ALLOWED_LANGUAGES:
-        raise HTTPException(status_code=400, detail="Invalid language option")
+        raise HTTPException(status_code=400, detail="Limbă nesuportată")
 
-    # 2. Geocode target location if city or country is requested
+    # 2. Localizarea coordonatelor de căutare ale utilizatorului
     user_coords = None
-    if city or country:
-        search_query = f"{city or ''}, {country or ''}".strip(", ")
-        location = geolocator.geocode(search_query)
-        if location:
-            user_coords = (location.latitude, location.longitude)
-        elif distance is not None:
-            raise HTTPException(status_code=404, detail="Search location could not be found")
+    if city:
+        user_coords = get_city_coordinates(city)
+        if not user_coords and distance is not None:
+            raise HTTPException(
+                status_code=404, 
+                detail=f"Orașul '{city}' nu a fost găsit în România"
+            )
 
-    # 3. Dynamic SQL Query
+    # 3. Interogare dinamică SQL (Conform structurii din create.sql)
     query = "SELECT * FROM events WHERE 1=1"
     params = []
 
     if pay:
-        query += " AND pay_type = ?"
-        params.append(pay)
+        # Mapare variante ro/en pentru baza de date
+        pay_value = "free" if pay.lower() in ("free", "gratuit") else "paid"
+        query += " AND (pay_type = ? OR pay_type = ?)"
+        params.extend([pay_value, pay])
+
     if action:
-        query += " AND action = ?"
+        query += " AND LOWER(action) = LOWER(?)"
         params.append(action)
+
     if language:
-        query += " AND language = ?"
-        params.append(language)
+        query += " AND (LOWER(language) = LOWER(?) OR language = ?)"
+        params.extend([language, language])
+
     if accessibility is not None:
         query += " AND accessibility = ?"
         params.append(accessibility)
+
     if name:
         query += " AND title LIKE ?"
         params.append(f"%{name}%")
+
     if date:
         query += " AND date >= ?"
         params.append(date.isoformat())
 
     conn = sqlite3.connect("events.db")
-    conn.row_factory = sqlite3.Row  # Return dict-like rows
+    conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
     cursor.execute(query, params)
     rows = [dict(row) for row in cursor.fetchall()]
     conn.close()
 
-    # 4. Filter results by distance radius (km)
+    # 4. Calculare distanță pe baza orașului din baza de date
     filtered_events = []
     for event in rows:
-        if distance and user_coords:
-            event_coords = (event["latitude"], event["longitude"])
-            if event_coords[0] is not None and event_coords[1] is not None:
+        event_city = event.get("city")
+        
+        # Filtrare strictă pe oraș dacă nu s-a cerut o rază de distanță
+        if city and not distance:
+            if event_city and event_city.lower() != city.lower():
+                continue
+
+        # Calcul distanță geodesică dacă avem rază setată
+        if distance and user_coords and event_city:
+            event_coords = get_city_coordinates(event_city)
+            if event_coords:
                 dist_km = geodesic(user_coords, event_coords).km
                 if dist_km > distance:
                     continue
