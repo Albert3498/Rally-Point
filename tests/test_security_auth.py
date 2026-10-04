@@ -87,8 +87,8 @@ def test_duplicate_name_with_different_case_is_rejected():
 def test_login_name_is_case_insensitive():
     client.post("/register/", json=registration("Lena Fox"))
     r = client.post("/login/", json={"name": "lena fox", "password": "pw-12345"})
-    # KNOWN BUG: should be 200 - login is case-sensitive today, so 'lena fox' is refused
-    assert 400 == r.status_code, f"known bug changed (case-sensitive login): got {r.status_code}"
+    # Fixed: login now ignores case (needed so organization names like "ONG Verde" are typeable)
+    assert 200 == r.status_code, f"login is case-sensitive: got {r.status_code} {r.text}"
 
 
 # 8

@@ -156,13 +156,9 @@
     emitSession();
   }
 
-  // The server stores names in Title Case ("lena fox" -> "Lena Fox") and logs in case-sensitively.
-  function normalizeName(name) {
-    return name.trim().split(/\s+/).map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ');
-  }
-
+  // The server ignores case when matching names, so the name is sent as typed.
   async function login(name, password) {
-    const data = await api('/login/', { method: 'POST', auth: false, body: { name: normalizeName(name), password } });
+    const data = await api('/login/', { method: 'POST', auth: false, body: { name: name.trim(), password } });
     store.set(cfg.tokenKey, data.access_token);
     await refreshSession();
   }
@@ -272,7 +268,7 @@
   /* ---------- Public surface ---------- */
 
   const App = {
-    cfg, h, api, ApiError, toast, session, onSession, login, logout, refreshSession, normalizeName,
+    cfg, h, api, ApiError, toast, session, onSession, login, logout, refreshSession,
     register, addNav, go, fmtDate, ui: {},
     getView: (id) => views.get(id),
   };
