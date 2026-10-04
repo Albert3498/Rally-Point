@@ -4,219 +4,35 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Volunteer — Ghid de voluntariat</title>
-  <link rel="stylesheet" href="css/base.css">
-  <link rel="stylesheet" href="css/app.css">
-  <link rel="stylesheet" href="css/evenimente.css">
+  <title>Volunteer: voluntariat pentru elevi</title>
+  <meta name="description" content="Oportunități de voluntariat pentru elevi de 14–18 ani din România: alege după oraș, vârstă și program și aplică direct.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/site.css">
+  <link rel="stylesheet" href="css/oportunitati.css">
 </head>
 
 <body>
-  <header>
+  <a class="skip-link" href="#views">Sari la conținut</a>
+
+  <header class="site-header">
     <div class="container nav">
-      <div class="logo">volunteer<span style="color:var(--accent)">.</span></div>
+      <a class="logo" href="#/home" aria-label="volunteer, pagina de start">volunteer<span>.</span></a>
       <nav id="nav" aria-label="Navigare principală"></nav>
       <div id="account" class="account"></div>
     </div>
   </header>
 
-  <main id="views">
-    <div class="view" id="view-home">
-    <section class="hero">
-      <div class="container hero-grid">
-        <div>
-          <div class="eyebrow">Voluntariat pentru toți</div>
-          <h1>Găsește o cauză la care să <em>ajuți.</em></h1>
-        </div>
-        <div>
-          <p>Mediu, educație, animale, comunitate, caritate și multe altele: descoperă ce presupune fiecare
-            activitate de voluntariat, ce abilități sunt utile și cât timp poate necesita.</p>
-          <div class="location">⌖ Activități online și în orașul tău</div>
-        </div>
-      </div>
-    </section>
-
-    <section class="intro">
-      <div class="container intro-inner">
-        <strong>Orice talent își găsește locul.</strong>
-        <span>Explorează activitățile și vezi unde se potrivesc interesele și abilitățile tale.</span>
-      </div>
-    </section>
-
-    <section class="section" id="activities">
-      <div class="container">
-        <div class="heading">
-          <div>
-            <div class="eyebrow">Domenii de voluntariat</div>
-            <h2>Ce poți face ca voluntar</h2>
-          </div>
-          <div style="max-width:330px;width:100%">
-            <input id="search" class="search" placeholder="Caută o activitate sau un domeniu...">
-          </div>
-        </div>
-
-        <div class="filters">
-          <button class="filter active" data-cat="all">Toate</button>
-          <button class="filter" data-cat="mediu">Mediu</button>
-          <button class="filter" data-cat="educatie">Educație</button>
-          <button class="filter" data-cat="comunitate">Comunitate</button>
-          <button class="filter" data-cat="animale">Animale</button>
-          <button class="filter" data-cat="caritate">Caritate</button>
-          <button class="filter" data-cat="altele">Altele</button>
-        </div>
-
-        <div class="grid" id="grid">
-          <article class="card" data-cat="mediu"
-            data-text="mediu natură curățenie parc reciclare copaci plantare ecologie">
-            <div class="visual"><span class="tag">Mediu</span></div>
-            <div class="content">
-              <div class="category">Mediu</div>
-              <h3>Curățenie și plantări în comunitate</h3>
-              <p>Ajută la curățarea parcurilor, malurilor de apă sau cartierului și la plantarea de copaci și flori.</p>
-              <div class="meta">
-                <div>◷ Durată: 2–4 ore</div>
-                <div>⌖ În aer liber, în orașul tău</div>
-                <div>✓ Util: încălțăminte comodă, dorință de a lucra în echipă</div>
-              </div>
-              <div class="info"><b>Ce vei face:</b> strângi deșeuri, sortezi materialele reciclabile și plantezi puieți.</div>
-            </div>
-          </article>
-
-          <article class="card" data-cat="educatie"
-            data-text="educație teme meditații copii școală citit matematică mentorat">
-            <div class="visual blue"><span class="tag">Educație</span></div>
-            <div class="content">
-              <div class="category">Educație</div>
-              <h3>Sprijin școlar pentru copii</h3>
-              <p>Susține elevii mai mici la teme, citit și matematică, ca să capete încredere în ei.</p>
-              <div class="meta">
-                <div>◷ Durată: 1–2 ore / sesiune</div>
-                <div>⌖ Școli, biblioteci și centre comunitare</div>
-                <div>✓ Util: răbdare și comunicare clară</div>
-              </div>
-              <div class="info"><b>Ce vei face:</b> explici exerciții, citești împreună și organizezi jocuri educaționale.</div>
-            </div>
-          </article>
-
-          <article class="card" data-cat="comunitate"
-            data-text="comunitate vârstnici seniori companie cină masă vizite social">
-            <div class="visual orange"><span class="tag">Comunitate</span></div>
-            <div class="content">
-              <div class="category">Comunitate</div>
-              <h3>Cină și companie pentru vârstnici</h3>
-              <p>Petrece timp cu persoane în vârstă sau singure, la mese comune și în vizite la domiciliu.</p>
-              <div class="meta">
-                <div>◷ Durată: 2–3 ore</div>
-                <div>⌖ Cămine, biserici și centre de zi</div>
-                <div>✓ Util: empatie și dorința de a asculta</div>
-              </div>
-              <div class="info"><b>Ce vei face:</b> ajuți la gătit și servit, ții companie și organizezi activități simple.</div>
-            </div>
-          </article>
-
-          <article class="card" data-cat="animale"
-            data-text="animale câini pisici adăpost plimbări îngrijire adopții">
-            <div class="visual yellow"><span class="tag">Animale</span></div>
-            <div class="content">
-              <div class="category">Animale</div>
-              <h3>Ajutor la adăpostul de animale</h3>
-              <p>Oferă îngrijire și atenție câinilor și pisicilor din adăposturi, până își găsesc o familie.</p>
-              <div class="meta">
-                <div>◷ Durată: 2–3 ore, de câteva ori pe săptămână</div>
-                <div>⌖ Adăposturi de animale</div>
-                <div>✓ Util: dragoste pentru animale</div>
-              </div>
-              <div class="info"><b>Ce vei face:</b> hrănești, plimbi și socializezi animalele și cureți boxele.</div>
-            </div>
-          </article>
-
-          <article class="card" data-cat="caritate"
-            data-text="caritate donații pachete alimente haine fonduri colectă sociale">
-            <div class="visual blue"><span class="tag">Caritate</span></div>
-            <div class="content">
-              <div class="category">Caritate</div>
-              <h3>Pachete și colecte pentru persoane în nevoie</h3>
-              <p>Strânge, sortează și împarte alimente, haine și produse de igienă familiilor vulnerabile.</p>
-              <div class="meta">
-                <div>◷ Durată: 3–4 ore</div>
-                <div>⌖ Depozite și puncte de distribuție</div>
-                <div>✓ Util: organizare și spirit de echipă</div>
-              </div>
-              <div class="info"><b>Ce vei face:</b> asamblezi pachete, ții evidența donațiilor și le împarți în comunitate.</div>
-            </div>
-          </article>
-
-          <article class="card" data-cat="altele"
-            data-text="cultură sport festival eveniment digital informatică IT internet telefon altele">
-            <div class="visual"><span class="tag">Altele</span></div>
-            <div class="content">
-              <div class="category">Altele</div>
-              <h3>Evenimente culturale, sportive și ajutor digital</h3>
-              <p>Dă o mână de ajutor la festivaluri și competiții sportive sau învață vârstnicii să folosească telefonul și internetul.</p>
-              <div class="meta">
-                <div>◷ Durată: o zi sau câteva ore</div>
-                <div>⌖ La fața locului sau online</div>
-                <div>✓ Util: inițiativă și chef de lucru în echipă</div>
-              </div>
-              <div class="info"><b>Ce vei face:</b> primești participanții, ajuți la organizare, ghidezi publicul sau explici pași simpli pe telefon.</div>
-            </div>
-          </article>
-        </div>
-
-        <div class="empty" id="empty">Nu am găsit activități pentru această căutare.</div>
-      </div>
-    </section>
-
-    <section class="section" id="guide">
-      <div class="container">
-        <div class="heading">
-          <div>
-            <div class="eyebrow">Înainte să participi</div>
-            <h2>Lucruri utile de știut</h2>
-          </div>
-        </div>
-        <div class="details">
-          <div class="panel">
-            <h3>Cât timp îți trebuie?</h3>
-            <p>Unele activități durează doar o oră, în timp ce proiectele de durată pot necesita câteva săptămâni sau
-              luni. Stabilește de la început timpul pe care îl poți oferi.</p>
-          </div>
-          <div class="panel">
-            <h3>Trebuie să ai experiență?</h3>
-            <p>Nu. Majoritatea activităților sunt potrivite începătorilor, iar organizația te îndrumă. Unele roluri
-              pot cere abilități sau autorizări speciale.</p>
-          </div>
-          <div class="panel">
-            <h3>Ce să verifici?</h3>
-            <ul>
-              <li>ce presupune activitatea și ce nivel de pregătire se cere;</li>
-              <li>durata, programul și locul de desfășurare;</li>
-              <li>echipamentul necesar și ce este oferit de organizație;</li>
-              <li>responsabilitățile și persoana de contact.</li>
-            </ul>
-          </div>
-          <div class="panel">
-            <h3>Ce poți învăța?</h3>
-            <p>Experiență practică, lucru în echipă, comunicare și abilitatea de a face o schimbare reală în
-              comunitatea ta.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="container">
-        <div class="notice">
-          <h2>Un gest mic poate schimba mult.</h2>
-          <p>Aceste descrieri sunt orientative. Cerințele, programul și responsabilitățile exacte trebuie confirmate cu
-            organizația care coordonează activitatea.</p>
-        </div>
-      </div>
-    </section>
-    </div>
+  <!-- Each page is a "view": see js/core.js. The home page builds itself in js/features/home.js. -->
+  <main id="views" tabindex="-1">
+    <div class="view" id="view-home"></div>
   </main>
 
   <footer>
-    <div class="container">volunteer. · Ghid despre voluntariat pentru toate domeniile</div>
+    <div class="container">
+      Volunteer: platformă de voluntariat pentru elevi. Detaliile fiecărei activități trebuie confirmate cu organizatorul ei.
+    </div>
   </footer>
 
   <!-- Point apiBase at the FastAPI server. Use the backend event list by default. -->
@@ -229,10 +45,11 @@
   <script src="js/core.js"></script>
 
   <!-- Features. To add one: create js/features/<name>.js and list it here (see the header of js/core.js). -->
-  <script src="js/features/home.js"></script>
-  <script src="js/features/auth.js"></script>
   <script src="js/data/exemple-evenimente.js"></script>
   <script src="js/features/evenimente.js"></script>
+  <script src="js/features/home.js"></script>
+  <script src="js/features/aplica.js"></script>
+  <script src="js/features/auth.js"></script>
   <script src="js/features/volunteers.js"></script>
   <script src="js/features/request-card.js"></script>
   <script src="js/features/request-event.js"></script>

@@ -72,42 +72,75 @@
       const youngest = isoDate(new Date(now.getFullYear() - MIN_AGE, now.getMonth(), now.getDate(), 12));
       const oldest = isoDate(new Date(now.getFullYear() - MAX_AGE - 1, now.getMonth(), now.getDate() + 1, 12));
       const inputs = {
+        type: h('select', { name: 'account_type' },
+          h('option', { value: 'student' }, 'Elev (14–18 ani)'),
+          h('option', { value: 'organization' }, 'Organizație / ONG (adulți)')),
         name: h('input', { name: 'name', required: true, autocomplete: 'name' }),
         password: h('input', { name: 'password', type: 'password', required: true, autocomplete: 'new-password' }),
         birthdate: h('input', { name: 'birthdate', type: 'date', required: true, min: oldest, max: youngest }),
+        email: h('input', { name: 'email', type: 'email', autocomplete: 'email' }),
         city: h('input', { name: 'city', required: true }),
         country: h('input', { name: 'country', required: true }),
         aptitudes: h('input', { name: 'aptitudes', placeholder: 'ex: python, design, predare' }),
       };
+      const nameLabel = h('span', null);
+      const nameHint = h('small', null);
+      // Fields that exist for one account type only; the hidden ones are disabled so the browser skips them.
+      const studentOnly = [
+        field('Data nașterii', inputs.birthdate, 'Conturile de elev sunt doar pentru vârsta 14–18 ani.'),
+        field('Aptitudini', inputs.aptitudes, 'Separate prin virgulă. Altor utilizatori le vor folosi la căutare.'),
+      ];
+      const organizationOnly = [
+        field('Email de contact', inputs.email, 'Folosit pentru a lua legătura cu organizația.'),
+      ];
+      function syncAccountType() {
+        const isOrg = inputs.type.value === 'organization';
+        nameLabel.textContent = isOrg ? 'Numele organizației' : 'Nume';
+        nameHint.textContent = isOrg
+          ? 'Litere, cifre, spații și - . & , ( )'
+          : 'Doar litere și spații.';
+        studentOnly.forEach((f) => { f.hidden = isOrg; });
+        organizationOnly.forEach((f) => { f.hidden = !isOrg; });
+        inputs.birthdate.disabled = isOrg;
+        inputs.aptitudes.disabled = isOrg;
+        inputs.email.disabled = !isOrg;
+        inputs.email.required = isOrg;
+      }
+      inputs.type.addEventListener('change', syncAccountType);
       const form = h('form', { class: 'form auth-card' },
         h('div', { class: 'eyebrow' }, 'Cont'),
         h('h2', null, 'Creează un cont'),
-        field('Nume', inputs.name, 'Doar litere și spații.'),
+        field('Tip de cont', inputs.type),
+        h('label', { class: 'field' }, nameLabel, inputs.name, nameHint),
         field('Parolă', inputs.password),
-        field('Data nașterii', inputs.birthdate, 'Platforma este doar pentru elevi cu vârsta între 14 și 18 ani.'),
+        studentOnly[0],
+        organizationOnly,
         h('div', { class: 'row' },
           field('Oraș', inputs.city),
           field('Țară', inputs.country)),
-        field('Aptitudini', inputs.aptitudes, 'Separate prin virgulă. Altor utilizatori le vor folosi la căutare.'),
+        studentOnly[1],
         h('div', { class: 'form-msg', role: 'alert' }),
         h('button', { type: 'submit', class: 'btn primary' }, 'Creează contul'),
         h('p', { class: 'form-alt' }, 'Ai deja cont? ', h('a', { href: '#/login' }, 'Autentifică-te')),
       );
+      syncAccountType();
       submitHandler(form, async () => {
-        const name = App.normalizeName(inputs.name.value);
-        const aptitudes = inputs.aptitudes.value.split(',').map((a) => a.trim()).filter(Boolean);
-        await App.api('/register/', {
-          method: 'POST',
-          auth: false,
-          body: {
-            name,
-            password: inputs.password.value,
-            birthdate: inputs.birthdate.value,
-            city: inputs.city.value,
-            country: inputs.country.value,
-            aptitudes,
-          },
-        });
+        const isOrg = inputs.type.value === 'organization';
+        const name = inputs.name.value.trim();
+        const body = {
+          account_type: inputs.type.value,
+          name,
+          password: inputs.password.value,
+          city: inputs.city.value,
+          country: inputs.country.value,
+        };
+        if (isOrg) {
+          body.email = inputs.email.value;
+        } else {
+          body.birthdate = inputs.birthdate.value;
+          body.aptitudes = inputs.aptitudes.value.split(',').map((a) => a.trim()).filter(Boolean);
+        }
+        await App.api('/register/', { method: 'POST', auth: false, body });
         await App.login(name, inputs.password.value);
         App.toast('Cont creat. Bine ai venit, ' + App.session.name + '!');
       });
@@ -122,7 +155,8 @@
     if (App.session.name) {
       slot.replaceChildren(
         h('span', { class: 'account-name' }, App.session.name,
-          App.session.role === 'admin' ? h('em', null, ' · admin') : null),
+          App.session.role === 'admin' ? h('em', null, ' · admin') : null,
+          App.session.role === 'organization' ? h('em', null, ' · organizație') : null),
         h('button', { type: 'button', class: 'btn ghost small', onclick: () => App.logout() }, 'Ieșire'),
       );
     } else {
