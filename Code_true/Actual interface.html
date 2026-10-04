@@ -1,0 +1,195 @@
+
+```html
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Volunteer — Welcome</title>
+
+<style>
+:root{--bg:#fff;--text:#11110f;--muted:#77756f;--border:#dedcd6}
+*{box-sizing:border-box}
+html,body{width:100%;height:100%;margin:0}
+body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);overflow:hidden}
+
+.app-root{position:relative;width:100%;min-height:100vh;display:grid;place-items:center;padding:32px;background:#fff;overflow:hidden}
+.screen{width:min(960px,100%);text-align:center;transition:transform .7s cubic-bezier(.22,1,.36,1),opacity .45s ease}
+.stage{position:relative;min-height:360px;display:grid;place-items:center}
+
+.panel{position:absolute;width:min(720px,92%);padding:40px 36px;border:1px solid var(--border);border-radius:18px;background:#fff;box-shadow:0 18px 42px rgba(0,0,0,.055),0 3px 8px rgba(0,0,0,.03);opacity:0;transform:translateY(100vh) scale(.94);pointer-events:none;transform-origin:center top;transition:opacity .55s ease,transform .55s cubic-bezier(.22,1,.36,1),box-shadow .3s ease}
+.panel.past{opacity:.9;transform:translateY(-230px) scale(.58) rotate(-3deg);box-shadow:none}
+.panel.active{opacity:1;transform:translateY(0) scale(.92) rotate(3deg);pointer-events:auto}
+
+.panel h1,.panel p{margin:0}
+.panel h1{font-size:clamp(56px,9vw,112px);line-height:.92;letter-spacing:-.06em;font-weight:850}
+.panel p{max-width:700px;margin:auto;font-size:clamp(30px,5vw,62px);line-height:1.04;letter-spacing:-.045em;font-weight:750}
+
+.options{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:36px}
+.choice{min-width:125px;padding:14px 25px;border:1px solid #11110f;border-radius:10px;background:#11110f;color:#fff;font:inherit;font-size:15px;font-weight:750;cursor:pointer;transition:.2s}
+.choice:hover{background:#fff;color:#11110f;transform:translateY(-3px);box-shadow:0 8px 20px rgba(0,0,0,.1)}
+.choice:active{transform:translateY(-1px)}
+
+.hint{margin-top:30px;font-size:13px;line-height:1.5;color:var(--muted)}
+.progress{display:flex;justify-content:center;align-items:center;gap:7px;margin:20px auto 0}
+.dot{width:7px;height:7px;border:1px solid #aaa8a2;border-radius:50%;opacity:.5;transition:.25s}
+.dot.active{width:22px;border-radius:999px;background:#11110f;border-color:#11110f;opacity:1}
+.footer-note{margin-top:28px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#aaa8a2}
+
+.page{position:fixed;inset:0;width:100%;min-height:100vh;display:grid;place-items:center;padding:32px;background:#fff;transform:translateX(100%);opacity:0;pointer-events:none;transition:transform .7s cubic-bezier(.22,1,.36,1),opacity .45s ease}
+.page.show{transform:translateX(0);opacity:1;pointer-events:auto}
+.page-content{width:min(720px,92%);padding:50px 40px;border:1px solid var(--border);border-radius:18px;background:#fff;text-align:center;box-shadow:0 18px 42px rgba(0,0,0,.055),0 3px 8px rgba(0,0,0,.03);transform:scale(.94);transition:transform .7s cubic-bezier(.22,1,.36,1)}
+.page.show .page-content{transform:scale(1)}
+.page-eyebrow{display:inline-flex;align-items:center;gap:8px;margin-bottom:25px;padding:9px 15px;border:1px solid var(--border);border-radius:999px;background:#fafaf8;font-size:11px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#5f5d57}
+.page-eyebrow:before{content:"";width:6px;height:6px;border-radius:50%;background:#11110f}
+.page-content h2{margin:0;font-size:clamp(42px,7vw,76px);line-height:.95;letter-spacing:-.055em;font-weight:800}
+.page-content p{max-width:550px;margin:20px auto 0;font-size:18px;line-height:1.5;color:var(--muted)}
+
+@media(max-width:600px){
+.app-root{padding:18px}
+.screen{width:100%}
+.stage{min-height:330px}
+.panel{width:94%;padding:42px 24px;border-radius:16px}
+.panel.past{transform:translateY(-175px) scale(.62) rotate(-3deg)}
+.panel.active{transform:translateY(0) scale(.92) rotate(3deg)}
+.panel p{font-size:clamp(28px,8vw,42px)}
+.panel h1{font-size:clamp(58px,16vw,88px)}
+.choice{min-width:120px}
+.page{padding:18px}
+.page-content{width:94%;padding:42px 24px;border-radius:16px}
+.page-content h2{font-size:clamp(42px,12vw,64px)}
+.page-content p{font-size:16px}
+}
+
+@media(prefers-reduced-motion:reduce){
+.panel,.choice,.dot,.screen,.page,.page-content{transition:none}
+}
+</style>
+</head>
+
+<body>
+
+<main class="app-root" aria-label="Volunteer introduction">
+
+<section class="screen" id="mainScreen">
+<div class="stage">
+
+<div class="panel active" data-step="0">
+<h1>Hello!</h1>
+</div>
+
+<div class="panel" data-step="1">
+<p>Are you excited about becoming a volunteer?</p>
+</div>
+
+<div class="panel" data-step="2">
+<h1>Great!</h1>
+</div>
+
+<div class="panel" data-step="3">
+<p>What kind of volunteering would you like?</p>
+<div class="options">
+<button class="choice" data-choice="Paid" type="button">Paid</button>
+<button class="choice" data-choice="Unpaid" type="button">Unpaid</button>
+</div>
+</div>
+
+</div>
+
+<div class="hint" id="hint">Click, tap, or press any key to continue</div>
+
+<div class="progress" aria-hidden="true">
+<span class="dot active"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+</div>
+
+<div class="footer-note">Make a difference · Get involved</div>
+</section>
+
+<section class="page" id="selectionPage" aria-label="Volunteer selection">
+<div class="page-content">
+<div class="page-eyebrow">Volunteer</div>
+<h2 id="selectionTitle">Great choice!</h2>
+<p id="selectionText">Let's get started.</p>
+</div>
+</section>
+
+</main>
+
+<script>
+(() => {
+const $=s=>document.querySelector(s);
+const $$=s=>[...document.querySelectorAll(s)];
+
+const main=$('#mainScreen'),
+      panels=$$('.panel'),
+      dots=$$('.dot'),
+      hint=$('#hint'),
+      page=$('#selectionPage'),
+      title=$('#selectionTitle'),
+      text=$('#selectionText'),
+      buttons=$$('.choice');
+
+let current=0,locked=false,opened=false;
+
+function show(index){
+  if(locked||opened||index===current||index<0||index>=panels.length)return;
+  locked=true;
+
+  panels.forEach((p,i)=>{
+    p.classList.remove('active','past');
+    if(i===index-1)p.classList.add('past');
+  });
+
+  panels[index].classList.add('active');
+  dots.forEach((d,i)=>d.classList.toggle('active',i===index));
+
+  current=index;
+  hint.textContent=index===panels.length-1
+    ?'Choose an option to get started'
+    :'Click, tap, or press any key to continue';
+
+  setTimeout(()=>locked=false,560);
+}
+
+function advance(){
+  if(!opened&&current<panels.length-1)show(current+1);
+}
+
+function select(choice){
+  if(locked||opened)return;
+
+  locked=opened=true;
+  title.textContent=`${choice} volunteering`;
+  text.textContent=`You've selected ${choice.toLowerCase()} volunteering. Let's get started!`;
+
+  main.style.transform='translateX(-100%)';
+  main.style.opacity='0';
+
+  requestAnimationFrame(()=>page.classList.add('show'));
+}
+
+document.addEventListener('click',e=>{
+  if(e.target.closest('.choice')||opened)return;
+  advance();
+});
+
+document.addEventListener('keydown',e=>{
+  if(['INPUT','TEXTAREA','SELECT','BUTTON'].includes(document.activeElement.tagName)||opened)return;
+  advance();
+});
+
+buttons.forEach(btn=>{
+  btn.addEventListener('click',e=>{
+    e.stopPropagation();
+    select(btn.dataset.choice);
+  });
+});
+})();
+</script>
+
+</body>
+</html>
+```

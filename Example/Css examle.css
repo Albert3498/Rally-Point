@@ -1,0 +1,22 @@
+.initial_text {
+    border-radius: 30%;
+    border: 3px solid #000000;
+    display:inline-block;
+    width:40%;
+    height:27%;
+    justify-self: center;
+}
+.initial_text:hover {
+    border-radius: 30%;
+    border: 3px solid #000000;
+    display:inline-block;
+    width:40%;
+    height:27%;
+    justify-self: center;
+    background-color: #000000;
+    color:#ffffff;
+}
+#body {
+    background-color: #ffffff;
+    color:#ffffff;
+}
