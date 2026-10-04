@@ -46,7 +46,11 @@
 
   /* ---------- Surse de date ---------- */
   const PAY_LABEL = { free: 'Gratuit', paid: 'Plătit' };
-  const ACTION_LABEL = { direct: 'Direct', logistics: 'Logistică', 'creative / digital': 'Creativ / digital' };
+  const ACTION_LABEL = {
+    direct: 'Direct', logistics: 'Logistică', 'creative / digital': 'Creativ / digital',
+    environment: 'Mediu', education: 'Educație', community: 'Comunitate',
+    animal_welfare: 'Protecția animalelor', charity: 'Caritate', other: 'Altele',
+  };
 
   // Weekend / În timpul săptămânii, dedus din data evenimentului (dacă o avem).
   function availabilityFromDate(date) {
@@ -71,6 +75,9 @@
       photos: row.photos,
       schedule: row.schedule,
       contact: row.contact,
+      volunteersNeeded: row.volunteers_needed,
+      tasks: row.tasks,
+      requirements: row.requirements,
       date: row.date,
       pay: row.pay_type === 'paid' ? 'Plătit' + (row.pay ? ' (' + row.pay + ')' : '') : PAY_LABEL[row.pay_type],
       language: row.language,
@@ -127,8 +134,11 @@
         detailRow('Disponibilitate', ev.availability),
         detailRow('Plată', ev.pay),
         detailRow('Limbă', ev.language),
+        detailRow('Voluntari necesari', ev.volunteersNeeded),
         ev.accessibility ? h('p', null, '♿ Accesibil') : null,
         ev.description ? [h('h3', null, 'Descriere'), h('p', null, ev.description)] : null,
+        ev.tasks ? [h('h3', null, 'Ce vei face'), h('p', null, ev.tasks)] : null,
+        detailRow('Cerințe', ev.requirements),
         photos.length ? [h('h3', null, 'Poze'),
           h('div', { class: 'ev-gallery' }, photos.map((p) => h('img', { src: p, alt: 'Fotografie: ' + ev.title, loading: 'lazy' })))] : null,
         schedule.length ? [h('h3', null, 'Orar'),

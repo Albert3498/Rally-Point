@@ -13,7 +13,7 @@
 <body>
   <header>
     <div class="container nav">
-      <div class="logo">volunteer<span style="color:var(--accent)">.</span></div>
+      <div class="logo">volunteer<span>.</span></div>
       <nav id="nav" aria-label="Navigare principală"></nav>
       <div id="account" class="account"></div>
     </div>
@@ -49,7 +49,7 @@
             <div class="eyebrow">Domenii de voluntariat</div>
             <h2>Ce poți face ca voluntar</h2>
           </div>
-          <div style="max-width:330px;width:100%">
+          <div class="search-wrap">
             <input id="search" class="search" placeholder="Caută o activitate sau un domeniu...">
           </div>
         </div>
@@ -222,7 +222,7 @@
   <!-- Settings (read by core.js and the features):
        apiBase       - address of the API (default http://127.0.0.1:8000)
        eventsSource  - 'sample' = example events from js/data/, 'api' = real events from GET /events/ -->
-  <script>window.APP_CONFIG = { eventsSource: 'sample' };</script>
+  <script>window.APP_CONFIG = { eventsSource: 'api' };</script>
   <script src="js/core.js"></script>
 
   <!-- Features. To add one: create js/features/<name>.js and list it here (see the header of js/core.js). -->

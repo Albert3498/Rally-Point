@@ -4,6 +4,8 @@ from functools import lru_cache
 from fastapi import APIRouter, HTTPException, Query
 from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
+from Authentification import DB_PATH
+from event_requests import Category
 
 filter_router = APIRouter()
 
@@ -61,6 +63,35 @@ ALLOWED_LANGUAGES = {
     'Ukrainian', 'Ucraineană',
     'Sign Language', 'Limbajul semnelor'
 }
+REQUEST_CATEGORIES = {category.value for category in Category}
+
+
+def approved_requests_as_events(name, city, date, action) -> list[dict]:
+    """Approved event requests (userdata.db) shaped like the rows of events.db."""
+    with sqlite3.connect(DB_PATH) as conn:
+        conn.row_factory = sqlite3.Row
+        rows = conn.execute("SELECT * FROM event_requests WHERE status='approved' ORDER BY start_datetime").fetchall()
+    events = []
+    for row in rows:
+        event = {
+            "id": f"req-{row['id']}", "title": row["title"], "description": row["description"],
+            "organization": row["organizer_name"], "city": row["location"],
+            "action": row["category"], "date": row["start_datetime"][:10],
+            "contact": row["contact_email"], "pay_type": "free", "accessibility": False,
+            "volunteers_needed": row["volunteers_needed"], "tasks": row["volunteer_tasks"],
+            "requirements": row["requirements"],
+        }
+        if name and name.lower() not in event["title"].lower():
+            continue
+        if city and city.lower() != event["city"].lower():
+            continue
+        if date and event["date"] < date.isoformat():
+            continue
+        if action and action.lower() != event["action"]:
+            continue
+        events.append(event)
+    return events
+
 
 @filter_router.get("/events/")
 def get_events(
@@ -77,7 +108,7 @@ def get_events(
     # 1. Validare parametri
     if pay is not None and pay.lower() not in ALLOWED_PAY:
         raise HTTPException(status_code=400, detail="Opțiune invalidă pentru plată (ex: gratuit, platit, free, paid)")
-    if action is not None and action.lower() not in ALLOWED_ACTIONS:
+    if action is not None and action.lower() not in ALLOWED_ACTIONS | REQUEST_CATEGORIES:
         raise HTTPException(status_code=400, detail="Tip de acțiune invalid")
     if language is not None and language not in ALLOWED_LANGUAGES:
         raise HTTPException(status_code=400, detail="Limbă nesuportată")
@@ -150,4 +181,7 @@ def get_events(
 
         filtered_events.append(event)
 
+    # Requests carry no pay, language, accessibility or coordinates, so those filters exclude them.
+    if pay is None and language is None and accessibility is None and distance is None:
+        filtered_events += approved_requests_as_events(name, city, date, action)
     return {"events": filtered_events}

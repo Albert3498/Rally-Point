@@ -1,5 +1,6 @@
 /* Styles for the interactive app (views, forms, buttons, badges, toasts).
-   Reuses the design tokens from base.css (:root variables). Add new feature styles at the bottom. */
+   Reuses the design tokens from base.css (:root variables). Add new feature styles at the bottom.
+   Loaded after base.css, so rules here win over equal-specificity rules there. */
 
 /* ---------- Views ---------- */
 .view {
@@ -33,10 +34,6 @@
   font-weight: 700;
 }
 
-nav {
-  flex-wrap: wrap;
-}
-
 @media (max-width: 850px) {
   .nav {
     flex-wrap: wrap;
@@ -52,14 +49,6 @@ nav {
 
   nav button {
     white-space: nowrap;
-  }
-}
-
-@media (max-width: 620px) {
-
-  /* base.css hides the nav on phones; the app needs it, so keep it as a scrollable row */
-  .nav nav {
-    display: flex;
   }
 }
 
@@ -325,23 +314,6 @@ nav {
 
 .toast.error {
   background: #b3392a;
-}
-
-/* ---------- Card decorations: neutral symbols (base.css had code symbols from the IT-only version) ---------- */
-.visual:after {
-  content: "♥";
-}
-
-.visual.blue:after {
-  content: "✦";
-}
-
-.visual.yellow:after {
-  content: "☀";
-}
-
-.visual.orange:after {
-  content: "❋";
 }
 
 /* ---------- Add new feature styles below this line ---------- */

@@ -60,8 +60,13 @@ header {
   letter-spacing: -.06em;
 }
 
+.logo span {
+  color: var(--accent);
+}
+
 nav {
   display: flex;
+  flex-wrap: wrap;
   gap: 6px;
 }
 
@@ -240,7 +245,7 @@ h1 em {
 }
 
 .visual:after {
-  content: "</>";
+  content: "♥";
   position: absolute;
   right: 24px;
   top: 27px;
@@ -249,13 +254,17 @@ h1 em {
 }
 
 .visual.blue:after {
-  content: "{ }";
+  content: "✦";
   color: rgba(60, 105, 128, .22);
 }
 
 .visual.yellow:after {
-  content: "01";
+  content: "☀";
   color: rgba(180, 140, 45, .25);
+}
+
+.visual.orange:after {
+  content: "❋";
 }
 
 .tag {
@@ -371,6 +380,11 @@ h1 em {
 }
 
 /* Search and empty state */
+.search-wrap {
+  max-width: 330px;
+  width: 100%;
+}
+
 .search {
   width: 100%;
   height: 48px;
@@ -426,10 +440,6 @@ footer {
 @media (max-width: 620px) {
   .container {
     width: min(var(--max), calc(100% - 26px));
-  }
-
-  .nav nav {
-    display: none;
   }
 
   .grid {
