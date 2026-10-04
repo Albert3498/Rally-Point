@@ -327,4 +327,21 @@ nav {
   background: #b3392a;
 }
 
+/* ---------- Card decorations: neutral symbols (base.css had code symbols from the IT-only version) ---------- */
+.visual:after {
+  content: "♥";
+}
+
+.visual.blue:after {
+  content: "✦";
+}
+
+.visual.yellow:after {
+  content: "☀";
+}
+
+.visual.orange:after {
+  content: "❋";
+}
+
 /* ---------- Add new feature styles below this line ---------- */
