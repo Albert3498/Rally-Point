@@ -1,42 +1,113 @@
-/* Home: the informational page already written in interface.html (#view-home). */
+/*
+ * Pagina de start: ce se întâmplă în curând (panoul), cum funcționează, cauzele și pentru cine e platforma.
+ * Datele vin din App.evenimente (aceeași sursă ca lista de oportunități), deci aici nu se leagă nimic separat.
+ */
 (function () {
   'use strict';
+  const { h } = App;
+
+  const inContainer = (...kids) => h('div', { class: 'container' }, kids);
 
   App.register({
     id: 'home',
     label: 'Acasă',
     order: 0,
+
     render(el) {
-      const cards = [...el.querySelectorAll('.card')];
-      const search = el.querySelector('#search');
-      const empty = el.querySelector('#empty');
-      let category = 'all';
+      const dom = this.dom = {
+        heroActions: h('div', { class: 'actions' }),
+        boardSlot: h('div', { 'aria-live': 'polite' }),
+        causeList: h('ul', { class: 'cause-list' }),
+        causeNote: h('p', { class: 'status-line' }),
+        orgActions: h('div', { class: 'actions' }),
+      };
 
-      function applyFilters() {
-        const q = search.value.toLowerCase().trim();
-        let visible = 0;
-        cards.forEach((card) => {
-          const ok = (category === 'all' || card.dataset.cat === category)
-            && (!q || (card.dataset.text + ' ' + card.innerText).toLowerCase().includes(q));
-          card.style.display = ok ? 'block' : 'none';
-          if (ok) visible++;
-        });
-        empty.style.display = visible ? 'none' : 'block';
+      el.append(
+        h('section', { class: 'hero' }, inContainer(
+          h('div', { class: 'hero-text' },
+            h('h1', null, 'Voluntariat pentru elevi, în orașul tău'),
+            h('p', null, 'Vezi ce presupune fiecare activitate, alege după vârstă, loc și program și aplică direct.'),
+            dom.heroActions),
+          h('div', { class: 'board-title-row' },
+            h('h2', null, 'În curând'),
+            h('a', { class: 'btn ghost small', href: '#/evenimente' }, 'Toate oportunitățile')),
+          dom.boardSlot)),
+
+        h('section', { class: 'section', id: 'cum-functioneaza' }, inContainer(
+          h('h2', null, 'Cum funcționează'),
+          h('ol', { class: 'steps' },
+            h('li', null, h('h3', null, 'Alegi'),
+              h('p', null, 'Filtrezi după oraș, vârstă și program. Fiecare oportunitate arată ce ai de făcut și cât timp îți ia.')),
+            h('li', null, h('h3', null, 'Aplici'),
+              h('p', null, 'Completezi o aplicație scurtă. Un părinte sau tutore trebuie să știe că aplici.')),
+            h('li', null, h('h3', null, 'Organizatorul te contactează'),
+              h('p', null, 'Primești detaliile direct de la cei care organizează activitatea.'))))),
+
+        h('section', { class: 'section' }, inContainer(
+          h('h2', null, 'Alege după cauză'),
+          dom.causeNote,
+          dom.causeList)),
+
+        h('section', { class: 'section', id: 'pentru-organizatii' }, inContainer(
+          h('h2', null, 'Pentru organizații, școli și părinți'),
+          h('div', { class: 'audiences' },
+            h('div', null, h('h3', null, 'Organizații'),
+              h('p', null, 'Ai o activitate la care ai nevoie de voluntari? Creează un cont de organizație și trimite o propunere.'),
+              dom.orgActions),
+            h('div', null, h('h3', null, 'Școli'),
+              h('p', null, 'Poți trimite elevii spre activități potrivite vârstei lor. Fiecare oportunitate arată vârsta, programul și locul.')),
+            h('div', null, h('h3', null, 'Părinți'),
+              h('ul', null,
+                h('li', null, 'Vezi vârsta, locul și programul fiecărei activități.'),
+                h('li', null, 'Aplicarea cere confirmarea că ești la curent.'),
+                h('li', null, 'Platforma nu verifică încă organizațiile: confirmă detaliile direct cu organizatorul, înainte de prima activitate.')))))));
+    },
+
+    show() {
+      this.paintActions();
+      this.fill();
+    },
+
+    paintActions() {
+      const dom = this.dom;
+      const { name, role } = App.session;
+      App.fill(dom.heroActions,
+        h('a', { class: 'btn primary', href: '#/evenimente' }, 'Vezi oportunitățile'),
+        !name ? h('a', { class: 'btn ghost', href: '#/register' }, 'Creează cont de elev') : null);
+      App.fill(dom.orgActions,
+        role === 'organization'
+          ? h('a', { class: 'btn ghost', href: '#/request-event' }, 'Propune o activitate')
+          : (!name ? h('a', { class: 'btn ghost', href: '#/register' }, 'Creează cont de organizație') : null));
+    },
+
+    async fill() {
+      const dom = this.dom;
+      const ui = App.evenimente.ui;
+      if (!this.loaded) dom.boardSlot.replaceChildren(ui.skeleton(3));
+      try {
+        const [upcoming, causes] = await Promise.all([App.evenimente.upcoming(5), App.evenimente.causes()]);
+        this.loaded = true;
+        App.fill(dom.boardSlot,
+          App.evenimente.isSample()
+            ? h('p', { class: 'mock-banner' }, 'Date de exemplu: oportunitățile de mai jos sunt inventate, ca să putem testa pagina.')
+            : null,
+          upcoming.length
+            ? h('div', { class: 'board' + (this.flipped ? '' : ' flip') }, [ui.head(), upcoming.map((ev, i) => ui.row(ev, i))])
+            : h('div', { class: 'panel-note' }, h('h3', null, 'Încă nu sunt oportunități publicate'),
+              h('p', null, 'Revino în câteva zile.')));
+        this.flipped = true;
+
+        dom.causeNote.textContent = causes.length ? '' : 'Cauzele apar aici imediat ce există oportunități.';
+        dom.causeList.replaceChildren(...causes.map((c) => h('li', null,
+          h('a', { class: 'cause-row', href: '#/evenimente?cause=' + encodeURIComponent(c.name) },
+            h('strong', null, c.name),
+            h('span', null, c.count === 1 ? '1 oportunitate' : c.count + ' oportunități')))));
+      } catch (err) {
+        dom.boardSlot.replaceChildren(h('div', { class: 'panel-note error', role: 'alert' },
+          h('h3', null, 'Nu am putut încărca oportunitățile'),
+          h('p', null, err.message),
+          h('div', { class: 'actions' }, h('button', { type: 'button', class: 'btn', onclick: () => this.fill() }, 'Încearcă din nou'))));
       }
-
-      el.querySelectorAll('.filter').forEach((button) => {
-        button.addEventListener('click', () => {
-          el.querySelectorAll('.filter').forEach((other) => other.classList.remove('active'));
-          button.classList.add('active');
-          category = button.dataset.cat;
-          applyFilters();
-        });
-      });
-      search.addEventListener('input', applyFilters);
     },
   });
-
-  // Shortcuts to the two sections of the home page (they scroll, they are not separate pages).
-  App.addNav({ label: 'Activități IT', href: '#/home/activities', order: 1 });
-  App.addNav({ label: 'Ghid', href: '#/home/guide', order: 2 });
 })();

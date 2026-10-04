@@ -4,237 +4,52 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Volunteer IT — Ghid informativ</title>
-  <link rel="stylesheet" href="css/base.css">
-  <link rel="stylesheet" href="css/app.css">
+  <title>Volunteer: voluntariat pentru elevi</title>
+  <meta name="description" content="Oportunități de voluntariat pentru elevi de 14–18 ani din România: alege după oraș, vârstă și program și aplică direct.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/site.css">
+  <link rel="stylesheet" href="css/oportunitati.css">
 </head>
 
 <body>
-  <header>
+  <a class="skip-link" href="#views">Sari la conținut</a>
+
+  <header class="site-header">
     <div class="container nav">
-      <div class="logo">volunteer<span style="color:var(--accent)">.</span> IT</div>
+      <a class="logo" href="#/home" aria-label="volunteer, pagina de start">volunteer<span>.</span></a>
       <nav id="nav" aria-label="Navigare principală"></nav>
       <div id="account" class="account"></div>
     </div>
   </header>
 
-  <main id="views">
-    <div class="view" id="view-home">
-    <section class="hero">
-      <div class="container hero-grid">
-        <div>
-          <div class="eyebrow">Voluntariat în informatică</div>
-          <h1>Folosește tehnologia ca să <em>ajuți.</em></h1>
-        </div>
-        <div>
-          <p>Află cum îți poți folosi cunoștințele IT pentru a sprijini ONG-uri, elevi și comunități. Descoperă ce
-            presupune fiecare activitate, ce abilități sunt utile și cât timp poate necesita.</p>
-          <div class="location">⌖ Activități online și locale</div>
-        </div>
-      </div>
-    </section>
-
-    <section class="intro">
-      <div class="container intro-inner">
-        <strong>Doar informație, fără înscrieri.</strong>
-        <span>Explorează activitățile și vezi unde se potrivesc abilitățile tale.</span>
-      </div>
-    </section>
-
-    <section class="section" id="activities">
-      <div class="container">
-        <div class="heading">
-          <div>
-            <div class="eyebrow">Activități IT</div>
-            <h2>Ce poți face ca voluntar</h2>
-          </div>
-          <div style="max-width:330px;width:100%">
-            <input id="search" class="search" placeholder="Caută o activitate sau competență...">
-          </div>
-        </div>
-
-        <div class="filters">
-          <button class="filter active" data-cat="all">Toate</button>
-          <button class="filter" data-cat="programare">Programare</button>
-          <button class="filter" data-cat="educatie">Educație</button>
-          <button class="filter" data-cat="web">Web</button>
-          <button class="filter" data-cat="suport">Suport IT</button>
-          <button class="filter" data-cat="date">Date</button>
-          <button class="filter" data-cat="digital">Digital</button>
-        </div>
-
-        <div class="grid" id="grid">
-          <article class="card" data-cat="programare"
-            data-text="programare mentor începători python javascript cod debugging">
-            <div class="visual"><span class="tag">Programare</span></div>
-            <div class="content">
-              <div class="category">Programare</div>
-              <h3>Mentor pentru începători</h3>
-              <p>Ajută persoane care învață bazele programării să capete încredere și să exerseze prin proiecte mici.
-              </p>
-              <div class="meta">
-                <div>◷ Durată: 1–2 ore / sesiune</div>
-                <div>⌖ Online sau centre educaționale</div>
-                <div>✓ Util: Python, JavaScript sau alt limbaj</div>
-              </div>
-              <div class="info"><b>Ce vei face:</b> explici concepte, revizuiești cod și ajuți la depanarea erorilor.
-              </div>
-            </div>
-          </article>
-
-          <article class="card" data-cat="educatie"
-            data-text="educație ateliere informatică calculatoare internet siguranță digitală">
-            <div class="visual blue"><span class="tag">Educație</span></div>
-            <div class="content">
-              <div class="category">Educație</div>
-              <h3>Ateliere de informatică</h3>
-              <p>Susține lecții introductive despre calculatoare, internet, programare și folosirea responsabilă a
-                tehnologiei.</p>
-              <div class="meta">
-                <div>◷ Durată: 2–3 ore</div>
-                <div>⌖ Școli și centre comunitare</div>
-                <div>✓ Util: răbdare și comunicare clară</div>
-              </div>
-              <div class="info"><b>Ce vei face:</b> pregătești exemple practice, explici noțiuni și răspunzi la
-                întrebări.</div>
-            </div>
-          </article>
-
-          <article class="card" data-cat="web" data-text="web site website ONG html css accesibilitate design">
-            <div class="visual orange"><span class="tag">Web</span></div>
-            <div class="content">
-              <div class="category">Web</div>
-              <h3>Site pentru un ONG</h3>
-              <p>Contribuie la crearea sau îmbunătățirea site-ului unei organizații non-profit ori al unui proiect
-                comunitar.</p>
-              <div class="meta">
-                <div>◷ Durată: proiect de 1–4 săptămâni</div>
-                <div>⌖ De regulă, online</div>
-                <div>✓ Util: HTML, CSS și noțiuni UX</div>
-              </div>
-              <div class="info"><b>Ce vei face:</b> structurezi pagini, îmbunătățești conținutul și testezi interfața.
-              </div>
-            </div>
-          </article>
-
-          <article class="card" data-cat="suport"
-            data-text="suport IT calculatoare hardware software imprimante configurare ONG">
-            <div class="visual yellow"><span class="tag">Suport IT</span></div>
-            <div class="content">
-              <div class="category">Suport IT</div>
-              <h3>Ajutor tehnic pentru ONG-uri</h3>
-              <p>Oferă sprijin tehnic de bază organizațiilor care folosesc calculatoare, imprimante și aplicații
-                digitale.</p>
-              <div class="meta">
-                <div>◷ Durată: 2–4 ore</div>
-                <div>⌖ La sediu sau la distanță</div>
-                <div>✓ Util: noțiuni hardware și software</div>
-              </div>
-              <div class="info"><b>Ce vei face:</b> configurezi dispozitive, instalezi aplicații și explici soluții
-                simple.</div>
-            </div>
-          </article>
-
-          <article class="card" data-cat="date"
-            data-text="date excel sheets foi calcul tabel baze de date organizare">
-            <div class="visual"><span class="tag">Date</span></div>
-            <div class="content">
-              <div class="category">Date</div>
-              <h3>Organizarea datelor</h3>
-              <p>Ajută echipele să-și organizeze listele, formularele și informațiile în tabele sau baze de date
-                simple.</p>
-              <div class="meta">
-                <div>◷ Durată: 2–4 ore</div>
-                <div>⌖ Online sau la sediu</div>
-                <div>✓ Util: Excel sau Google Sheets</div>
-              </div>
-              <div class="info"><b>Ce vei face:</b> cureți date, creezi tabele și documentezi procesele.</div>
-            </div>
-          </article>
-
-          <article class="card" data-cat="digital"
-            data-text="digital alfabetizare digitală seniori email internet aplicații online">
-            <div class="visual blue"><span class="tag">Digital</span></div>
-            <div class="content">
-              <div class="category">Digital</div>
-              <h3>Alfabetizare digitală</h3>
-              <p>Sprijină persoane care vor să folosească mai ușor e-mailul, aplicațiile online și serviciile
-                digitale.</p>
-              <div class="meta">
-                <div>◷ Durată: 1–2 ore</div>
-                <div>⌖ Biblioteci și centre comunitare</div>
-                <div>✓ Util: competențe digitale de bază</div>
-              </div>
-              <div class="info"><b>Ce vei face:</b> explici pași simpli și îi ajuți pe participanți să exerseze în
-                siguranță.</div>
-            </div>
-          </article>
-        </div>
-
-        <div class="empty" id="empty">Nu am găsit activități pentru această căutare.</div>
-      </div>
-    </section>
-
-    <section class="section" id="guide">
-      <div class="container">
-        <div class="heading">
-          <div>
-            <div class="eyebrow">Înainte să participi</div>
-            <h2>Lucruri utile de știut</h2>
-          </div>
-        </div>
-        <div class="details">
-          <div class="panel">
-            <h3>Cât timp îți trebuie?</h3>
-            <p>Unele activități durează doar o oră, în timp ce proiectele web sau de dezvoltare pot necesita câteva
-              săptămâni. Stabilește de la început timpul pe care îl poți oferi.</p>
-          </div>
-          <div class="panel">
-            <h3>Trebuie să fii expert?</h3>
-            <p>Nu. Există activități potrivite începătorilor, precum alfabetizarea digitală. Pentru rolurile tehnice,
-              organizația poate cere competențe specifice.</p>
-          </div>
-          <div class="panel">
-            <h3>Ce să verifici?</h3>
-            <ul>
-              <li>tehnologiile și nivelul de cunoștințe cerut;</li>
-              <li>durata, programul și modul de lucru;</li>
-              <li>accesul la echipamente și conturi;</li>
-              <li>responsabilitățile și suportul oferit.</li>
-            </ul>
-          </div>
-          <div class="panel">
-            <h3>Ce poți învăța?</h3>
-            <p>Experiență practică, colaborare în echipă, comunicare tehnică și abilitatea de a folosi tehnologia
-              pentru a rezolva probleme reale.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="container">
-        <div class="notice">
-          <h2>Tehnologia are impact când este împărtășită.</h2>
-          <p>Aceste descrieri sunt orientative. Cerințele, programul și responsabilitățile exacte trebuie confirmate cu
-            organizația care coordonează activitatea.</p>
-        </div>
-      </div>
-    </section>
-    </div>
+  <!-- Each page is a "view": see js/core.js. The home page builds itself in js/features/home.js. -->
+  <main id="views" tabindex="-1">
+    <div class="view" id="view-home"></div>
   </main>
 
   <footer>
-    <div class="container">volunteer. IT · Ghid informativ despre voluntariat în informatică</div>
+    <div class="container">
+      Volunteer: platformă de voluntariat pentru elevi. Detaliile fiecărei activități trebuie confirmate cu organizatorul ei.
+    </div>
   </footer>
 
-  <!-- Optional: window.APP_CONFIG = { apiBase: 'http://127.0.0.1:8000' } before core.js to point at another API. -->
+  <!-- Point apiBase at the FastAPI server. Use the backend event list by default. -->
+  <script>
+    window.APP_CONFIG = {
+      apiBase: 'http://127.0.0.1:8000',
+      eventsSource: 'api'
+    };
+  </script>
   <script src="js/core.js"></script>
 
   <!-- Features. To add one: create js/features/<name>.js and list it here (see the header of js/core.js). -->
+  <script src="js/data/exemple-evenimente.js"></script>
+  <script src="js/features/evenimente.js"></script>
   <script src="js/features/home.js"></script>
+  <script src="js/features/aplica.js"></script>
   <script src="js/features/auth.js"></script>
-  <script src="js/features/events.js"></script>
   <script src="js/features/volunteers.js"></script>
   <script src="js/features/request-card.js"></script>
   <script src="js/features/request-event.js"></script>

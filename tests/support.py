@@ -20,9 +20,19 @@ from Authentification import DB_PATH  # noqa: E402
 client = TestClient(app, raise_server_exceptions=False)
 
 
+def birthdate_for_age(years, extra_days=0):
+    """ISO birthdate of someone who turned `years` today (minus `extra_days` = older by that many days)."""
+    today = datetime.now(UTC).date()
+    try:
+        born = today.replace(year=today.year - years)
+    except ValueError:  # today is Feb 29
+        born = today.replace(year=today.year - years, day=28)
+    return (born - timedelta(days=extra_days)).isoformat()
+
+
 def registration(name, password="pw-12345", **overrides):
     body = {
-        "name": name, "password": password, "birthdate": "1995-05-05",
+        "name": name, "password": password, "birthdate": birthdate_for_age(16),
         "city": "Berlin", "country": "Germany", "aptitudes": [],
     }
     body.update(overrides)
