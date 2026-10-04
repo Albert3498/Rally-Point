@@ -21,7 +21,8 @@ client = TestClient(app)
 
 def make_user(name, role="user"):
     r = client.post("/register/", json={
-        "name": name, "password": "pw", "birthdate": "2000-01-01",
+        "name": name, "password": "pw",
+        "birthdate": (datetime.now(UTC) - timedelta(days=16 * 365 + 10)).date().isoformat(),  # age 16
         "city": "Berlin", "country": "Germany", "aptitudes": [],
     })
     assert 200 == r.status_code, r.text

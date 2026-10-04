@@ -10,7 +10,7 @@ from datetime import datetime, timedelta, UTC
 import bcrypt
 import jwt
 
-from support import DB_PATH, client, login, make_user, registration
+from support import DB_PATH, birthdate_for_age, client, login, make_user, registration
 import Authentification
 
 
@@ -33,8 +33,33 @@ def test_password_longer_than_bcrypt_limit_does_not_crash():
 def test_future_birthdate_is_rejected():
     future = (datetime.now(UTC) + timedelta(days=365)).date().isoformat()
     r = client.post("/register/", json=registration("Future Baby", birthdate=future))
-    # KNOWN BUG: should be 422 - a future birthdate is accepted today
-    assert 200 == r.status_code, f"known bug changed (future birthdate): got {r.status_code}"
+    # Fixed as a side effect of the 14-18 age rule (a future birthdate gives a negative age)
+    assert 422 == r.status_code, f"future birthdate accepted: got {r.status_code}"
+
+
+# 3b-3d: only students aged 14-18 may register (boundaries are the classic place for off-by-one bugs)
+def test_age_boundaries_14_and_18_are_accepted():
+    for name, age in [("Just Fourteen", 14), ("Just Eighteen", 18)]:
+        r = client.post("/register/", json=registration(name, birthdate=birthdate_for_age(age)))
+        assert 200 == r.status_code, f"age {age} rejected: {r.status_code} {r.text}"
+    # the day before turning 19 is still 18
+    r = client.post("/register/", json=registration("Last Day Eighteen", birthdate=birthdate_for_age(19, -1)))
+    assert 200 == r.status_code, f"18 years 364 days rejected: {r.status_code} {r.text}"
+
+
+def test_age_13_and_19_are_rejected():
+    for name, birthdate in [("Almost Fourteen", birthdate_for_age(14, -1)),
+                            ("Just Nineteen", birthdate_for_age(19)),
+                            ("Grown Adult", birthdate_for_age(40))]:
+        r = client.post("/register/", json=registration(name, birthdate=birthdate))
+        assert 422 == r.status_code, f"{birthdate} accepted: {r.status_code}"
+        assert "14-18" in r.text, "error message does not say why"
+
+
+def test_rejected_age_does_not_create_an_account():
+    client.post("/register/", json=registration("Too Old Person", birthdate=birthdate_for_age(30)))
+    r = client.post("/login/", json={"name": "Too Old Person", "password": "pw-12345"})
+    assert 400 == r.status_code, f"account exists despite rejection: {r.status_code}"
 
 
 # 4

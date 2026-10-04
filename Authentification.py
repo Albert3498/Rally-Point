@@ -58,6 +58,11 @@ def clean_text(value: str, label: str) -> str:
     if not value or not all(char.isalpha() or char in " -'" for char in value):
         raise ValueError(f"{label} can contain only letters, spaces, hyphens and apostrophes")
     return value.title()
+MIN_STUDENT_AGE=14
+MAX_STUDENT_AGE=18
+def age_on(birthdate: date, today: date) -> int:
+    had_birthday=(today.month,today.day)>=(birthdate.month,birthdate.day)
+    return today.year-birthdate.year-(0 if had_birthday else 1)
 class Registration(BaseModel):
     password: str
     name: str
@@ -65,6 +70,14 @@ class Registration(BaseModel):
     city: str
     country: str
     aptitudes: list[str] = []
+
+    @field_validator("birthdate")
+    @classmethod
+    def student_age_only(cls, value: date) -> date:
+        age=age_on(value,datetime.now(UTC).date())
+        if not MIN_STUDENT_AGE<=age<=MAX_STUDENT_AGE:
+            raise ValueError(f"Only students aged {MIN_STUDENT_AGE}-{MAX_STUDENT_AGE} can register")
+        return value
 
     @field_validator("city")
     @classmethod
