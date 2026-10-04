@@ -219,10 +219,13 @@
     <div class="container">volunteer. · Ghid despre voluntariat pentru toate domeniile</div>
   </footer>
 
-  <!-- Settings (read by core.js and the features):
-       apiBase       - address of the API (default http://127.0.0.1:8000)
-       eventsSource  - 'sample' = example events from js/data/, 'api' = real events from GET /events/ -->
-  <script>window.APP_CONFIG = { eventsSource: 'sample' };</script>
+  <!-- Point apiBase at the FastAPI server. Use the backend event list by default. -->
+  <script>
+    window.APP_CONFIG = {
+      apiBase: 'http://127.0.0.1:8000',
+      eventsSource: 'api'
+    };
+  </script>
   <script src="js/core.js"></script>
 
   <!-- Features. To add one: create js/features/<name>.js and list it here (see the header of js/core.js). -->

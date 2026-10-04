@@ -183,7 +183,7 @@
             h('select', { onchange: (e) => { state.values[f.key] = e.target.value; apply(); } },
               h('option', { value: '' }, f.all),
               options.map((o) => h('option', { value: o, selected: state.values[f.key] === o }, o))));
-        }));
+        }).filter(Boolean));
       };
 
       this.load = async () => {
