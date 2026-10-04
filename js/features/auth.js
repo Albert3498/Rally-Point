@@ -65,11 +65,16 @@
     access: 'guest',
     nav: false,
     render(el) {
-      const today = new Date().toISOString().slice(0, 10);
+      // Keep in sync with MIN_STUDENT_AGE / MAX_STUDENT_AGE in Authentification.py.
+      const MIN_AGE = 14, MAX_AGE = 18;
+      const now = new Date();
+      const isoDate = (d) => d.toISOString().slice(0, 10);
+      const youngest = isoDate(new Date(now.getFullYear() - MIN_AGE, now.getMonth(), now.getDate(), 12));
+      const oldest = isoDate(new Date(now.getFullYear() - MAX_AGE - 1, now.getMonth(), now.getDate() + 1, 12));
       const inputs = {
         name: h('input', { name: 'name', required: true, autocomplete: 'name' }),
         password: h('input', { name: 'password', type: 'password', required: true, autocomplete: 'new-password' }),
-        birthdate: h('input', { name: 'birthdate', type: 'date', required: true, max: today }),
+        birthdate: h('input', { name: 'birthdate', type: 'date', required: true, min: oldest, max: youngest }),
         city: h('input', { name: 'city', required: true }),
         country: h('input', { name: 'country', required: true }),
         aptitudes: h('input', { name: 'aptitudes', placeholder: 'ex: python, design, predare' }),
@@ -79,7 +84,7 @@
         h('h2', null, 'Creează un cont'),
         field('Nume', inputs.name, 'Doar litere și spații.'),
         field('Parolă', inputs.password),
-        field('Data nașterii', inputs.birthdate),
+        field('Data nașterii', inputs.birthdate, 'Platforma este doar pentru elevi cu vârsta între 14 și 18 ani.'),
         h('div', { class: 'row' },
           field('Oraș', inputs.city),
           field('Țară', inputs.country)),
