@@ -1,0 +1,319 @@
+/*
+ * Opportunities: list, filters, details dialog and the application flow
+ * (js/features/evenimente.js and js/features/aplica.js). Tokens come from site.css.
+ */
+
+/* ---------- Filters ---------- */
+.finder {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: clamp(14px, 2.5vw, 22px);
+  display: grid;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.finder .search {
+  max-width: 560px;
+}
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip-btn {
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1px solid #8C93AB;
+  border-radius: 999px;
+  background: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.chip-btn:hover {
+  background: var(--line-soft);
+}
+
+.chip-btn[aria-pressed="true"] {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: #fff;
+}
+
+.more-filters summary {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--blue-dark);
+}
+
+.more-filters .row {
+  margin-top: 12px;
+}
+
+.result-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.active-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.active-filters .btn {
+  min-height: 36px;
+  padding: 0 12px;
+  font-size: .9rem;
+}
+
+.mock-banner {
+  background: #FBEFB4;
+  color: #4F3C00;
+  border-left: 6px solid var(--marker);
+  border-radius: var(--radius);
+  padding: 10px 14px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+/* light variant of the board used for the full list */
+.board.light {
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--ink);
+}
+
+.board.light .board-head {
+  color: var(--ink-2);
+  border-bottom-color: var(--line);
+}
+
+.board.light .board-row {
+  border-bottom-color: var(--line-soft);
+}
+
+.board.light .board-row:hover {
+  background: var(--paper);
+}
+
+.board.light .board-row:focus-visible {
+  outline-color: var(--blue);
+}
+
+.board.light .board-when {
+  color: var(--blue-dark);
+}
+
+.board.light .board-when small,
+.board.light .board-title span,
+.board.light .board-place,
+.board.light .board-age,
+.board.light .board-spots {
+  color: var(--ink-2);
+}
+
+/* ---------- Loading skeleton ---------- */
+.skeleton .board-row {
+  pointer-events: none;
+}
+
+.skel {
+  display: block;
+  height: 1em;
+  border-radius: 3px;
+  background: var(--line-soft);
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+.skel.w1 {
+  width: 5rem;
+  height: 1.4em;
+}
+
+.skel.w2 {
+  width: 70%;
+}
+
+.skel.w3 {
+  width: 60%;
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: .45;
+  }
+}
+
+/* ---------- Details dialog ---------- */
+.ev-dialog {
+  border: 0;
+  padding: 0;
+  width: min(760px, 100vw - 24px);
+  max-height: min(92vh, 900px);
+  overflow: auto;
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.ev-dialog::backdrop {
+  background: rgba(21, 23, 31, .6);
+}
+
+.ev-dialog-body {
+  padding: clamp(18px, 4vw, 32px);
+  display: grid;
+  gap: 22px;
+}
+
+.ev-tag {
+  display: inline-block;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  padding: 2px 12px;
+  font-size: .85rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.ev-lead {
+  color: var(--ink-2);
+  font-size: 1.05rem;
+  margin-top: 8px;
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 0;
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--line);
+  margin: 0;
+}
+
+.facts div {
+  padding: 12px 16px 12px 0;
+}
+
+.facts dt {
+  color: var(--ink-2);
+  font-size: .85rem;
+}
+
+.facts dd {
+  margin: 0;
+  font-weight: 700;
+}
+
+.ev-dialog h3 {
+  font-size: 1.15rem;
+  margin-bottom: 6px;
+}
+
+.ev-dialog ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.ev-dialog li+li {
+  margin-top: 4px;
+}
+
+.schedule {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .95rem;
+}
+
+.schedule th,
+.schedule td {
+  border-bottom: 1px solid var(--line);
+  padding: 8px 10px 8px 0;
+  text-align: left;
+}
+
+.schedule th {
+  color: var(--ink-2);
+  font-weight: 600;
+  font-size: .85rem;
+}
+
+.ev-cta {
+  position: sticky;
+  bottom: 0;
+  background: var(--surface);
+  border-top: 1px solid var(--line);
+  padding: 14px clamp(18px, 4vw, 32px);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.ev-cta .muted {
+  flex-basis: 100%;
+}
+
+/* ---------- Application flow ---------- */
+.apply-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: clamp(20px, 4vw, 48px);
+  align-items: start;
+}
+
+.apply-aside {
+  border-top: 1px solid var(--ink);
+  padding-top: 16px;
+  display: grid;
+  gap: 18px;
+}
+
+.apply-aside ol {
+  margin: 8px 0 0;
+  padding-left: 20px;
+}
+
+.apply-aside li+li {
+  margin-top: 6px;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+@media (max-width: 760px) {
+  .apply-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .ev-dialog {
+    width: 100vw;
+    max-height: 100vh;
+    height: 100vh;
+    border-radius: 0;
+  }
+}

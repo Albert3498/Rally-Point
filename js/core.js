@@ -52,6 +52,11 @@
     return el;
   }
 
+  // el.replaceChildren(null) would insert the text "null"; fill() skips empty values the way h() does.
+  function fill(el, ...kids) {
+    el.replaceChildren(...kids.flat(Infinity).filter((kid) => kid != null && kid !== false));
+  }
+
   /* ---------- Storage (may be blocked, so always guarded) ---------- */
 
   const store = {
@@ -82,13 +87,48 @@
     }
   }
 
+  // Server messages are in English; the interface is in Romanian, so the common ones are translated here.
+  const KNOWN_MESSAGES = {
+    'name already exists': 'Există deja un cont cu acest nume. Alege alt nume sau autentifică-te.',
+    'invalid user': 'Nume sau parolă greșite.',
+    'Too many login attempts,try again later': 'Prea multe încercări. Încearcă din nou peste câteva minute.',
+    'token is invalid': 'Sesiunea nu mai este validă. Autentifică-te din nou.',
+    'login again please': 'Sesiunea a expirat. Autentifică-te din nou.',
+    'Not authenticated': 'Trebuie să fii autentificat.',
+  };
+  const FIELD_LABELS = {
+    name: 'Nume', password: 'Parolă', birthdate: 'Data nașterii', email: 'Email', city: 'Oraș', country: 'Țară',
+    aptitudes: 'Aptitudini', account_type: 'Tip de cont', title: 'Titlu', description: 'Descriere', category: 'Categorie',
+    start_datetime: 'Început', end_datetime: 'Sfârșit', location: 'Locație', volunteers_needed: 'Voluntari necesari',
+    volunteer_tasks: 'Sarcinile voluntarilor', organizer_name: 'Organizator', contact_email: 'Email de contact',
+    contact_phone: 'Telefon', requirements: 'Cerințe', additional_notes: 'Note suplimentare', review_note: 'Notă',
+  };
+  const MESSAGE_PATTERNS = [
+    [/^String should have at least (\d+) characters?/, 'trebuie să aibă cel puțin $1 caractere'],
+    [/^String should have at most (\d+) characters?/, 'poate avea cel mult $1 caractere'],
+    [/^Field required/, 'este obligatoriu'],
+    [/^Input should be greater than (\d+)/, 'trebuie să fie mai mare decât $1'],
+    [/email address/i, 'nu este o adresă de email validă'],
+    [/^Input should be a valid date/, 'nu este o dată validă'],
+  ];
+
+  function translateMessage(message) {
+    const text = String(message).replace(/^Value error, /, '');
+    if (KNOWN_MESSAGES[text]) return KNOWN_MESSAGES[text];
+    for (const [pattern, replacement] of MESSAGE_PATTERNS) {
+      if (pattern.test(text)) return text.replace(pattern, replacement);
+    }
+    return text;
+  }
+
   function describeError(data, status) {
-    if (data && typeof data.detail === 'string') return data.detail;
+    if (data && typeof data.detail === 'string') return translateMessage(data.detail);
     if (data && Array.isArray(data.detail)) {
       return data.detail
         .map((e) => {
-          const field = (e.loc || []).filter((part) => part !== 'body' && part !== 'query').join('.');
-          return field ? field + ': ' + e.msg : e.msg;
+          const field = (e.loc || []).filter((part) => part !== 'body' && part !== 'query').pop();
+          const text = translateMessage(e.msg);
+          return field ? (FIELD_LABELS[field] || field) + ': ' + text : text;
         })
         .join('; ');
     }
@@ -236,6 +276,8 @@
     );
   }
 
+  let currentView = null;
+
   function route() {
     const r = parseHash();
     const view = views.get(r.id) || views.get('home');
@@ -248,6 +290,10 @@
     }
 
     mountView(view);
+    const changed = currentView !== view;
+    // A page can clean up when the user leaves it (e.g. close an open dialog, which would otherwise block the next page).
+    if (changed && currentView && currentView.hide) currentView.hide();
+    currentView = view;
     views.forEach((v) => v.el && v.el.classList.toggle('active', v === view));
     if (view.show) view.show(view.body, r);
     renderNav();
@@ -255,7 +301,12 @@
 
     const anchor = r.sub && document.getElementById(r.sub);
     if (anchor) anchor.scrollIntoView({ behavior: 'smooth' });
-    else window.scrollTo(0, 0);
+    else if (changed || !view.keepScroll) window.scrollTo(0, 0);
+    // Screen readers and keyboard users start at the top of the new page, not on the old link.
+    if (changed) {
+      const main = document.getElementById('views');
+      if (main) main.focus({ preventScroll: true });
+    }
   }
 
   /* ---------- Formatting ---------- */
@@ -268,7 +319,7 @@
   /* ---------- Public surface ---------- */
 
   const App = {
-    cfg, h, api, ApiError, toast, session, onSession, login, logout, refreshSession,
+    cfg, h, fill, api, ApiError, toast, session, onSession, login, logout, refreshSession,
     register, addNav, go, fmtDate, ui: {},
     getView: (id) => views.get(id),
   };
