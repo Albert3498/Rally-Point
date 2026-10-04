@@ -1,0 +1,184 @@
+EVENT REQUEST EXAMPLES
+======================
+
+All examples are JSON bodies for:  POST /event-requests/
+(send the header  Authorization: Bearer <access_token>  from /login/)
+
+Dates must be in the future and include a timezone (+00:00, +02:00, Z ...).
+If the examples below are in the past when you read this, move the dates forward.
+
+Server-generated (never send these): id, requester_id, status, review_note,
+created_at, updated_at.
+
+
+--------------------------------------------------------------------------
+VALID EXAMPLES
+--------------------------------------------------------------------------
+
+1) Environment - beach cleanup (all fields)
+{
+  "title": "Spring Beach Cleanup",
+  "description": "Join us to clean the north beach and protect local wildlife before the summer season starts.",
+  "category": "environment",
+  "start_datetime": "2027-03-20T09:00:00+00:00",
+  "end_datetime": "2027-03-20T13:00:00+00:00",
+  "location": "North Beach, Constanta, Romania",
+  "volunteers_needed": 25,
+  "volunteer_tasks": "Collect litter, sort recycling, and help carry bags to the collection point.",
+  "organizer_name": "Green Coast Association",
+  "contact_email": "info@greencoast.example.com",
+  "contact_phone": "+40 721 000 111",
+  "requirements": "Wear closed shoes. Gloves and bags are provided.",
+  "additional_notes": "Free water and snacks for all volunteers."
+}
+
+2) Education - homework help (required fields only)
+{
+  "title": "After-School Homework Club",
+  "description": "Help primary school children with homework and reading twice a week at the community library.",
+  "category": "education",
+  "start_datetime": "2027-04-05T15:00:00+02:00",
+  "end_datetime": "2027-04-05T17:00:00+02:00",
+  "location": "Central Library, Cluj-Napoca",
+  "volunteers_needed": 8,
+  "volunteer_tasks": "Sit with children, explain exercises, and read stories aloud.",
+  "organizer_name": "Cluj Reads",
+  "contact_email": "club@clujreads.example.org"
+}
+
+3) Community - neighbourhood meal
+{
+  "title": "Neighbourhood Community Dinner",
+  "description": "A shared dinner for elderly and lonely neighbours. We need people to cook, serve and keep company.",
+  "category": "community",
+  "start_datetime": "2027-05-14T17:30:00+01:00",
+  "end_datetime": "2027-05-14T21:00:00+01:00",
+  "location": "St. Mary's Church Hall, Manchester",
+  "volunteers_needed": 12,
+  "volunteer_tasks": "Prepare food, set tables, serve guests, wash dishes and chat with attendees.",
+  "organizer_name": "Manchester Neighbours",
+  "contact_email": "hello@mcrneighbours.example.com",
+  "contact_phone": "+44 161 555 0100"
+}
+
+4) Animal welfare - shelter day
+{
+  "title": "Dog Shelter Walking Day",
+  "description": "Walk and socialise shelter dogs, and help clean kennels so the animals are ready for adoption.",
+  "category": "animal_welfare",
+  "start_datetime": "2027-06-12T10:00:00+02:00",
+  "end_datetime": "2027-06-12T16:00:00+02:00",
+  "location": "Happy Paws Shelter, Munich",
+  "volunteers_needed": 15,
+  "volunteer_tasks": "Walk dogs in pairs, clean kennels, refill water bowls and help at the adoption stand.",
+  "organizer_name": "Happy Paws e.V.",
+  "contact_email": "volunteers@happypaws.example.de",
+  "requirements": "Must be 16 or older. Comfortable around large dogs."
+}
+
+5) Charity - fundraising run
+{
+  "title": "Charity 5K Fun Run",
+  "description": "Annual fun run raising money for children's hospital equipment. Volunteers needed along the route.",
+  "category": "charity",
+  "start_datetime": "2027-09-18T08:00:00+01:00",
+  "end_datetime": "2027-09-18T14:00:00+01:00",
+  "location": "Retiro Park, Madrid",
+  "volunteers_needed": 40,
+  "volunteer_tasks": "Registration desk, water stations, route marshals and finish-line support.",
+  "organizer_name": "Fundacion Sonrisa",
+  "contact_email": "carrera@sonrisa.example.es",
+  "additional_notes": "Volunteer t-shirts will be handed out at 07:00."
+}
+
+6) Other - tech help for seniors
+{
+  "title": "Phone & Computer Help for Seniors",
+  "description": "Teach older adults how to use smartphones, video calls and online banking safely.",
+  "category": "other",
+  "start_datetime": "2027-10-02T14:00:00+02:00",
+  "end_datetime": "2027-10-02T17:00:00+02:00",
+  "location": "Senior Centre, Lyon",
+  "volunteers_needed": 6,
+  "volunteer_tasks": "Sit one-to-one with seniors and walk them through everyday phone and computer tasks.",
+  "organizer_name": "Lyon Digital Seniors",
+  "contact_email": "contact@lyondigital.example.fr"
+}
+
+
+--------------------------------------------------------------------------
+INVALID EXAMPLES (these return 422 with the field name in the error)
+--------------------------------------------------------------------------
+
+A) Title too short (min 5 characters)  -> error on "title"
+   "title": "Hi"
+
+B) Description too short (min 20 characters)  -> error on "description"
+   "description": "Clean the beach"
+
+C) Unknown category  -> error on "category"
+   "category": "party"
+   (allowed: environment, education, community, animal_welfare, charity, other)
+
+D) Start date in the past  -> error on "start_datetime"
+   "start_datetime": "2020-01-01T09:00:00+00:00"
+
+E) End before start  -> error on "end_datetime"
+   "start_datetime": "2027-03-20T13:00:00+00:00",
+   "end_datetime":   "2027-03-20T09:00:00+00:00"
+
+F) Date without timezone  -> error on "start_datetime"
+   "start_datetime": "2027-03-20T09:00:00"
+
+G) Zero volunteers  -> error on "volunteers_needed"
+   "volunteers_needed": 0
+
+H) Bad email  -> error on "contact_email"
+   "contact_email": "not-an-email"
+
+I) Blank required value (spaces only, trimmed to empty)  -> error on "location"
+   "location": "     "
+
+J) Trying to set a server-controlled field  -> error on "status" / "requester_id"
+   "status": "approved"
+   "requester_id": 1
+
+
+--------------------------------------------------------------------------
+ADMIN REVIEW EXAMPLES
+--------------------------------------------------------------------------
+
+PATCH /admin/event-requests/{id}/review/     (admin token required)
+
+Approve:
+{
+  "status": "approved",
+  "review_note": "Looks good, thanks for organising this."
+}
+
+Reject:
+{
+  "status": "rejected",
+  "review_note": "Duplicate of an existing event on the same date."
+}
+
+Notes:
+- "status" must be "approved" or "rejected" ("pending" is not allowed here).
+- "review_note" is optional (max 2000 characters).
+- A request can only be reviewed once; a second review returns 409.
+
+
+--------------------------------------------------------------------------
+QUICK CURL TEST
+--------------------------------------------------------------------------
+
+TOKEN=$(curl -s -X POST http://127.0.0.1:8000/login/ \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Alice Johnson", "password": "Alice#2024"}' | python -c "import sys,json;print(json.load(sys.stdin)['access_token'])")
+
+curl -X POST http://127.0.0.1:8000/event-requests/ \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d @example1.json
+
+curl http://127.0.0.1:8000/event-requests/me/ -H "Authorization: Bearer $TOKEN"

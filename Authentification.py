@@ -9,6 +9,7 @@ from datetime import datetime,timedelta,UTC,date
 from dotenv import load_dotenv
 from collections import defaultdict
 load_dotenv()
+DB_PATH=os.environ.get("DATABASE_PATH","userdata.db")
 login_attempts=defaultdict(list)
 MAX_LOGIN_ATTEMPTS=5
 LOGIN_WINDOW_MINUTES=15
@@ -18,12 +19,12 @@ JWT_EXPIRATION_MINUTES=int(os.environ["JWT_EXPIRATION_MINUTES"])
 auth_router=APIRouter()
 security=HTTPBearer()
 def get_db():
-    db=sqlite3.connect("userdata.db")
+    db=sqlite3.connect(DB_PATH)
     try:
         yield db
     finally:
         db.close()
-with sqlite3.connect("userdata.db") as setup_conn:
+with sqlite3.connect(DB_PATH) as setup_conn:
     setup_conn.execute("""
         CREATE TABLE IF NOT EXISTS userdata(
             id INTEGER PRIMARY KEY,
