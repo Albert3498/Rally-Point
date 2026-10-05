@@ -173,7 +173,6 @@
           h('h2', null, 'Aplică la: ' + ev.title),
           h('p', { class: 'lead', style: 'margin:8px 0 0' },
             [f.whenLong(ev), ev.place, f.age(ev), ev.commitment].filter(Boolean).join('. ') + '.'))),
-        source.demo ? h('p', { class: 'mock-banner' }, 'Mod demonstrativ: aplicația ta nu ajunge încă la organizator, pentru că serverul nu are încă această funcție. Poți totuși parcurge pașii.') : null,
         h('div', { class: 'apply-layout' },
           form,
           h('aside', { class: 'apply-aside', 'aria-label': 'Ce urmează' },

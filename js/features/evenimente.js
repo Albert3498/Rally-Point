@@ -21,7 +21,7 @@
  *   }
  *
  * CUM CONECTEZI BACKENDUL
- *   1. window.APP_CONFIG = { eventsSource: 'api' } în interface.html (implicit: 'sample' = js/data/).
+ *   1. window.APP_CONFIG = { eventsSource: 'api' } în interface.html (implicit: 'sample' = demo_data.json).
  *   2. Ce întoarce acum GET /events/ se transformă în fromApi() de mai jos. Când backendul primește
  *      câmpuri noi (vârstă, mod, județ, sarcini...), le mapezi DOAR acolo; filtrele apar singure.
  *   3. Sau pui propria sursă:  App.evenimente.setSource({ list: async () => [ ...evenimente... ] });
@@ -99,6 +99,61 @@
     voluntariat: 'Voluntariat', 'educație': 'Educație', cultural: 'Cultural',
   };
   const PAY_LABEL = { free: 'Gratuit', gratuit: 'Gratuit', paid: 'Plătit', platit: 'Plătit' };
+  const DEMO_CAUSE_LABEL = {
+    environment: 'Mediu', education: 'Educație', community: 'Comunitate',
+    animal_welfare: 'Animale', charity: 'Caritate', other: 'Altele',
+  };
+  const DEMO_CITY_METADATA = {
+    'cluj-napoca': { name: 'Cluj-Napoca', county: 'Cluj' },
+    iasi: { name: 'Iași', county: 'Iași' },
+    brasov: { name: 'Brașov', county: 'Brașov' },
+    bucuresti: { name: 'București', county: 'București' },
+  };
+
+  function fromDemoRequest(request, index) {
+    const { payload } = request;
+    const location = payload.location.split(',').map((part) => part.trim()).filter(Boolean);
+    if (location[location.length - 1].toLowerCase() === 'romania') location.pop();
+    const rawCity = location.pop() || '';
+    const cityMetadata = DEMO_CITY_METADATA[rawCity.toLowerCase()];
+    const city = cityMetadata ? cityMetadata.name : rawCity;
+    const address = location.join(', ');
+    const start = new Date(payload.start_datetime);
+    const end = new Date(payload.end_datetime);
+    const durationMinutes = Math.round((end - start) / 60000);
+    const hours = Math.floor(durationMinutes / 60);
+    const minutes = durationMinutes % 60;
+    const duration = [
+      hours ? hours + (hours === 1 ? ' oră' : ' ore') : '',
+      minutes ? minutes + ' min' : '',
+    ].filter(Boolean).join(' și ');
+    const time = (date) => pad(date.getHours()) + ':' + pad(date.getMinutes());
+
+    return {
+      id: 'demo-' + (index + 1),
+      image: request.image ? new URL(request.image, window.DEMO_EVENTS_URL).href : undefined,
+      title: payload.title,
+      organization: payload.organizer_name,
+      cause: DEMO_CAUSE_LABEL[payload.category],
+      city,
+      county: cityMetadata ? cityMetadata.county : undefined,
+      mode: 'in-person',
+      address: address || undefined,
+      ageMin: index % 10 < 7 ? 16 : 14,
+      start: payload.start_datetime,
+      commitment: duration ? duration + ', o singură dată' : undefined,
+      spots: payload.volunteers_needed,
+      summary: payload.description,
+      tasks: [payload.volunteer_tasks],
+      requirements: payload.requirements ? [payload.requirements] : [],
+      schedule: [{
+        day: DAYS_LONG[start.getDay()],
+        time: time(start) + ' – ' + time(end),
+        activity: payload.title,
+      }],
+      contact: [payload.contact_email, payload.contact_phone].filter(Boolean).join(' · '),
+    };
+  }
 
   // Transformă un rând din GET /events/ (Filter.py) în formatul de mai sus.
   // Acum backendul are doar: id, title, city, date, pay_type, pay, action, accessibility, language (+ distance_km).
@@ -118,7 +173,16 @@
   }
 
   const sources = {
-    sample: { list: async () => window.EXEMPLE_EVENIMENTE || [] },
+    sample: {
+      async list() {
+        if (!window.DEMO_EVENTS_URL) throw new Error('Nu este configurată sursa datelor demo.');
+        const response = await fetch(window.DEMO_EVENTS_URL);
+        if (!response.ok) throw new Error('Nu am putut încărca datele demo (' + response.status + ').');
+        const data = await response.json();
+        if (!Array.isArray(data.event_requests)) throw new Error('Format invalid pentru datele demo.');
+        return data.event_requests.map(fromDemoRequest);
+      },
+    },
     api: { list: async () => (await App.api('/events/', { auth: false })).events.map(fromApi) },
   };
   let source = sources[App.cfg.eventsSource] || sources.sample;
@@ -159,6 +223,8 @@
   function boardRow(ev, index) {
     const when = format.when(ev);
     return h('a', { class: 'board-row', href: '#/evenimente/' + ev.id, style: '--i:' + index },
+      h('div', { class: 'board-photo' },
+        ev.image ? h('img', { class: 'board-thumb', src: ev.image, alt: '', loading: 'lazy' }) : null),
       h('div', { class: 'board-when' }, when.primary, when.secondary ? h('small', null, when.secondary) : null),
       h('div', { class: 'board-title' },
         h('strong', null, ev.title),
@@ -170,11 +236,14 @@
   }
 
   const boardHead = () => h('div', { class: 'board-head', 'aria-hidden': 'true' },
-    h('span', null, 'Când'), h('span', null, 'Ce'), h('span', null, 'Unde'), h('span', null, 'Vârstă'), h('span', { style: 'text-align:right' }, 'Locuri'));
+    h('span', { class: 'board-head-photo' }), h('span', { class: 'board-head-when' }, 'Când'),
+    h('span', { class: 'board-head-title' }, 'Ce'), h('span', { class: 'board-head-place' }, 'Unde'),
+    h('span', { class: 'board-head-age' }, 'Vârstă'), h('span', { class: 'board-head-spots' }, 'Locuri'));
 
   function skeleton(rows) {
     return h('div', { class: 'board light skeleton', role: 'status', 'aria-label': 'Se încarcă oportunitățile' },
       Array.from({ length: rows }, () => h('div', { class: 'board-row' },
+        h('div', { class: 'board-photo' }, h('span', { class: 'skel w1' })),
         h('div', { class: 'board-when' }, h('span', { class: 'skel w1' })),
         h('div', { class: 'board-title' }, h('span', { class: 'skel w2' }), h('span', { class: 'skel w3' })),
         h('div', { class: 'board-place' }, h('span', { class: 'skel w3' })),
@@ -205,6 +274,7 @@
       : null;
     return [
       h('div', { class: 'ev-dialog-body' },
+        ev.image ? h('img', { class: 'ev-image', src: ev.image, alt: ev.title }) : null,
         h('div', null,
           ev.cause ? h('span', { class: 'ev-tag' }, ev.cause) : null,
           h('h2', { id: 'ev-title' }, ev.title),

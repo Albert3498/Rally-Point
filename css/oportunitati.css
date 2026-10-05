@@ -27,9 +27,9 @@
 .chip-btn {
   min-height: 44px;
   padding: 0 16px;
-  border: 1px solid #8C93AB;
+  border: 1px solid var(--line);
   border-radius: 999px;
-  background: #fff;
+  background: var(--control-surface);
   font-weight: 600;
   cursor: pointer;
 }
@@ -39,9 +39,9 @@
 }
 
 .chip-btn[aria-pressed="true"] {
-  background: var(--ink);
-  border-color: var(--ink);
-  color: #fff;
+  background: var(--blue);
+  border-color: var(--blue);
+  color: var(--on-accent);
 }
 
 .more-filters summary {
@@ -93,7 +93,7 @@
 .board.light {
   background: var(--surface);
   color: var(--ink);
-  border: 1px solid var(--ink);
+  border: 1px solid var(--line);
 }
 
 .board.light .board-head {
@@ -183,6 +183,16 @@
   padding: clamp(18px, 4vw, 32px);
   display: grid;
   gap: 22px;
+}
+
+.ev-image {
+  display: block;
+  width: 100%;
+  max-height: 320px;
+  aspect-ratio: 16 / 8;
+  object-fit: cover;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
 }
 
 .ev-tag {

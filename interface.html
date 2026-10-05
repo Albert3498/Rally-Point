@@ -4,13 +4,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Volunteer: voluntariat pentru elevi</title>
+  <title>Voluntar: voluntariat pentru elevi</title>
   <meta name="description" content="Oportunități de voluntariat pentru elevi de 14–18 ani din România: alege după oraș, vârstă și program și aplică direct.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/site.css">
   <link rel="stylesheet" href="css/oportunitati.css">
+  <link rel="stylesheet" href="css/descopera.css">
 </head>
 
 <body>
@@ -18,7 +19,7 @@
 
   <header class="site-header">
     <div class="container nav">
-      <a class="logo" href="#/home" aria-label="volunteer, pagina de start">volunteer<span>.</span></a>
+      <a class="logo" href="#/home" aria-label="Voluntar, pagina de start">Voluntar</a>
       <nav id="nav" aria-label="Navigare principală"></nav>
       <div id="account" class="account"></div>
     </div>
@@ -31,13 +32,13 @@
 
   <footer>
     <div class="container">
-      Volunteer: platformă de voluntariat pentru elevi. Detaliile fiecărei activități trebuie confirmate cu organizatorul ei.
+      Voluntar: platformă de voluntariat pentru elevi. Detaliile fiecărei activități trebuie confirmate cu organizatorul ei.
     </div>
   </footer>
 
   <!-- Settings (read by core.js and the features):
        apiBase       - address of the API (default http://127.0.0.1:8000)
-       eventsSource  - 'sample' = example opportunities from js/data/, 'api' = real events from GET /events/
+       eventsSource  - 'sample' = opportunities from demo_data.json, 'api' = real events from GET /events/
        applySource   - 'mock' = demo only (the server has no applications endpoint yet), 'api' = real endpoint (not built yet) -->
   <script>window.APP_CONFIG = { eventsSource: 'sample', applySource: 'mock' };</script>
   <script src="js/core.js"></script>
@@ -45,6 +46,7 @@
   <!-- Features. To add one: create js/features/<name>.js and list it here (see the header of js/core.js). -->
   <script src="js/data/exemple-evenimente.js"></script>
   <script src="js/features/evenimente.js"></script>
+  <script src="js/features/descopera.js"></script>
   <script src="js/features/home.js"></script>
   <script src="js/features/aplica.js"></script>
   <script src="js/features/auth.js"></script>

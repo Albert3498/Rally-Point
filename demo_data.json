@@ -1,0 +1,384 @@
+{
+  "event_requests": [
+    {
+      "submitted_by": "Asociatia Verde Urban",
+      "payload": {
+        "title": "Curatenie pe malul Somesului",
+        "description": "Curatam impreuna o portiune de mal si sortam deseurile pentru reciclare, protejand spatiul verde al orasului.",
+        "category": "environment",
+        "start_datetime": "2027-01-16T09:00:00+02:00",
+        "end_datetime": "2027-01-16T12:00:00+02:00",
+        "location": "Malul Somesului, Cluj-Napoca, Romania",
+        "volunteers_needed": 18,
+        "volunteer_tasks": "Strangerea deseurilor, sortarea materialelor reciclabile si transportul sacilor la punctul de colectare.",
+        "organizer_name": "Asociatia Verde Urban",
+        "contact_email": "contact@verdeurban.example.org",
+        "contact_phone": "+40 700 000 101",
+        "requirements": "Incaltaminte comoda si haine potrivite vremii. Manusile si sacii sunt oferiti.",
+        "additional_notes": "Activitatea se reprogrameaza daca vremea este nefavorabila."
+      },
+      "image": "images/demo/events/event-01.jpg"
+    },
+    {
+      "submitted_by": "Fundatia Invatam Impreuna",
+      "payload": {
+        "title": "Club de lectura pentru copii",
+        "description": "Sustinem lectura copiilor din clasele primare prin povesti, jocuri de vocabular si discutii in grupuri mici.",
+        "category": "education",
+        "start_datetime": "2027-01-20T16:00:00+02:00",
+        "end_datetime": "2027-01-20T18:00:00+02:00",
+        "location": "Biblioteca de cartier, Iasi, Romania",
+        "volunteers_needed": 8,
+        "volunteer_tasks": "Citirea povestilor cu voce tare, pregatirea jocurilor de cuvinte si sprijinirea copiilor la alegerea cartilor.",
+        "organizer_name": "Fundatia Invatam Impreuna",
+        "contact_email": "voluntari@invatam.example.org",
+        "contact_phone": "+40 700 000 102",
+        "requirements": "Rabdare si interes pentru lectura. Experienta anterioara nu este necesara.",
+        "additional_notes": "Cartile si materialele pentru activitate sunt asigurate."
+      },
+      "image": "images/demo/events/event-02.jpg"
+    },
+    {
+      "submitted_by": "Asociatia Prieteni necuvantatori",
+      "payload": {
+        "title": "O zi de joaca la adapostul de animale",
+        "description": "Oferim animalelor din adapost timp de joaca si socializare si ajutam echipa sa pregateasca spatiile pentru vizitatori.",
+        "category": "animal_welfare",
+        "start_datetime": "2027-01-23T10:00:00+02:00",
+        "end_datetime": "2027-01-23T14:00:00+02:00",
+        "location": "Adapostul Prieteni necuvantatori, Brasov, Romania",
+        "volunteers_needed": 12,
+        "volunteer_tasks": "Socializarea animalelor, pregatirea jucariilor, improspatarea apei si aranjarea spatiului pentru vizitatori.",
+        "organizer_name": "Asociatia Prieteni necuvantatori",
+        "contact_email": "echipa@prieteni-necuvantatori.example.org",
+        "contact_phone": "+40 700 000 103",
+        "requirements": "Respectarea instructiunilor personalului si anuntarea coordonatorului inainte de apropierea de animale.",
+        "additional_notes": "Activitatea are loc in interior; personalul adapostului va insoti voluntarii."
+      },
+      "image": "images/demo/events/event-03.jpg"
+    },
+    {
+      "submitted_by": "Centrul Comunitar Deschis",
+      "payload": {
+        "title": "Pachete de iarna pentru vecini",
+        "description": "Pregatim pachete cu alimente de baza si produse de igiena pentru persoane in varsta si familii din cartier.",
+        "category": "charity",
+        "start_datetime": "2027-01-27T10:00:00+02:00",
+        "end_datetime": "2027-01-27T13:00:00+02:00",
+        "location": "Centrul Comunitar Deschis, Bucuresti, Romania",
+        "volunteers_needed": 16,
+        "volunteer_tasks": "Sortarea donatiilor, verificarea listelor, pregatirea pachetelor si organizarea lor pentru distributie.",
+        "organizer_name": "Centrul Comunitar Deschis",
+        "contact_email": "salut@comunitardeschis.example.org",
+        "contact_phone": "+40 700 000 104",
+        "requirements": "Haine comode. Coordonatorii vor explica regulile de manipulare a alimentelor.",
+        "additional_notes": "Pachetele sunt distribuite de echipa centrului dupa activitate."
+      },
+      "image": "images/demo/events/event-04.jpg"
+    },
+    {
+      "submitted_by": "Asociatia Verde Urban",
+      "payload": {
+        "title": "Atelier de plantare in ghivece",
+        "description": "Invatam locuitorii sa planteze ierburi aromatice si sa ingrijeasca plante in spatii mici de apartament.",
+        "category": "environment",
+        "start_datetime": "2027-02-06T11:00:00+02:00",
+        "end_datetime": "2027-02-06T14:00:00+02:00",
+        "location": "Casa de Cultura a Studentilor, Cluj-Napoca, Romania",
+        "volunteers_needed": 10,
+        "volunteer_tasks": "Pregatirea ghivecelor, distribuirea pamantului si semintelor si sprijinirea participantilor la plantare.",
+        "organizer_name": "Asociatia Verde Urban",
+        "contact_email": "contact@verdeurban.example.org",
+        "contact_phone": "+40 700 000 101",
+        "requirements": "Nu este necesara experienta. Materialele de gradinarit sunt puse la dispozitie.",
+        "additional_notes": "Fiecare participant poate lua acasa ghiveciul plantat."
+      },
+      "image": "images/demo/events/event-05.jpg"
+    },
+    {
+      "submitted_by": "Fundatia Invatam Impreuna",
+      "payload": {
+        "title": "Sprijin la teme pentru gimnaziu",
+        "description": "Oferim elevilor de gimnaziu un spatiu prietenos in care sa lucreze la teme si sa exerseze materiile scolare.",
+        "category": "education",
+        "start_datetime": "2027-02-09T16:00:00+02:00",
+        "end_datetime": "2027-02-09T18:00:00+02:00",
+        "location": "Scoala Gimnaziala Nr. 4, Iasi, Romania",
+        "volunteers_needed": 10,
+        "volunteer_tasks": "Lucrul in grupuri mici, explicarea exercitiilor si incurajarea elevilor sa isi organizeze temele.",
+        "organizer_name": "Fundatia Invatam Impreuna",
+        "contact_email": "voluntari@invatam.example.org",
+        "contact_phone": "+40 700 000 102",
+        "requirements": "Cunostinte de baza la materiile scolare si rabdare in lucrul cu copiii.",
+        "additional_notes": "Materialele de lucru sunt oferite de fundatie."
+      },
+      "image": "images/demo/events/event-06.jpg"
+    },
+    {
+      "submitted_by": "Asociatia Prieteni necuvantatori",
+      "payload": {
+        "title": "Campanie de promovare a adoptiilor",
+        "description": "Ajutam animalele fara stapan sa isi gaseasca familii printr-o zi de informare si promovare a adoptiilor responsabile.",
+        "category": "animal_welfare",
+        "start_datetime": "2027-02-13T10:00:00+02:00",
+        "end_datetime": "2027-02-13T15:00:00+02:00",
+        "location": "Piata Sfatului, Brasov, Romania",
+        "volunteers_needed": 14,
+        "volunteer_tasks": "Informarea vizitatorilor, distribuirea materialelor si indrumarea persoanelor interesate catre echipa de adoptie.",
+        "organizer_name": "Asociatia Prieteni necuvantatori",
+        "contact_email": "echipa@prieteni-necuvantatori.example.org",
+        "contact_phone": "+40 700 000 103",
+        "requirements": "Comunicare politicoasa si respectarea regulilor privind interactiunea cu animalele.",
+        "additional_notes": "Animalele prezente vor fi insotite permanent de personalul asociatiei."
+      },
+      "image": "images/demo/events/event-07.jpg"
+    },
+    {
+      "submitted_by": "Centrul Comunitar Deschis",
+      "payload": {
+        "title": "Masa calda pentru comunitate",
+        "description": "Pregatim si servim o masa calda pentru persoane singure si familii care au nevoie de sprijin in comunitatea locala.",
+        "category": "community",
+        "start_datetime": "2027-02-17T15:00:00+02:00",
+        "end_datetime": "2027-02-17T19:00:00+02:00",
+        "location": "Cantina Centrului Comunitar, Bucuresti, Romania",
+        "volunteers_needed": 12,
+        "volunteer_tasks": "Aranjarea meselor, pregatirea salii, servirea mancarii si strangerea veselei dupa eveniment.",
+        "organizer_name": "Centrul Comunitar Deschis",
+        "contact_email": "salut@comunitardeschis.example.org",
+        "contact_phone": "+40 700 000 104",
+        "requirements": "Respectarea regulilor de igiena si a instructiunilor echipei de bucatarie.",
+        "additional_notes": "Meniul si echipamentul de protectie sunt asigurate de organizator."
+      },
+      "image": "images/demo/events/event-08.jpg"
+    },
+    {
+      "submitted_by": "Asociatia Verde Urban",
+      "payload": {
+        "title": "Inventarierea arborilor din cartier",
+        "description": "Cartografiem arborii de pe cateva strazi si notam zonele in care spatiul verde are nevoie de ingrijire.",
+        "category": "environment",
+        "start_datetime": "2027-03-06T09:00:00+02:00",
+        "end_datetime": "2027-03-06T12:30:00+02:00",
+        "location": "Cartierul Manastur, Cluj-Napoca, Romania",
+        "volunteers_needed": 8,
+        "volunteer_tasks": "Completarea fiselor de teren, fotografierea arborilor si marcarea observatiilor pe harta echipei.",
+        "organizer_name": "Asociatia Verde Urban",
+        "contact_email": "contact@verdeurban.example.org",
+        "contact_phone": "+40 700 000 101",
+        "requirements": "Telefon cu camera foto si incaltaminte potrivita pentru mers pe jos.",
+        "additional_notes": "Activitatea se desfasoara in echipe mici insotite de coordonatori."
+      },
+      "image": "images/demo/events/event-09.jpg"
+    },
+    {
+      "submitted_by": "Fundatia Invatam Impreuna",
+      "payload": {
+        "title": "Mini-laborator de stiinta pentru copii",
+        "description": "Organizam experimente simple si sigure pentru copii, cu activitati practice despre apa, aer si plante.",
+        "category": "education",
+        "start_datetime": "2027-03-10T14:30:00+02:00",
+        "end_datetime": "2027-03-10T17:30:00+02:00",
+        "location": "Centrul Educational Copou, Iasi, Romania",
+        "volunteers_needed": 9,
+        "volunteer_tasks": "Pregatirea materialelor, explicarea pasilor experimentelor si sprijinirea copiilor la activitati.",
+        "organizer_name": "Fundatia Invatam Impreuna",
+        "contact_email": "voluntari@invatam.example.org",
+        "contact_phone": "+40 700 000 102",
+        "requirements": "Respectarea instructiunilor de siguranta si interes pentru activitati educationale.",
+        "additional_notes": "Experimentele sunt non-toxice si se desfasoara sub supravegherea educatorilor."
+      },
+      "image": "images/demo/events/event-10.jpg"
+    },
+    {
+      "submitted_by": "Asociatia Prieteni necuvantatori",
+      "payload": {
+        "title": "Pregatirea adapostului pentru primavara",
+        "description": "Punem la punct spatiile exterioare ale adapostului si pregatim zone curate si sigure pentru animalele aflate in grija.",
+        "category": "animal_welfare",
+        "start_datetime": "2027-03-13T09:30:00+02:00",
+        "end_datetime": "2027-03-13T13:30:00+02:00",
+        "location": "Adapostul Prieteni necuvantatori, Brasov, Romania",
+        "volunteers_needed": 15,
+        "volunteer_tasks": "Curatarea spatiilor exterioare, spalarea obiectelor de joaca si aranjarea materialelor pentru ingrijire.",
+        "organizer_name": "Asociatia Prieteni necuvantatori",
+        "contact_email": "echipa@prieteni-necuvantatori.example.org",
+        "contact_phone": "+40 700 000 103",
+        "requirements": "Haine de lucru si incaltaminte inchisa. Uneltele sunt oferite de adapost.",
+        "additional_notes": "Voluntarii nu vor lucra cu produse de curatenie fara acordul coordonatorului."
+      },
+      "image": "images/demo/events/event-11.jpg"
+    },
+    {
+      "submitted_by": "Centrul Comunitar Deschis",
+      "payload": {
+        "title": "Atelier digital pentru seniori",
+        "description": "Sprijinim persoanele in varsta sa foloseasca telefonul, sa trimita mesaje si sa recunoasca tentativele de frauda.",
+        "category": "other",
+        "start_datetime": "2027-03-17T10:00:00+02:00",
+        "end_datetime": "2027-03-17T12:00:00+02:00",
+        "location": "Centrul Comunitar Deschis, Bucuresti, Romania",
+        "volunteers_needed": 6,
+        "volunteer_tasks": "Ghidarea participantilor pas cu pas pe telefon si explicarea unor reguli simple de siguranta online.",
+        "organizer_name": "Centrul Comunitar Deschis",
+        "contact_email": "salut@comunitardeschis.example.org",
+        "contact_phone": "+40 700 000 104",
+        "requirements": "Cunostinte de utilizare a unui smartphone si rabdare in explicatii.",
+        "additional_notes": "Participantii pot aduce propriul telefon; cateva dispozitive de imprumut vor fi disponibile."
+      },
+      "image": "images/demo/events/event-12.jpg"
+    },
+    {
+      "submitted_by": "Asociatia Verde Urban",
+      "payload": {
+        "title": "Curatenie de primavara in parc",
+        "description": "Igienizam aleile si spatiile verzi din parc si discutam cu trecatorii despre pastrarea curateniei in oras.",
+        "category": "environment",
+        "start_datetime": "2027-04-03T09:00:00+03:00",
+        "end_datetime": "2027-04-03T12:00:00+03:00",
+        "location": "Parcul Central, Cluj-Napoca, Romania",
+        "volunteers_needed": 24,
+        "volunteer_tasks": "Adunarea deseurilor de pe alei, separarea reciclabilelor si distribuirea sacilor pe zone.",
+        "organizer_name": "Asociatia Verde Urban",
+        "contact_email": "contact@verdeurban.example.org",
+        "contact_phone": "+40 700 000 101",
+        "requirements": "Incaltaminte comoda. Manusile, sacii si apa sunt oferite.",
+        "additional_notes": "Punctul de intalnire este la intrarea principala in parc."
+      },
+      "image": "images/demo/events/event-13.jpg"
+    },
+    {
+      "submitted_by": "Fundatia Invatam Impreuna",
+      "payload": {
+        "title": "Conversație în limba engleză",
+        "description": "Organizam jocuri si discutii in limba engleza pentru elevi care vor sa exerseze conversatia intr-un cadru relaxat.",
+        "category": "education",
+        "start_datetime": "2027-04-07T16:00:00+03:00",
+        "end_datetime": "2027-04-07T18:00:00+03:00",
+        "location": "Casa Tineretului, Iasi, Romania",
+        "volunteers_needed": 7,
+        "volunteer_tasks": "Propunerea unor subiecte de discutie, coordonarea jocurilor si incurajarea participarii tuturor elevilor.",
+        "organizer_name": "Fundatia Invatam Impreuna",
+        "contact_email": "voluntari@invatam.example.org",
+        "contact_phone": "+40 700 000 102",
+        "requirements": "Nivel conversational de limba engleza si atitudine incurajatoare.",
+        "additional_notes": "Materialele de conversatie sunt pregatite de echipa educationala."
+      },
+      "image": "images/demo/events/event-14.jpg"
+    },
+    {
+      "submitted_by": "Asociatia Prieteni necuvantatori",
+      "payload": {
+        "title": "Plimbari ghidate pentru cainii din adapost",
+        "description": "Ajutam cainii din adapost sa faca miscare si sa se obisnuiasca treptat cu interactiunea cu voluntarii.",
+        "category": "animal_welfare",
+        "start_datetime": "2027-04-10T10:00:00+03:00",
+        "end_datetime": "2027-04-10T13:00:00+03:00",
+        "location": "Adapostul Prieteni necuvantatori, Brasov, Romania",
+        "volunteers_needed": 10,
+        "volunteer_tasks": "Plimbarea cainilor in perechi, oferirea apei si notarea observatiilor pentru ingrijitori.",
+        "organizer_name": "Asociatia Prieteni necuvantatori",
+        "contact_email": "echipa@prieteni-necuvantatori.example.org",
+        "contact_phone": "+40 700 000 103",
+        "requirements": "Respectarea alocarii facute de personal si purtarea incaltamintei inchise.",
+        "additional_notes": "Fiecare echipa va fi instruita inainte de inceperea plimbarilor."
+      },
+      "image": "images/demo/events/event-15.jpg"
+    },
+    {
+      "submitted_by": "Centrul Comunitar Deschis",
+      "payload": {
+        "title": "Ziua jocurilor pentru toate varstele",
+        "description": "Aducem impreuna copii, parinti si seniori pentru jocuri de societate si activitati de socializare.",
+        "category": "community",
+        "start_datetime": "2027-04-14T14:00:00+03:00",
+        "end_datetime": "2027-04-14T18:00:00+03:00",
+        "location": "Sala Centrului Comunitar, Bucuresti, Romania",
+        "volunteers_needed": 11,
+        "volunteer_tasks": "Primirea participantilor, explicarea regulilor jocurilor si pregatirea gustarilor pentru pauza.",
+        "organizer_name": "Centrul Comunitar Deschis",
+        "contact_email": "salut@comunitardeschis.example.org",
+        "contact_phone": "+40 700 000 104",
+        "requirements": "Comunicare prietenoasa si disponibilitate de a ajuta participanti de varste diferite.",
+        "additional_notes": "Jocurile si gustarile sunt asigurate de organizator."
+      },
+      "image": "images/demo/events/event-16.jpg"
+    },
+    {
+      "submitted_by": "Asociatia Verde Urban",
+      "payload": {
+        "title": "Amenajarea unei gradini comunitare",
+        "description": "Transformam un spatiu nefolosit intr-o gradina comuna cu plante aromatice, flori si zone pentru polenizatori.",
+        "category": "environment",
+        "start_datetime": "2027-05-08T09:00:00+03:00",
+        "end_datetime": "2027-05-08T13:00:00+03:00",
+        "location": "Cartierul Gheorgheni, Cluj-Napoca, Romania",
+        "volunteers_needed": 20,
+        "volunteer_tasks": "Pregatirea straturilor, plantarea rasadurilor, udarea si montarea etichetelor pentru plante.",
+        "organizer_name": "Asociatia Verde Urban",
+        "contact_email": "contact@verdeurban.example.org",
+        "contact_phone": "+40 700 000 101",
+        "requirements": "Haine potrivite pentru lucru afara. Uneltele sunt oferite de organizator.",
+        "additional_notes": "Gradina va ramane deschisa comunitatii dupa amenajare."
+      },
+      "image": "images/demo/events/event-17.jpg"
+    },
+    {
+      "submitted_by": "Fundatia Invatam Impreuna",
+      "payload": {
+        "title": "Atelier de orientare pentru liceeni",
+        "description": "Sustinem liceenii sa isi descopere interesele si sa afle mai multe despre oportunitatile de educatie si cariera.",
+        "category": "education",
+        "start_datetime": "2027-05-12T15:00:00+03:00",
+        "end_datetime": "2027-05-12T18:00:00+03:00",
+        "location": "Centrul Educational Copou, Iasi, Romania",
+        "volunteers_needed": 8,
+        "volunteer_tasks": "Pregatirea fiselor de activitate, indrumarea grupurilor si colectarea intrebarilor participantilor.",
+        "organizer_name": "Fundatia Invatam Impreuna",
+        "contact_email": "voluntari@invatam.example.org",
+        "contact_phone": "+40 700 000 102",
+        "requirements": "Interes pentru educatie si respectarea confidentialitatii discutiilor.",
+        "additional_notes": "Activitatea este coordonata de consilieri educationali."
+      },
+      "image": "images/demo/events/event-18.jpg"
+    },
+    {
+      "submitted_by": "Asociatia Prieteni necuvantatori",
+      "payload": {
+        "title": "Targ local pentru adoptii responsabile",
+        "description": "Prezentam animale care isi cauta familie si oferim vizitatorilor informatii despre ingrijirea responsabila.",
+        "category": "animal_welfare",
+        "start_datetime": "2027-05-15T10:00:00+03:00",
+        "end_datetime": "2027-05-15T16:00:00+03:00",
+        "location": "Piata Unirii, Brasov, Romania",
+        "volunteers_needed": 18,
+        "volunteer_tasks": "Amenajarea standului, distribuirea materialelor informative si indrumarea vizitatorilor catre coordonatori.",
+        "organizer_name": "Asociatia Prieteni necuvantatori",
+        "contact_email": "echipa@prieteni-necuvantatori.example.org",
+        "contact_phone": "+40 700 000 103",
+        "requirements": "Politete, rabdare si respectarea instructiunilor echipei de protectie a animalelor.",
+        "additional_notes": "Deciziile de adoptie sunt gestionate exclusiv de personalul asociatiei."
+      },
+      "image": "images/demo/events/event-19.jpg"
+    },
+    {
+      "submitted_by": "Centrul Comunitar Deschis",
+      "payload": {
+        "title": "Colecta de carti pentru copii",
+        "description": "Strangem carti pentru un colt de lectura destinat copiilor din familii cu acces limitat la materiale educationale.",
+        "category": "charity",
+        "start_datetime": "2027-05-19T11:00:00+03:00",
+        "end_datetime": "2027-05-19T15:00:00+03:00",
+        "location": "Centrul Comunitar Deschis, Bucuresti, Romania",
+        "volunteers_needed": 9,
+        "volunteer_tasks": "Primirea cartilor, sortarea lor dupa varsta si stare si pregatirea coletelor pentru punctele de lectura.",
+        "organizer_name": "Centrul Comunitar Deschis",
+        "contact_email": "salut@comunitardeschis.example.org",
+        "contact_phone": "+40 700 000 104",
+        "requirements": "Atentie la manipularea cartilor si lucru organizat in echipa.",
+        "additional_notes": "Se accepta carti pentru copii in stare buna, in limba romana."
+      },
+      "image": "images/demo/events/event-20.jpg"
+    }
+  ]
+}

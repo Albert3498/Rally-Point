@@ -1,32 +1,34 @@
 /*
- * Volunteer - site styles: tokens, layout, home page and shared components.
+ * Voluntar - site styles: tokens, layout, home page and shared components.
  * Feature-specific styles live in their own file (css/oportunitati.css). Add new feature files next to it.
  *
- * Design notes: cool paper background, ink text, one signal blue, a yellow marker used only on the
- * departures board. Flat surfaces with 1px lines, no shadows or gradients. Small radius (4px) on panels;
- * fully round shapes only for tags. All text pairs are >= 4.5:1.
+ * Design notes: translucent black surfaces, light blue accents, and a yellow marker used only on the
+ * departures board. Editorial serif headings pair with a clear sans-serif body.
  */
 
 :root {
-  --paper: #F5F6FA;
-  --surface: #FFFFFF;
-  --ink: #15171F;
-  --ink-2: #4A4F63;
-  --line: #CBD0E0;
-  --line-soft: #E3E6F0;
-  --blue: #2547F5;
-  --blue-dark: #1A33C4;
+  color-scheme: dark;
+  --paper: rgba(0, 0, 0, .88);
+  --surface: rgba(12, 17, 23, .86);
+  --ink: #EAF3F8;
+  --ink-2: #A9BAC6;
+  --line: #34434E;
+  --line-soft: rgba(30, 43, 52, .78);
+  --blue: #94DFFF;
+  --blue-dark: #B9ECFF;
+  --on-accent: #071117;
+  --control-surface: rgba(0, 0, 0, .48);
   --marker: #FFD60A;
-  --mint: #BFEBD6;
-  --mint-ink: #14633F;
-  --red: #B3202D;
-  --red-soft: #F8DCDE;
-  --board: #15171F;
-  --board-row: #20232F;
-  --board-muted: #B9BED0;
+  --mint: rgba(22, 65, 49, .72);
+  --mint-ink: #A7E7C3;
+  --red: #FF9299;
+  --red-soft: rgba(74, 31, 37, .76);
+  --board: rgba(0, 0, 0, .76);
+  --board-row: rgba(18, 27, 34, .8);
+  --board-muted: #A9BAC6;
 
-  --display: "Bricolage Grotesque", "Arial Narrow", system-ui, sans-serif;
-  --body: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --display: "DM Serif Display", Georgia, serif;
+  --body: "Source Sans 3", "Segoe UI", sans-serif;
 
   --radius: 4px;
   --max: 1120px;
@@ -38,12 +40,14 @@
 }
 
 html {
+  background: #080C0F;
   scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
   background: var(--paper);
+  backdrop-filter: blur(14px);
   color: var(--ink);
   font-family: var(--body);
   font-size: 1rem;
@@ -56,10 +60,9 @@ h2,
 h3,
 h4 {
   font-family: var(--display);
-  font-stretch: 88%;
-  font-weight: 750;
-  letter-spacing: -.02em;
-  line-height: 1.08;
+  font-weight: 400;
+  letter-spacing: -.025em;
+  line-height: 1.12;
   margin: 0;
 }
 
@@ -112,8 +115,8 @@ main:focus {
   left: 8px;
   top: -60px;
   z-index: 100;
-  background: var(--ink);
-  color: #fff;
+  background: var(--blue);
+  color: var(--on-accent);
   padding: 10px 16px;
   border-radius: var(--radius);
 }
@@ -180,7 +183,7 @@ header.site-header {
 
 .logo {
   font-family: var(--display);
-  font-weight: 800;
+  font-weight: 700;
   font-size: 1.5rem;
   letter-spacing: -.04em;
   text-decoration: none;
@@ -258,10 +261,10 @@ nav button.active {
   justify-content: center;
   min-height: 44px;
   padding: 0 20px;
-  border: 2px solid var(--ink);
+  border: 2px solid var(--line);
   border-radius: var(--radius);
-  background: var(--ink);
-  color: #fff;
+  background: rgba(0, 0, 0, .42);
+  color: var(--ink);
   font-weight: 700;
   text-decoration: none;
   cursor: pointer;
@@ -269,7 +272,7 @@ nav button.active {
 }
 
 .btn:hover:not(:disabled) {
-  background: #2B2F3E;
+  background: var(--line);
 }
 
 .btn:disabled {
@@ -280,6 +283,7 @@ nav button.active {
 .btn.primary {
   background: var(--blue);
   border-color: var(--blue);
+  color: var(--on-accent);
 }
 
 .btn.primary:hover:not(:disabled) {
@@ -373,10 +377,10 @@ nav button.active {
 .review-box textarea {
   width: 100%;
   min-height: 44px;
-  border: 1px solid #8C93AB;
+  border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: 10px 12px;
-  background: #fff;
+  background: var(--control-surface);
 }
 
 .field textarea,
@@ -487,7 +491,7 @@ nav button.active {
 
 .panel-note.success {
   border-color: var(--mint-ink);
-  background: #EAF7F0;
+  background: var(--mint);
 }
 
 .chips {
@@ -586,7 +590,7 @@ nav button.active {
 
 .badge.rejected {
   background: var(--red-soft);
-  color: #8F2029;
+  color: var(--red);
 }
 
 .review-box {
@@ -607,8 +611,9 @@ nav button.active {
 }
 
 .toast {
-  background: var(--ink);
-  color: #fff;
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--line);
   padding: 12px 16px;
   border-radius: var(--radius);
   border-left: 6px solid var(--mint);
@@ -630,7 +635,8 @@ nav button.active {
 .board-head,
 .board-row {
   display: grid;
-  grid-template-columns: 9.5rem minmax(0, 1fr) 13rem 7rem 5rem;
+  grid-template-columns: 4.5rem 7.5rem minmax(0, 1fr) 12rem 5rem 5rem;
+  grid-template-areas: "photo when title place age spots";
   gap: 16px;
   align-items: center;
   padding: 14px 20px;
@@ -647,6 +653,50 @@ nav button.active {
   color: inherit;
   text-decoration: none;
   border-bottom: 1px solid #2E3345;
+}
+
+.board-photo {
+  display: flex;
+  grid-area: photo;
+  align-items: center;
+}
+
+.board-head-photo {
+  grid-area: photo;
+}
+
+.board-head-when,
+.board-when {
+  grid-area: when;
+}
+
+.board-head-title,
+.board-title {
+  grid-area: title;
+}
+
+.board-head-place,
+.board-place {
+  grid-area: place;
+}
+
+.board-head-age,
+.board-age {
+  grid-area: age;
+}
+
+.board-head-spots,
+.board-spots {
+  grid-area: spots;
+}
+
+.board-thumb {
+  display: block;
+  width: 4.5rem;
+  height: 4.5rem;
+  object-fit: cover;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
 }
 
 .board-row:last-child {
@@ -722,10 +772,15 @@ nav button.active {
   }
 
   .board-row {
-    grid-template-columns: 6.2rem minmax(0, 1fr);
-    grid-template-areas: "when title" "when place" "when meta";
+    grid-template-columns: 3.5rem 5.2rem minmax(0, 1fr);
+    grid-template-areas: "photo when title" "photo when place" "photo when meta";
     gap: 2px 14px;
     padding: 14px 16px;
+  }
+
+  .board-thumb {
+    width: 3.5rem;
+    height: 3.5rem;
   }
 
   .board-when {

@@ -1,0 +1,241 @@
+/* ---------- Scroll discovery feed ---------- */
+.discover-page {
+  padding-top: clamp(18px, 3vw, 32px);
+}
+
+.discover-heading {
+  max-width: 760px;
+  margin: 0 auto 20px;
+}
+
+.discover-heading h1 {
+  font-size: clamp(2rem, 1.25rem + 3vw, 3.3rem);
+  margin-bottom: 10px;
+}
+
+.discover-heading .lead {
+  max-width: 62ch;
+}
+
+.discover-eyebrow {
+  color: var(--blue);
+  font-size: .88rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.discover-feed-slot {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.discover-feed {
+  height: min(70svh, 760px);
+  min-height: 500px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scroll-snap-type: y mandatory;
+  grid-auto-rows: 100%;
+  scrollbar-color: var(--blue) var(--control-surface);
+  scrollbar-width: thin;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  display: grid;
+}
+
+.discover-feed[aria-busy="true"] {
+  display: grid;
+  min-height: 360px;
+  place-items: stretch;
+}
+
+.discover-card {
+  height: 100%;
+  min-height: 100%;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  overflow: auto;
+}
+
+.discover-image {
+  display: block;
+  flex: 0 0 clamp(210px, 35vh, 320px);
+  width: 100%;
+  height: clamp(210px, 35vh, 320px);
+  object-fit: cover;
+  object-position: center;
+  background: var(--control-surface);
+}
+
+.discover-image-empty {
+  display: grid;
+  place-items: center;
+  color: var(--blue);
+  font: 2rem var(--display);
+}
+
+.discover-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: clamp(16px, 3vw, 26px);
+}
+
+.discover-card-topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.discover-cause {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 2px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--blue);
+  font-size: .88rem;
+  font-weight: 700;
+}
+
+.discover-position,
+.discover-hint {
+  color: var(--ink-2);
+  font-size: .9rem;
+}
+
+.discover-content h2 {
+  font-size: clamp(1.55rem, 1.2rem + 1.5vw, 2.25rem);
+  margin-bottom: 8px;
+}
+
+.discover-description {
+  color: var(--ink-2);
+  font-size: 1.05rem;
+}
+
+.discover-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+}
+
+.discover-meta li {
+  border: 1px solid var(--line-soft);
+  border-radius: 999px;
+  background: var(--control-surface);
+  padding: 4px 10px;
+  font-size: .9rem;
+}
+
+.discover-card-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 20px;
+}
+
+.discover-message {
+  width: 100%;
+  min-height: 360px;
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  gap: 12px;
+}
+
+.discover-message[role="status"] {
+  justify-items: center;
+}
+
+@media (max-width: 600px) {
+  .discover-page {
+    padding-top: 0;
+  }
+
+  .discover-heading {
+    display: none;
+  }
+
+  .discover-feed-slot {
+    width: calc(100% + 2 * var(--gutter));
+    max-width: none;
+    margin-inline: calc(-1 * var(--gutter));
+  }
+
+  .discover-feed {
+    height: calc(100svh - var(--discover-header-height, 104px));
+    min-height: 430px;
+    border: 0;
+    border-radius: 0;
+    scroll-snap-type: y mandatory;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+    scrollbar-width: none;
+  }
+
+  .discover-feed::-webkit-scrollbar {
+    display: none;
+  }
+
+  .discover-card {
+    height: 100%;
+    min-height: 100%;
+    overflow: hidden;
+  }
+
+  .discover-image {
+    flex-basis: 40%;
+    height: 40%;
+    min-height: 180px;
+    max-height: 360px;
+  }
+
+  .discover-content {
+    padding: 14px 16px max(16px, env(safe-area-inset-bottom));
+  }
+
+  .discover-description {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+  }
+
+  .discover-meta {
+    gap: 6px;
+    margin-top: 12px;
+  }
+
+  .discover-meta li {
+    padding: 3px 8px;
+    font-size: .85rem;
+  }
+
+  .discover-card-actions {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .discover-feed {
+    scroll-snap-type: none;
+  }
+}
