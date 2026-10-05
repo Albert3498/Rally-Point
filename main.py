@@ -1,7 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from Authentification import auth_router
-from event_requests import event_router
+from event_requests import UPLOAD_DIR, event_router
 from Filter import filter_router
 app=FastAPI()
 # The web interface is opened from a local dev server (e.g. VS Code Live Server on :5501)
@@ -15,3 +16,4 @@ app.add_middleware(
 app.include_router(auth_router)
 app.include_router(event_router)
 app.include_router(filter_router)
+app.mount("/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")

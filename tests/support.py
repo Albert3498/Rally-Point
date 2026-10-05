@@ -7,6 +7,8 @@ from datetime import datetime, timedelta, UTC
 from pathlib import Path
 
 os.environ.setdefault("DATABASE_PATH", str(Path(tempfile.mkdtemp()) / "test.db"))
+_UPLOAD_STORAGE = tempfile.TemporaryDirectory()
+os.environ.setdefault("EVENT_IMAGE_UPLOAD_DIR", str(Path(_UPLOAD_STORAGE.name) / "event-images"))
 os.environ.setdefault("JWT_SECRET_KEY", "test-secret-key-that-is-long-enough-for-hs256")
 os.environ.setdefault("JWT_ALGORITHM", "HS256")
 os.environ.setdefault("JWT_EXPIRATION_MINUTES", "30")

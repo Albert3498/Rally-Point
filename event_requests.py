@@ -1,15 +1,32 @@
+import json
+import os
+import secrets
 import sqlite3
 from datetime import datetime, UTC
 from enum import Enum
+from pathlib import Path
 from typing import Annotated, Literal
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Request
 from pydantic import (
     AwareDatetime, BaseModel, ConfigDict, EmailStr, PositiveInt,
-    StringConstraints, field_validator,
+    StringConstraints, ValidationError, field_validator,
 )
+from fastapi.exceptions import RequestValidationError
+from starlette.datastructures import UploadFile as StarletteUploadFile
 from Authentification import DB_PATH, get_current_user, get_db
 
 event_router = APIRouter()
+UPLOAD_DIR = Path(os.environ.get(
+    "EVENT_IMAGE_UPLOAD_DIR",
+    str(Path(__file__).resolve().parent / "uploads" / "event-images"),
+))
+UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+MAX_IMAGE_BYTES = 5 * 1024 * 1024
+IMAGE_TYPES = {
+    "image/jpeg": (".jpg", lambda data: data.startswith(b"\xff\xd8\xff")),
+    "image/png": (".png", lambda data: data.startswith(b"\x89PNG\r\n\x1a\n")),
+    "image/webp": (".webp", lambda data: data.startswith(b"RIFF") and data[8:12] == b"WEBP"),
+}
 
 with sqlite3.connect(DB_PATH) as setup_conn:
     setup_conn.execute("""
@@ -33,9 +50,13 @@ with sqlite3.connect(DB_PATH) as setup_conn:
                 CHECK(status IN ('pending','approved','rejected')),
             review_note TEXT,
             created_at TEXT NOT NULL,
-            updated_at TEXT NOT NULL
+            updated_at TEXT NOT NULL,
+            image_filename TEXT
         )
     """)
+    columns = {row[1] for row in setup_conn.execute("PRAGMA table_info(event_requests)")}
+    if "image_filename" not in columns:
+        setup_conn.execute("ALTER TABLE event_requests ADD COLUMN image_filename TEXT")
     setup_conn.execute(
         "CREATE INDEX IF NOT EXISTS idx_event_requests_requester ON event_requests(requester_id)"
     )
@@ -43,7 +64,7 @@ with sqlite3.connect(DB_PATH) as setup_conn:
 COLUMNS = (
     "id,requester_id,title,description,category,start_datetime,end_datetime,location,"
     "volunteers_needed,volunteer_tasks,organizer_name,contact_email,contact_phone,"
-    "requirements,additional_notes,status,review_note,created_at,updated_at"
+    "requirements,additional_notes,status,review_note,created_at,updated_at,image_filename"
 )
 
 
@@ -125,6 +146,7 @@ class EventRequestOut(BaseModel):
     review_note: str | None
     created_at: datetime
     updated_at: datetime
+    image_url: str | None
 
 
 class ReviewDecision(BaseModel):
@@ -135,7 +157,27 @@ class ReviewDecision(BaseModel):
 
 
 def row_to_out(row: tuple) -> EventRequestOut:
-    return EventRequestOut(**dict(zip(COLUMNS.split(","), row)))
+    data = dict(zip(COLUMNS.split(","), row))
+    image_filename = data.pop("image_filename")
+    data["image_url"] = f"/uploads/{image_filename}" if image_filename else None
+    return EventRequestOut(**data)
+
+
+def store_image(image: StarletteUploadFile) -> str:
+    image_type = IMAGE_TYPES.get(image.content_type or "")
+    if image_type is None:
+        raise HTTPException(status_code=415, detail="Image must be JPEG, PNG, or WebP.")
+
+    data = image.file.read(MAX_IMAGE_BYTES + 1)
+    if len(data) > MAX_IMAGE_BYTES:
+        raise HTTPException(status_code=413, detail="Image must be 5 MB or smaller.")
+    extension, matches_signature = image_type
+    if not matches_signature(data):
+        raise HTTPException(status_code=415, detail="Image content does not match its file type.")
+
+    filename = secrets.token_hex(16) + extension
+    (UPLOAD_DIR / filename).write_bytes(data)
+    return filename
 
 
 def now_iso() -> str:
@@ -166,27 +208,60 @@ def require_organization(account: dict = Depends(get_current_account)) -> dict:
 
 
 @event_router.post("/event-requests/", status_code=201, response_model=EventRequestOut)
-def submit_event_request(
-    data: EventRequestCreate,
+async def submit_event_request(
+    request: Request,
     account: dict = Depends(require_organization),
     db: sqlite3.Connection = Depends(get_db),
 ):
+    image = None
+    if request.headers.get("content-type", "").startswith("multipart/form-data"):
+        content_length = request.headers.get("content-length")
+        if content_length and content_length.isdigit() and int(content_length) > MAX_IMAGE_BYTES + 1024 * 1024:
+            raise HTTPException(status_code=413, detail="Request must be 6 MB or smaller.")
+        form = await request.form()
+        data = form.get("data")
+        uploaded = form.get("image")
+        if not isinstance(data, str):
+            raise HTTPException(status_code=422, detail="Event data is required.")
+        if uploaded is not None and not isinstance(uploaded, StarletteUploadFile):
+            raise HTTPException(status_code=422, detail="Image upload is invalid.")
+        image = uploaded
+        try:
+            data = json.loads(data)
+        except json.JSONDecodeError as err:
+            raise HTTPException(status_code=400, detail="Invalid event data.") from err
+    else:
+        try:
+            data = await request.json()
+        except ValueError as err:
+            raise HTTPException(status_code=400, detail="Invalid JSON request body.") from err
+    try:
+        event = EventRequestCreate.model_validate(data)
+    except ValidationError as err:
+        raise RequestValidationError(err.errors(include_context=False)) from err
+
+    image_filename = store_image(image) if image else None
     now = now_iso()
-    cur = db.execute(
-        "INSERT INTO event_requests(requester_id,title,description,category,start_datetime,"
-        "end_datetime,location,volunteers_needed,volunteer_tasks,organizer_name,contact_email,"
-        "contact_phone,requirements,additional_notes,status,created_at,updated_at) "
-        "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,'pending',?,?)",
-        (
-            account["id"], data.title, data.description, data.category.value,
-            data.start_datetime.astimezone(UTC).isoformat(),
-            data.end_datetime.astimezone(UTC).isoformat(),
-            data.location, data.volunteers_needed, data.volunteer_tasks,
-            data.organizer_name, data.contact_email, data.contact_phone,
-            data.requirements, data.additional_notes, now, now,
-        ),
-    )
-    db.commit()
+    try:
+        cur = db.execute(
+            "INSERT INTO event_requests(requester_id,title,description,category,start_datetime,"
+            "end_datetime,location,volunteers_needed,volunteer_tasks,organizer_name,contact_email,"
+            "contact_phone,requirements,additional_notes,status,created_at,updated_at,image_filename) "
+            "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,'pending',?,?,?)",
+            (
+                account["id"], event.title, event.description, event.category.value,
+                event.start_datetime.astimezone(UTC).isoformat(),
+                event.end_datetime.astimezone(UTC).isoformat(),
+                event.location, event.volunteers_needed, event.volunteer_tasks,
+                event.organizer_name, event.contact_email, event.contact_phone,
+                event.requirements, event.additional_notes, now, now, image_filename,
+            ),
+        )
+        db.commit()
+    except Exception:
+        if image_filename:
+            (UPLOAD_DIR / image_filename).unlink(missing_ok=True)
+        raise
     row = db.execute(f"SELECT {COLUMNS} FROM event_requests WHERE id=?", (cur.lastrowid,)).fetchone()
     return row_to_out(row)
 
@@ -217,6 +292,15 @@ def get_my_event_request(
     if row is None:
         raise HTTPException(status_code=404, detail="event request not found")
     return row_to_out(row)
+
+
+@event_router.get("/published-events/", response_model=list[EventRequestOut])
+def list_published_events(db: sqlite3.Connection = Depends(get_db)):
+    rows = db.execute(
+        f"SELECT {COLUMNS} FROM event_requests WHERE status='approved' "
+        "ORDER BY start_datetime,id"
+    ).fetchall()
+    return [row_to_out(row) for row in rows]
 
 
 @event_router.get(

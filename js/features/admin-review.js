@@ -50,6 +50,7 @@
           if (note.value.trim()) body.review_note = note.value;
           await App.api('/admin/event-requests/' + request.id + '/review/', { method: 'PATCH', body });
           App.toast(status === 'approved' ? 'Cererea a fost aprobată.' : 'Cererea a fost respinsă.');
+          if (status === 'approved') App.evenimente.refresh();
           this.load();
         } catch (err) {
           msg.className = 'form-msg error';

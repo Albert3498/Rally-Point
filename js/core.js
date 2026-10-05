@@ -95,6 +95,13 @@
     'token is invalid': 'Sesiunea nu mai este validă. Autentifică-te din nou.',
     'login again please': 'Sesiunea a expirat. Autentifică-te din nou.',
     'Not authenticated': 'Trebuie să fii autentificat.',
+    'Image must be JPEG, PNG, or WebP.': 'Imaginea trebuie să fie JPEG, PNG sau WebP.',
+    'Image must be 5 MB or smaller.': 'Imaginea trebuie să aibă cel mult 5 MB.',
+    'Image content does not match its file type.': 'Conținutul imaginii nu corespunde formatului fișierului.',
+    'Request must be 6 MB or smaller.': 'Cererea trebuie să aibă cel mult 6 MB.',
+    'Event data is required.': 'Completează detaliile oportunității.',
+    'Image upload is invalid.': 'Fișierul încărcat nu este o imagine validă.',
+    'Invalid event data.': 'Detaliile oportunității nu sunt valide.',
   };
   const FIELD_LABELS = {
     name: 'Nume', password: 'Parolă', birthdate: 'Data nașterii', email: 'Email', city: 'Oraș', country: 'Țară',
@@ -143,12 +150,17 @@
       }
     }
     const headers = {};
-    if (body !== undefined) headers['Content-Type'] = 'application/json';
+    const isFormData = typeof FormData !== 'undefined' && body instanceof FormData;
+    if (body !== undefined && !isFormData) headers['Content-Type'] = 'application/json';
     if (auth && session.token) headers.Authorization = 'Bearer ' + session.token;
 
     let res;
     try {
-      res = await fetch(url, { method, headers, body: body !== undefined ? JSON.stringify(body) : undefined });
+      res = await fetch(url, {
+        method,
+        headers,
+        body: body === undefined ? undefined : isFormData ? body : JSON.stringify(body),
+      });
     } catch {
       throw new ApiError(0, 'Nu mă pot conecta la server (' + cfg.apiBase + '). Pornește API-ul și încearcă din nou.');
     }

@@ -110,12 +110,12 @@
     bucuresti: { name: 'București', county: 'București' },
   };
 
-  function fromDemoRequest(request, index) {
-    const { payload } = request;
+  function fromRequestPayload(payload, id, image, ageMin) {
     const location = payload.location.split(',').map((part) => part.trim()).filter(Boolean);
     if (location[location.length - 1].toLowerCase() === 'romania') location.pop();
     const rawCity = location.pop() || '';
-    const cityMetadata = DEMO_CITY_METADATA[rawCity.toLowerCase()];
+    const cityKey = rawCity.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    const cityMetadata = DEMO_CITY_METADATA[cityKey];
     const city = cityMetadata ? cityMetadata.name : rawCity;
     const address = location.join(', ');
     const start = new Date(payload.start_datetime);
@@ -130,8 +130,8 @@
     const time = (date) => pad(date.getHours()) + ':' + pad(date.getMinutes());
 
     return {
-      id: 'demo-' + (index + 1),
-      image: request.image ? new URL(request.image, window.DEMO_EVENTS_URL).href : undefined,
+      id,
+      image,
       title: payload.title,
       organization: payload.organizer_name,
       cause: DEMO_CAUSE_LABEL[payload.category],
@@ -139,7 +139,7 @@
       county: cityMetadata ? cityMetadata.county : undefined,
       mode: 'in-person',
       address: address || undefined,
-      ageMin: index % 10 < 7 ? 16 : 14,
+      ageMin,
       start: payload.start_datetime,
       commitment: duration ? duration + ', o singură dată' : undefined,
       spots: payload.volunteers_needed,
@@ -153,6 +153,38 @@
       }],
       contact: [payload.contact_email, payload.contact_phone].filter(Boolean).join(' · '),
     };
+  }
+
+  function fromDemoRequest(request, index) {
+    return fromRequestPayload(
+      request.payload,
+      'demo-' + (index + 1),
+      request.image ? new URL(request.image, window.DEMO_EVENTS_URL).href : undefined,
+      index % 10 < 7 ? 16 : 14,
+    );
+  }
+
+  function fromPublishedRequest(request) {
+    const payload = {
+      title: request.title,
+      organizer_name: request.organizer_name,
+      category: request.category,
+      location: request.location,
+      start_datetime: request.start_datetime,
+      end_datetime: request.end_datetime,
+      volunteers_needed: request.volunteers_needed,
+      description: request.description,
+      volunteer_tasks: request.volunteer_tasks,
+      requirements: request.requirements,
+      contact_email: request.contact_email,
+      contact_phone: request.contact_phone,
+    };
+    return fromRequestPayload(
+      payload,
+      'request-' + request.id,
+      request.image_url ? new URL(request.image_url, App.cfg.apiBase).href : undefined,
+      14,
+    );
   }
 
   // Transformă un rând din GET /events/ (Filter.py) în formatul de mai sus.
@@ -176,14 +208,26 @@
     sample: {
       async list() {
         if (!window.DEMO_EVENTS_URL) throw new Error('Nu este configurată sursa datelor demo.');
-        const response = await fetch(window.DEMO_EVENTS_URL);
+        const [response, published] = await Promise.all([
+          fetch(window.DEMO_EVENTS_URL),
+          App.api('/published-events/', { auth: false }),
+        ]);
         if (!response.ok) throw new Error('Nu am putut încărca datele demo (' + response.status + ').');
         const data = await response.json();
         if (!Array.isArray(data.event_requests)) throw new Error('Format invalid pentru datele demo.');
-        return data.event_requests.map(fromDemoRequest);
+        if (!Array.isArray(published)) throw new Error('Format invalid pentru oportunitățile aprobate.');
+        return data.event_requests.map(fromDemoRequest).concat(published.map(fromPublishedRequest));
       },
     },
-    api: { list: async () => (await App.api('/events/', { auth: false })).events.map(fromApi) },
+    api: {
+      async list() {
+        const [data, published] = await Promise.all([
+          App.api('/events/', { auth: false }),
+          App.api('/published-events/', { auth: false }),
+        ]);
+        return data.events.map(fromApi).concat(published.map(fromPublishedRequest));
+      },
+    },
   };
   let source = sources[App.cfg.eventsSource] || sources.sample;
 
@@ -519,6 +563,12 @@
       store.items = null;
       store.promise = null;
       // App.register keeps a copy of the page object, so ask the registry for the live one.
+      const live = App.getView('evenimente');
+      if (live && live.mounted && live.el.classList.contains('active')) live.loadAndPaint('', true);
+    },
+    refresh() {
+      store.items = null;
+      store.promise = null;
       const live = App.getView('evenimente');
       if (live && live.mounted && live.el.classList.contains('active')) live.loadAndPaint('', true);
     },

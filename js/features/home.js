@@ -25,9 +25,16 @@
       el.append(
         h('section', { class: 'hero' }, inContainer(
           h('div', { class: 'hero-text' },
-            h('h1', null, 'Voluntariat pentru elevi, în orașul tău'),
-            h('p', null, 'Vezi ce presupune fiecare activitate, alege după vârstă, loc și program și aplică direct.'),
+            h('p', { class: 'eyebrow' }, 'Binele începe aproape de tine'),
+            h('h1', null, 'Fă loc binelui în orașul tău.'),
+            h('p', null, 'Descoperă experiențe de voluntariat potrivite vârstei, programului și lucrurilor care contează pentru tine.'),
             dom.heroActions),
+          h('figure', { class: 'hero-image' },
+            h('img', {
+              src: 'images/demo/events/event-01.jpg',
+              alt: 'Lumina soarelui pătrunde printre copaci într-o pădure',
+              fetchpriority: 'high',
+            })),
           h('div', { class: 'board-title-row' },
             h('h2', null, 'În curând'),
             h('a', { class: 'btn ghost small', href: '#/evenimente' }, 'Toate oportunitățile')),

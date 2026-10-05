@@ -2,35 +2,34 @@
  * Voluntar - site styles: tokens, layout, home page and shared components.
  * Feature-specific styles live in their own file (css/oportunitati.css). Add new feature files next to it.
  *
- * Design notes: translucent black surfaces, light blue accents, and a yellow marker used only on the
- * departures board. Editorial serif headings pair with a clear sans-serif body.
+ * Design notes: warm editorial surfaces, forest-green accents, and restrained serif typography.
  */
 
 :root {
-  color-scheme: dark;
-  --paper: rgba(0, 0, 0, .88);
-  --surface: rgba(12, 17, 23, .86);
-  --ink: #EAF3F8;
-  --ink-2: #A9BAC6;
-  --line: #34434E;
-  --line-soft: rgba(30, 43, 52, .78);
-  --blue: #94DFFF;
-  --blue-dark: #B9ECFF;
-  --on-accent: #071117;
-  --control-surface: rgba(0, 0, 0, .48);
-  --marker: #FFD60A;
-  --mint: rgba(22, 65, 49, .72);
-  --mint-ink: #A7E7C3;
-  --red: #FF9299;
-  --red-soft: rgba(74, 31, 37, .76);
-  --board: rgba(0, 0, 0, .76);
-  --board-row: rgba(18, 27, 34, .8);
-  --board-muted: #A9BAC6;
+  color-scheme: light;
+  --paper: #F5F2E9;
+  --surface: #FFFEFA;
+  --ink: #202B23;
+  --ink-2: #647064;
+  --line: #D9D8CC;
+  --line-soft: #E9E7DE;
+  --blue: #386B4A;
+  --blue-dark: #28583B;
+  --on-accent: #FFFEFA;
+  --control-surface: #F0EEE6;
+  --marker: #C87948;
+  --mint: #E7F0E5;
+  --mint-ink: #356B43;
+  --red: #A64D42;
+  --red-soft: #F7E9E5;
+  --board: #263C30;
+  --board-row: #30483A;
+  --board-muted: #C2CEC2;
 
   --display: "DM Serif Display", Georgia, serif;
   --body: "Source Sans 3", "Segoe UI", sans-serif;
 
-  --radius: 4px;
+  --radius: 3px;
   --max: 1120px;
   --gutter: clamp(16px, 4vw, 32px);
 }
@@ -40,14 +39,13 @@
 }
 
 html {
-  background: #080C0F;
+  background: var(--paper);
   scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
   background: var(--paper);
-  backdrop-filter: blur(14px);
   color: var(--ink);
   font-family: var(--body);
   font-size: 1rem;
@@ -170,7 +168,7 @@ header.site-header {
   top: 0;
   z-index: 20;
   background: var(--paper);
-  border-bottom: 1px solid var(--ink);
+  border-bottom: 1px solid var(--line);
 }
 
 .nav {
@@ -263,7 +261,7 @@ nav button.active {
   padding: 0 20px;
   border: 2px solid var(--line);
   border-radius: var(--radius);
-  background: rgba(0, 0, 0, .42);
+  background: var(--surface);
   color: var(--ink);
   font-weight: 700;
   text-decoration: none;
@@ -287,8 +285,8 @@ nav button.active {
 }
 
 .btn.primary:hover:not(:disabled) {
-  background: var(--blue-dark);
-  border-color: var(--blue-dark);
+  background: #2E5B3E;
+  border-color: #2E5B3E;
 }
 
 .btn.ghost {
@@ -529,6 +527,22 @@ nav button.active {
 
 .card .content {
   padding: 18px;
+}
+
+.request-image {
+  display: block;
+  width: 100%;
+  max-height: 280px;
+  margin: 16px 0;
+  border: 1px solid var(--line);
+  object-fit: cover;
+}
+
+.request-image-preview {
+  max-width: min(100%, 480px);
+  max-height: 300px;
+  border: 1px solid var(--line);
+  object-fit: cover;
 }
 
 .card h3 {
@@ -819,14 +833,38 @@ nav button.active {
 
 /* ---------- Home ---------- */
 .hero {
-  padding: clamp(32px, 6vw, 64px) 0 clamp(28px, 4vw, 48px);
+  padding: clamp(28px, 5vw, 56px) 0 clamp(36px, 5vw, 60px);
+  background: #EAE7DC;
+}
+
+.hero>.container {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, .92fr);
+  align-items: center;
+  gap: 24px clamp(28px, 5vw, 64px);
 }
 
 .hero-text {
   display: grid;
   gap: 16px;
-  max-width: 44rem;
-  margin-bottom: clamp(24px, 4vw, 40px);
+  grid-column: 1;
+  align-content: center;
+  margin: 0;
+}
+
+.hero-text .eyebrow {
+  margin: 0;
+  color: var(--blue);
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+
+.hero-text h1 {
+  max-width: 12ch;
+  font-size: clamp(2.8rem, 2rem + 3.3vw, 4.5rem);
+  line-height: .98;
 }
 
 .hero-text p {
@@ -835,11 +873,28 @@ nav button.active {
   max-width: 52ch;
 }
 
+.hero-image {
+  grid-column: 2;
+  grid-row: 1;
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  background: var(--line);
+}
+
+.hero-image img {
+  display: block;
+  width: 100%;
+  height: clamp(280px, 34vw, 440px);
+  object-fit: cover;
+}
+
 .hero .actions {
   margin-top: 4px;
 }
 
 .board-title-row {
+  grid-column: 1 / -1;
   display: flex;
   justify-content: space-between;
   align-items: end;
@@ -848,9 +903,17 @@ nav button.active {
   flex-wrap: wrap;
 }
 
+.hero>.container>[aria-live] {
+  grid-column: 1 / -1;
+}
+
 .section+.section,
 .hero+.section {
   border-top: 1px solid var(--line);
+}
+
+.hero+.section {
+  border-top: 0;
 }
 
 .steps {
@@ -982,10 +1045,32 @@ nav button.active {
 }
 
 footer {
-  border-top: 1px solid var(--ink);
+  border-top: 1px solid var(--line);
   padding: 28px 0;
   color: var(--ink-2);
   font-size: .9rem;
+}
+
+@media (max-width: 760px) {
+  .hero>.container {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .hero-text,
+  .hero-image,
+  .board-title-row,
+  .hero>.container>[aria-live] {
+    grid-column: 1;
+  }
+
+  .hero-image {
+    grid-row: auto;
+  }
+
+  .hero-image img {
+    height: clamp(220px, 58vw, 340px);
+  }
 }
 
 /* ---------- Motion preferences ---------- */

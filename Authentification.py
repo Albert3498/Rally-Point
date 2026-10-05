@@ -23,7 +23,7 @@ def name_key(name: str) -> str:
     """Comparison form of a name: Unicode case-folded, whitespace collapsed ("ȘCOALA  X" == "școala x")."""
     return " ".join(name.split()).casefold()
 def get_db():
-    db=sqlite3.connect(DB_PATH)
+    db=sqlite3.connect(DB_PATH,check_same_thread=False)
     try:
         yield db
     finally:

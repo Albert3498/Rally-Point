@@ -165,13 +165,19 @@
 
 /* ---------- Details dialog ---------- */
 .ev-dialog {
+  --ink: #F5F2E9;
+  --ink-2: #BCC7B9;
+  --line: #465247;
+  --line-soft: #39463B;
+  --blue: #A8CBAE;
+  --blue-dark: #C4DDC8;
   border: 0;
   padding: 0;
   width: min(760px, 100vw - 24px);
   max-height: min(92vh, 900px);
   overflow: auto;
   border-radius: var(--radius);
-  background: var(--surface);
+  background: #111710;
   color: var(--ink);
 }
 
@@ -270,7 +276,7 @@
 .ev-cta {
   position: sticky;
   bottom: 0;
-  background: var(--surface);
+  background: #111710;
   border-top: 1px solid var(--line);
   padding: 14px clamp(18px, 4vw, 32px);
   display: flex;

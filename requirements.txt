@@ -1,0 +1,10 @@
+bcrypt
+email-validator
+fastapi
+geopy
+PyJWT
+python-dotenv
+python-multipart
+pydantic
+requests
+uvicorn

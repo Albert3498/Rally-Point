@@ -27,6 +27,9 @@
         h('div', { class: 'request-top' },
           h('div', { class: 'category' }, CATEGORY_LABEL[request.category] || request.category),
           h('span', { class: 'badge ' + request.status }, STATUS_LABEL[request.status] || request.status)),
+        request.image_url
+          ? h('img', { class: 'request-image', src: new URL(request.image_url, App.cfg.apiBase).href, alt: 'Fotografie: ' + request.title, loading: 'lazy' })
+          : null,
         h('h3', null, request.title),
         h('p', null, request.description),
         h('div', { class: 'meta' },

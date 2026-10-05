@@ -1,10 +1,13 @@
 import os
 import sys
 import tempfile
+import json
 from datetime import datetime, timedelta, UTC
 from pathlib import Path
 
+_UPLOAD_STORAGE = tempfile.TemporaryDirectory()
 os.environ["DATABASE_PATH"] = str(Path(tempfile.mkdtemp()) / "test.db")
+os.environ.setdefault("EVENT_IMAGE_UPLOAD_DIR", str(Path(_UPLOAD_STORAGE.name) / "event-images"))
 os.environ.setdefault("JWT_SECRET_KEY", "test-secret-key-that-is-long-enough-for-hs256")
 os.environ.setdefault("JWT_ALGORITHM", "HS256")
 os.environ.setdefault("JWT_EXPIRATION_MINUTES", "30")
@@ -86,6 +89,59 @@ def test_submit_success_sets_server_fields_and_trims(alice):
     assert data["title"] == "Beach cleanup"
     assert data["contact_phone"] is None
     assert data["requester_id"] > 0 and data["created_at"] and data["updated_at"]
+
+
+def test_uploaded_event_image_is_stored_and_served(alice, admin):
+    png = b"\x89PNG\r\n\x1a\n" + b"valid-test-image"
+    response = client.post(
+        "/event-requests/",
+        headers=alice,
+        data={"data": json.dumps(payload())},
+        files={"image": ("event.png", png, "image/png")},
+    )
+    assert response.status_code == 201, response.text
+    request = response.json()
+    assert request["image_url"].startswith("/uploads/")
+    image = client.get(request["image_url"])
+    assert image.status_code == 200 and image.content == png
+
+    approved = client.patch(
+        f"/admin/event-requests/{request['id']}/review/",
+        headers=admin,
+        json={"status": "approved"},
+    )
+    assert approved.status_code == 200, approved.text
+    published = client.get("/published-events/")
+    assert published.status_code == 200
+    event = next(event for event in published.json() if event["id"] == request["id"])
+    assert event["image_url"] == request["image_url"]
+
+
+def test_uploaded_event_image_rejects_mismatched_content(alice):
+    response = client.post(
+        "/event-requests/",
+        headers=alice,
+        data={"data": json.dumps(payload())},
+        files={"image": ("event.png", b"not a png", "image/png")},
+    )
+    assert response.status_code == 415
+
+
+def test_uploaded_event_image_rejects_oversized_file(alice):
+    response = client.post(
+        "/event-requests/",
+        headers=alice,
+        data={"data": json.dumps(payload())},
+        files={"image": ("event.png", b"\x89PNG\r\n\x1a\n" + b"x" * (5 * 1024 * 1024), "image/png")},
+    )
+    assert response.status_code == 413
+
+
+def test_public_feed_excludes_pending_requests(alice):
+    created = submit(alice)
+    published = client.get("/published-events/")
+    assert published.status_code == 200
+    assert created["id"] not in {event["id"] for event in published.json()}
 
 
 def test_requires_authentication():
