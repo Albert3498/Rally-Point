@@ -1,4 +1,5 @@
 import datetime
+import os
 import sqlite3
 from functools import lru_cache
 from fastapi import APIRouter, HTTPException, Query
@@ -6,13 +7,14 @@ from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
 
 filter_router = APIRouter()
+EVENTS_DB_PATH = os.environ.get("EVENTS_DB_PATH", "events.db")
 
 # Initialize Nominatim geocoder cu user agent specific
 geolocator = Nominatim(user_agent="romania_events_app")
 
 # --- Database Setup (Conform create.sql) ---
 def init_db():
-    conn = sqlite3.connect("events.db")
+    conn = sqlite3.connect(EVENTS_DB_PATH)
     cursor = conn.cursor()
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS events (
@@ -122,7 +124,7 @@ def get_events(
         query += " AND date >= ?"
         params.append(date.isoformat())
 
-    conn = sqlite3.connect("events.db")
+    conn = sqlite3.connect(EVENTS_DB_PATH)
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
     cursor.execute(query, params)

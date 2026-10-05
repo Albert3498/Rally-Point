@@ -25,8 +25,11 @@
 (function () {
   'use strict';
 
+  // Served by the API itself when deployed, so use same-origin requests; only local dev needs the explicit address.
+  const LOCAL_HOSTS = ['', 'localhost', '127.0.0.1'];
+
   const cfg = Object.assign(
-    { apiBase: 'http://127.0.0.1:8000', tokenKey: 'volunteer.token' },
+    { apiBase: LOCAL_HOSTS.includes(location.hostname) ? 'http://127.0.0.1:8000' : '', tokenKey: 'volunteer.token' },
     window.APP_CONFIG
   );
 
@@ -143,7 +146,7 @@
   }
 
   async function api(path, { method = 'GET', params, body, auth = true } = {}) {
-    const url = new URL(cfg.apiBase + path);
+    const url = new URL(cfg.apiBase + path, location.href);
     for (const [key, value] of Object.entries(params || {})) {
       for (const item of [].concat(value)) {
         if (item !== '' && item != null) url.searchParams.append(key, item);
