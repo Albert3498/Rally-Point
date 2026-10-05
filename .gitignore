@@ -2,3 +2,4 @@
 __pycache__/
 *.pyc
 /uploads/event-images/
+.env.local
