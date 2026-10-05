@@ -310,7 +310,9 @@
     views.forEach((v) => v.el && v.el.classList.toggle('active', v === view));
     if (view.show) view.show(view.body, r);
     renderNav();
-    document.title = (view.label ? view.label + ' · ' : '') + 'Voluntar';
+    document.title = view.id === 'home'
+      ? 'RallyPoint · Acasă'
+      : (view.label ? view.label + ' · ' : '') + 'RallyPoint';
 
     const anchor = r.sub && document.getElementById(r.sub);
     if (anchor) anchor.scrollIntoView({ behavior: 'smooth' });

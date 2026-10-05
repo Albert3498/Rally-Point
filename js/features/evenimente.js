@@ -50,8 +50,12 @@
     whenLong(ev) {
       const d = ev._date;
       if (!d) return '';
+      const dateLabel = (date) => DAYS_LONG[date.getDay()] + ', ' + date.getDate() + ' ' + MONTHS[date.getMonth()] + ' ' + date.getFullYear();
+      if (ev._endDate && ev._endDate.toDateString() !== d.toDateString()) {
+        return dateLabel(d) + ' – ' + dateLabel(ev._endDate);
+      }
       const time = ev._hasTime ? ', ora ' + pad(d.getHours()) + ':' + pad(d.getMinutes()) : '';
-      return DAYS_LONG[d.getDay()] + ', ' + d.getDate() + ' ' + MONTHS[d.getMonth()] + ' ' + d.getFullYear() + time;
+      return dateLabel(d) + time;
     },
     age(ev) {
       if (ev.ageMin != null && ev.ageMax != null) return ev.ageMin + '–' + ev.ageMax + ' ani';
@@ -102,17 +106,24 @@
   const DEMO_CAUSE_LABEL = {
     environment: 'Mediu', education: 'Educație', community: 'Comunitate',
     animal_welfare: 'Animale', charity: 'Caritate', other: 'Altele',
+    culture: 'Cultură', social: 'Social', sports: 'Sport',
   };
   const DEMO_CITY_METADATA = {
     'cluj-napoca': { name: 'Cluj-Napoca', county: 'Cluj' },
     iasi: { name: 'Iași', county: 'Iași' },
     brasov: { name: 'Brașov', county: 'Brașov' },
     bucuresti: { name: 'București', county: 'București' },
+    bucharest: { name: 'București', county: 'București' },
+    'alba iulia': { name: 'Alba Iulia', county: 'Alba' },
+    sibiu: { name: 'Sibiu', county: 'Sibiu' },
   };
 
-  function fromRequestPayload(payload, id, image, ageMin) {
+  function fromRequestPayload(payload, id, image) {
     const location = payload.location.split(',').map((part) => part.trim()).filter(Boolean);
     if (location[location.length - 1].toLowerCase() === 'romania') location.pop();
+    let county;
+    const countyMatch = location[location.length - 1] && location[location.length - 1].match(/^(.+?)\s+County(?:\s*\(.*\))?$/i);
+    if (countyMatch) county = location.pop().match(/^(.+?)\s+County/i)[1].trim();
     const rawCity = location.pop() || '';
     const cityKey = rawCity.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
     const cityMetadata = DEMO_CITY_METADATA[cityKey];
@@ -120,7 +131,11 @@
     const address = location.join(', ');
     const start = new Date(payload.start_datetime);
     const end = new Date(payload.end_datetime);
-    const durationMinutes = Math.round((end - start) / 60000);
+    const startDate = payload.start_datetime.slice(0, 10);
+    const endDate = payload.end_datetime.slice(0, 10);
+    const spansMultipleDays = startDate !== endDate;
+    const spansWholeDay = payload.start_datetime.slice(11, 16) === '00:00' && payload.end_datetime.slice(11, 16) === '23:59';
+    const durationMinutes = spansMultipleDays || spansWholeDay ? 0 : Math.round((end - start) / 60000);
     const hours = Math.floor(durationMinutes / 60);
     const minutes = durationMinutes % 60;
     const duration = [
@@ -128,6 +143,8 @@
       minutes ? minutes + ' min' : '',
     ].filter(Boolean).join(' și ');
     const time = (date) => pad(date.getHours()) + ':' + pad(date.getMinutes());
+    const ageRange = (payload.requirements || '').match(/\baged\s+(\d{1,2})\s*[-–]\s*(\d{1,2})\b/i);
+    const minimumAge = (payload.requirements || '').match(/\bminimum age\s+(\d{1,2})\b/i);
 
     return {
       id,
@@ -136,32 +153,48 @@
       organization: payload.organizer_name,
       cause: DEMO_CAUSE_LABEL[payload.category],
       city,
-      county: cityMetadata ? cityMetadata.county : undefined,
+      county: county || (cityMetadata ? cityMetadata.county : undefined),
       mode: 'in-person',
       address: address || undefined,
-      ageMin,
+      ageMin: ageRange ? Number(ageRange[1]) : (minimumAge ? Number(minimumAge[1]) : undefined),
+      ageMax: ageRange ? Number(ageRange[2]) : undefined,
       start: payload.start_datetime,
-      commitment: duration ? duration + ', o singură dată' : undefined,
+      end: payload.end_datetime,
+      commitment: duration && !spansMultipleDays && !spansWholeDay ? duration + ', o singură dată' : undefined,
       spots: payload.volunteers_needed,
       summary: payload.description,
       tasks: [payload.volunteer_tasks],
       requirements: payload.requirements ? [payload.requirements] : [],
-      schedule: [{
+      schedule: !spansMultipleDays && !spansWholeDay ? [{
         day: DAYS_LONG[start.getDay()],
         time: time(start) + ' – ' + time(end),
         activity: payload.title,
-      }],
+      }] : [],
       contact: [payload.contact_email, payload.contact_phone].filter(Boolean).join(' · '),
+      signupUrl: payload.signup_url,
+      sourceUrl: payload.source_url,
+      notes: payload.additional_notes,
     };
   }
 
   function fromDemoRequest(request, index) {
-    return fromRequestPayload(
+    const event = fromRequestPayload(
       request.payload,
       'demo-' + (index + 1),
       request.image ? new URL(request.image, window.DEMO_EVENTS_URL).href : undefined,
-      index % 10 < 7 ? 16 : 14,
     );
+    event.imageAlt = request.image_alt || request.payload.title;
+    event.imageIsIllustrative = request.image_is_illustrative === true;
+    if (Array.isArray(request.roles)) {
+      event.tasks = [];
+      event.requirements = [];
+      event.schedule = [];
+      event.commitment = undefined;
+      event.spots = undefined;
+      event.roleGroups = request.roles.map((role) => role.payload);
+      if (request.display_city) event.city = request.display_city;
+    }
+    return event;
   }
 
   function fromPublishedRequest(request) {
@@ -179,12 +212,7 @@
       contact_email: request.contact_email,
       contact_phone: request.contact_phone,
     };
-    return fromRequestPayload(
-      payload,
-      'request-' + request.id,
-      request.image_url ? new URL(request.image_url, App.cfg.apiBase).href : undefined,
-      14,
-    );
+    return fromRequestPayload(payload, 'request-' + request.id, request.image_url ? new URL(request.image_url, App.cfg.apiBase).href : undefined);
   }
 
   // Transformă un rând din GET /events/ (Filter.py) în formatul de mai sus.
@@ -239,7 +267,9 @@
     ev.id = String(raw.id);
     const date = raw.start ? new Date(raw.start) : null;
     ev._date = date && !isNaN(date) ? date : null;
-    ev._hasTime = /[T ]\d{1,2}:\d{2}/.test(String(raw.start || ''));
+    ev._hasTime = /[T ]\d{1,2}:\d{2}/.test(String(raw.start || '')) && !/[T ]00:00/.test(String(raw.start || ''));
+    const endDate = raw.end ? new Date(raw.end) : null;
+    ev._endDate = endDate && !isNaN(endDate) ? endDate : null;
     ev.place = ev.mode === 'remote'
       ? 'Online'
       : [ev.city, ev.county && ev.county !== ev.city ? ev.county : ''].filter(Boolean).join(', ');
@@ -297,6 +327,34 @@
   const section = (title, content) => (content ? h('section', null, h('h3', null, title), content) : null);
   const list = (items) => (items && items.length ? h('ul', null, items.map((t) => h('li', null, t))) : null);
 
+  function roleWindow(role) {
+    const start = new Date(role.start_datetime);
+    const end = new Date(role.end_datetime);
+    const dateLabel = (date) => DAYS_LONG[date.getDay()] + ', ' + date.getDate() + ' ' + MONTHS[date.getMonth()];
+    const startTime = role.start_datetime.slice(11, 16);
+    const endTime = role.end_datetime.slice(11, 16);
+    if (role.start_datetime.slice(0, 10) !== role.end_datetime.slice(0, 10)) {
+      return dateLabel(start) + ' – ' + dateLabel(end);
+    }
+    if (startTime === '00:00' && endTime === '23:59') return dateLabel(start);
+    return dateLabel(start) + ', ' + startTime + ' – ' + endTime;
+  }
+
+  function roleDetails(roles) {
+    return h('div', { class: 'ev-role-list' }, roles.map((role) =>
+      h('article', { class: 'ev-role' },
+        h('h4', null, role.title),
+        role.description ? h('p', null, role.description) : null,
+        h('p', null, h('strong', null, 'Când: '), roleWindow(role)),
+        h('p', null, h('strong', null, 'Unde: '), role.location),
+        role.volunteers_needed != null
+          ? h('p', null, h('strong', null, 'Locuri: '), format.spots({ spots: role.volunteers_needed }))
+          : null,
+        role.volunteer_tasks ? h('p', null, h('strong', null, 'Ce vei face: '), role.volunteer_tasks) : null,
+        role.requirements ? h('p', null, h('strong', null, 'Cerințe: '), role.requirements) : null,
+        role.additional_notes ? h('p', { class: 'muted' }, role.additional_notes) : null)));
+  }
+
   function fact(label, value) {
     return value ? h('div', null, h('dt', null, label), h('dd', null, value)) : null;
   }
@@ -305,7 +363,9 @@
     const role = App.session.role;
     let primary = null;
     let note = null;
-    if (role === 'organization' || role === 'admin') {
+    if (ev.signupUrl) {
+      primary = h('a', { class: 'btn primary', href: ev.signupUrl, target: '_blank', rel: 'noopener noreferrer' }, 'Înscrie-te la organizator');
+    } else if (role === 'organization' || role === 'admin') {
       note = h('p', { class: 'muted' }, 'Aplicarea este pentru conturile de elev. Cu un cont de ' + (role === 'admin' ? 'administrator' : 'organizație') + ' poți doar vedea oportunitatea.');
     } else {
       primary = h('a', { class: 'btn primary', href: '#/aplica/' + ev.id }, 'Aplică la această oportunitate');
@@ -318,7 +378,9 @@
       : null;
     return [
       h('div', { class: 'ev-dialog-body' },
-        ev.image ? h('img', { class: 'ev-image', src: ev.image, alt: ev.title }) : null,
+        ev.image ? h('figure', { class: 'ev-image-figure' },
+          h('img', { class: 'ev-image', src: ev.image, alt: ev.imageAlt || ev.title }),
+          ev.imageIsIllustrative ? h('figcaption', null, 'Imagine ilustrativă') : null) : null,
         h('div', null,
           ev.cause ? h('span', { class: 'ev-tag' }, ev.cause) : null,
           h('h2', { id: 'ev-title' }, ev.title),
@@ -336,7 +398,12 @@
           fact('Acces', ev.accessible ? 'Accesibil persoanelor cu dizabilități' : '')),
         section('Ce vei face', list(ev.tasks)),
         section('Ce trebuie să ai', list(ev.requirements)),
+        section('Roluri în acest eveniment', ev.roleGroups ? roleDetails(ev.roleGroups) : null),
         section('Program', schedule),
+        section('Note de la organizator', ev.notes ? h('p', null, ev.notes) : null),
+        section('Sursa oportunității', ev.sourceUrl
+          ? h('a', { href: ev.sourceUrl, target: '_blank', rel: 'noopener noreferrer' }, 'Verifică anunțul original')
+          : null),
         section('Contact organizator', ev.contact ? h('p', null, ev.contact) : null)),
       h('div', { class: 'ev-cta' }, primary,
         h('button', { type: 'button', class: 'btn ghost', onclick: () => dialog.close() }, 'Închide'),

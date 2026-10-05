@@ -18,16 +18,20 @@
 
   function eventCard(ev, index) {
     const when = App.evenimente.format.when(ev);
+    const groupedRoles = ev.roleGroups && ev.roleGroups.length ? ev.roleGroups.length : 0;
     const meta = [
-      when.primary + (when.secondary ? ' · ' + when.secondary : ''),
+      groupedRoles ? App.evenimente.format.whenLong(ev) : when.primary + (when.secondary ? ' · ' + when.secondary : ''),
       ev.place,
       App.evenimente.format.age(ev),
       App.evenimente.format.spots(ev),
+      groupedRoles ? groupedRoles + (groupedRoles === 1 ? ' rol în eveniment' : ' roluri în eveniment') : '',
     ].filter(Boolean);
 
     return h('article', { class: 'discover-card', 'aria-labelledby': 'discover-title-' + index },
       ev.image
-        ? h('img', { class: 'discover-image', src: ev.image, alt: ev.title, loading: index < 2 ? 'eager' : 'lazy' })
+        ? h('figure', { class: 'discover-visual' },
+          h('img', { class: 'discover-image', src: ev.image, alt: ev.imageAlt || ev.title, loading: index < 2 ? 'eager' : 'lazy' }),
+          ev.imageIsIllustrative ? h('figcaption', { class: 'discover-image-caption' }, 'Imagine ilustrativă') : null)
         : h('div', { class: 'discover-image discover-image-empty', 'aria-hidden': 'true' }, 'Voluntar'),
       h('div', { class: 'discover-content' },
         h('div', { class: 'discover-card-topline' },
@@ -37,7 +41,8 @@
         h('ul', { class: 'discover-meta', 'aria-label': 'Detalii despre oportunitate' },
           meta.map((item) => h('li', null, item))),
         h('div', { class: 'discover-card-actions' },
-          h('a', { class: 'btn primary', href: '#/evenimente/' + encodeURIComponent(ev.id) }, 'Mă interesează'),
+          h('a', { class: 'btn primary', href: '#/evenimente/' + encodeURIComponent(ev.id) },
+            groupedRoles ? 'Vezi cele ' + groupedRoles + ' roluri' : 'Mă interesează'),
           h('span', { class: 'discover-hint' }, 'Derulează pentru următoarea oportunitate'))));
   }
 

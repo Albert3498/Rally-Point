@@ -1,384 +1,555 @@
 {
+  "research_checked_on": "2026-10-05",
+  "scope_note": "20 de oportunități/roluri la 7 evenimente sau programe distincte, nu 20 de evenimente distincte. Înregistrările repetate sunt roluri sau ture diferite în același eveniment. Înscrierile și locurile disponibile se pot schimba; verifică sursa înainte de publicare.",
+  "schema_note": "The example fields are retained. source_url and signup_url were added for verification. null means the organizer did not publish a usable value. Dates are local Romania time with UTC offset where known; whole-event spans use day boundaries when the organizer did not publish individual shift dates.",
   "event_requests": [
     {
-      "submitted_by": "Asociatia Verde Urban",
+      "submitted_by": "Fundația United Way / BRD Groupe Société Générale",
       "payload": {
-        "title": "Curatenie pe malul Somesului",
-        "description": "Curatam impreuna o portiune de mal si sortam deseurile pentru reciclare, protejand spatiul verde al orasului.",
-        "category": "environment",
-        "start_datetime": "2027-01-16T09:00:00+02:00",
-        "end_datetime": "2027-01-16T12:00:00+02:00",
-        "location": "Malul Somesului, Cluj-Napoca, Romania",
-        "volunteers_needed": 18,
-        "volunteer_tasks": "Strangerea deseurilor, sortarea materialelor reciclabile si transportul sacilor la punctul de colectare.",
-        "organizer_name": "Asociatia Verde Urban",
-        "contact_email": "voluntariat@verdeurban.example.org",
-        "contact_phone": "+40 700 123 101",
-        "requirements": "Incaltaminte comoda si haine potrivite vremii. Manusile si sacii sunt oferiti.",
-        "additional_notes": "Activitatea se reprogrameaza daca vremea este nefavorabila."
-      },
-      "image": "images/demo/events/event-01.jpg"
-    },
-    {
-      "submitted_by": "Fundatia Invatam Impreuna",
-      "payload": {
-        "title": "Club de lectura pentru copii",
-        "description": "Sustinem lectura copiilor din clasele primare prin povesti, jocuri de vocabular si discutii in grupuri mici.",
+        "title": "Vizite BRD de orientare profesională",
+        "description": "Discută cu liceenii despre banking, lucru în echipă și parcurs profesional. Alege una dintre cele trei vizite.",
         "category": "education",
-        "start_datetime": "2027-01-20T16:00:00+02:00",
-        "end_datetime": "2027-01-20T18:00:00+02:00",
-        "location": "Biblioteca de cartier, Iasi, Romania",
-        "volunteers_needed": 8,
-        "volunteer_tasks": "Citirea povestilor cu voce tare, pregatirea jocurilor de cuvinte si sprijinirea copiilor la alegerea cartilor.",
-        "organizer_name": "Fundatia Invatam Impreuna",
-        "contact_email": "contact@invatam-impreuna.example.org",
-        "contact_phone": "+40 700 123 102",
-        "requirements": "Rabdare si interes pentru lectura. Experienta anterioara nu este necesara.",
-        "additional_notes": "Cartile si materialele pentru activitate sunt asigurate."
+        "start_datetime": "2026-10-13T15:00:00+03:00",
+        "end_datetime": "2026-10-19T12:00:00+03:00",
+        "location": "Mai multe orașe, România",
+        "volunteers_needed": null,
+        "volunteer_tasks": null,
+        "organizer_name": "Fundația United Way / BRD Groupe Société Générale",
+        "contact_email": null,
+        "contact_phone": null,
+        "requirements": null,
+        "additional_notes": null,
+        "source_url": "https://ziuav.ro/proiecte/innomate-inovatie-pentru-viitor",
+        "signup_url": "https://ziuav.ro/proiecte/innomate-inovatie-pentru-viitor",
+        "display_city": "Mai multe orașe"
       },
-      "image": "images/demo/events/event-02.jpg"
+      "image": "images/demo/events/real/brd-career.jpg",
+      "roles": [
+        {
+          "payload": {
+            "title": "BRD Alba Iulia career exploration visit",
+            "description": "Volunteer with high-school students during a visit to the BRD branch and discuss banking, teamwork, career paths, and professional experiences.",
+            "category": "education",
+            "start_datetime": "2026-10-13T15:00:00+03:00",
+            "end_datetime": "2026-10-13T17:00:00+03:00",
+            "location": "BRD branch, Alba Iulia",
+            "volunteers_needed": 3,
+            "volunteer_tasks": "Talk with students, answer questions about banking and work, and share your education and career path.",
+            "organizer_name": "Fundația United Way / BRD Groupe Société Générale",
+            "contact_email": null,
+            "contact_phone": null,
+            "requirements": "The organizer welcomes volunteers with an interest in supporting young people; prior teaching credentials are not required.",
+            "additional_notes": "Published applications deadline: 2026-10-09. Remaining places shown on the source page when checked 2026-10-05.",
+            "source_url": "https://ziuav.ro/proiecte/innomate-inovatie-pentru-viitor",
+            "signup_url": "https://ziuav.ro/proiecte/innomate-inovatie-pentru-viitor"
+          }
+        },
+        {
+          "payload": {
+            "title": "BRD Brașov career exploration visit",
+            "description": "Volunteer with high-school students during a visit to the BRD branch and discuss banking, teamwork, career paths, and professional experiences.",
+            "category": "education",
+            "start_datetime": "2026-10-14T14:30:00+03:00",
+            "end_datetime": "2026-10-14T16:30:00+03:00",
+            "location": "BRD branch, Brașov",
+            "volunteers_needed": 8,
+            "volunteer_tasks": "Talk with students, answer questions about banking and work, and share your education and career path.",
+            "organizer_name": "Fundația United Way / BRD Groupe Société Générale",
+            "contact_email": null,
+            "contact_phone": null,
+            "requirements": "The organizer welcomes volunteers with an interest in supporting young people; prior teaching credentials are not required.",
+            "additional_notes": "Published applications deadline: 2026-10-09. Remaining places shown on the source page when checked 2026-10-05.",
+            "source_url": "https://ziuav.ro/proiecte/innomate-inovatie-pentru-viitor",
+            "signup_url": "https://ziuav.ro/proiecte/innomate-inovatie-pentru-viitor"
+          }
+        },
+        {
+          "payload": {
+            "title": "BRD Bucharest career exploration visit",
+            "description": "Volunteer with high-school students visiting the BRD headquarters and discuss banking, teamwork, career paths, and professional experiences.",
+            "category": "education",
+            "start_datetime": "2026-10-19T10:00:00+03:00",
+            "end_datetime": "2026-10-19T12:00:00+03:00",
+            "location": "BRD Tower, Bulevardul Ion Mihalache 1-7, Bucharest",
+            "volunteers_needed": 9,
+            "volunteer_tasks": "Talk with students, answer questions about banking and work, and share your education and career path.",
+            "organizer_name": "Fundația United Way / BRD Groupe Société Générale",
+            "contact_email": null,
+            "contact_phone": null,
+            "requirements": "The organizer welcomes volunteers with an interest in supporting young people; prior teaching credentials are not required.",
+            "additional_notes": "Published applications deadline: 2026-10-15. Remaining places shown on the source page when checked 2026-10-05.",
+            "source_url": "https://ziuav.ro/proiecte/innomate-inovatie-pentru-viitor",
+            "signup_url": "https://ziuav.ro/proiecte/innomate-inovatie-pentru-viitor"
+          }
+        }
+      ],
+      "display_city": "Mai multe orașe",
+      "image_alt": "Trei tineri discut? ?i lucreaz? ?mpreun? la un laptop",
+      "image_is_illustrative": true
     },
     {
-      "submitted_by": "Asociatia Prieteni necuvantatori",
+      "submitted_by": "Cancer Free Future / One Ribbon organizers",
       "payload": {
-        "title": "O zi de joaca la adapostul de animale",
-        "description": "Oferim animalelor din adapost timp de joaca si socializare si ajutam echipa sa pregateasca spatiile pentru vizitatori.",
-        "category": "animal_welfare",
-        "start_datetime": "2027-01-23T10:00:00+02:00",
-        "end_datetime": "2027-01-23T14:00:00+02:00",
-        "location": "Adapostul Prieteni necuvantatori, Brasov, Romania",
-        "volunteers_needed": 12,
-        "volunteer_tasks": "Socializarea animalelor, pregatirea jucariilor, improspatarea apei si aranjarea spatiului pentru vizitatori.",
-        "organizer_name": "Asociatia Prieteni necuvantatori",
-        "contact_email": "voluntariat@prieteni-necuvantatori.example.org",
-        "contact_phone": "+40 700 123 103",
-        "requirements": "Respectarea instructiunilor personalului si anuntarea coordonatorului inainte de apropierea de animale.",
-        "additional_notes": "Activitatea are loc in interior; personalul adapostului va insoti voluntarii."
+        "title": "One Ribbon - volunteer event support",
+        "description": "Help welcome participants and provide practical support at One Ribbon, a community event raising solidarity for people affected by cancer.",
+        "category": "social",
+        "start_datetime": "2026-10-16T10:00:00+03:00",
+        "end_datetime": "2026-10-16T15:00:00+03:00",
+        "location": "Piața Unirii, Cluj-Napoca",
+        "volunteers_needed": null,
+        "volunteer_tasks": "Orient participants, provide logistical support, and help participants feel welcome and safe.",
+        "organizer_name": "Cancer Free Future / One Ribbon organizers",
+        "contact_email": null,
+        "contact_phone": null,
+        "requirements": "The public volunteer form asks volunteers to be available from approximately 10:00 until 14:00-15:00.",
+        "additional_notes": "The event page was inviting volunteers when checked 2026-10-05; places remaining are not published.",
+        "source_url": "https://www.cancerfreefuture.eu/one-ribbon-voluntari",
+        "signup_url": "https://www.cancerfreefuture.eu/one-ribbon-voluntari"
       },
-      "image": "images/demo/events/event-03.jpg"
+      "image": "images/demo/events/real/one-ribbon-solidarity.jpg",
+      "image_alt": "Un grup de oameni ??i suprapun m?inile ?ntr-un gest de solidaritate",
+      "image_is_illustrative": true
     },
     {
-      "submitted_by": "Centrul Comunitar Deschis",
+      "submitted_by": "Astra Film Festival",
       "payload": {
-        "title": "Pachete de iarna pentru vecini",
-        "description": "Pregatim pachete cu alimente de baza si produse de igiena pentru persoane in varsta si familii din cartier.",
-        "category": "charity",
-        "start_datetime": "2027-01-27T10:00:00+02:00",
-        "end_datetime": "2027-01-27T13:00:00+02:00",
-        "location": "Centrul Comunitar Deschis, Bucuresti, Romania",
-        "volunteers_needed": 16,
-        "volunteer_tasks": "Sortarea donatiilor, verificarea listelor, pregatirea pachetelor si organizarea lor pentru distributie.",
-        "organizer_name": "Centrul Comunitar Deschis",
-        "contact_email": "contact@comunitardeschis.example.org",
-        "contact_phone": "+40 700 123 104",
-        "requirements": "Haine comode. Coordonatorii vor explica regulile de manipulare a alimentelor.",
-        "additional_notes": "Pachetele sunt distribuite de echipa centrului dupa activitate."
-      },
-      "image": "images/demo/events/event-04.jpg"
-    },
-    {
-      "submitted_by": "Asociatia Verde Urban",
-      "payload": {
-        "title": "Atelier de plantare in ghivece",
-        "description": "Invatam locuitorii sa planteze ierburi aromatice si sa ingrijeasca plante in spatii mici de apartament.",
-        "category": "environment",
-        "start_datetime": "2027-02-06T11:00:00+02:00",
-        "end_datetime": "2027-02-06T14:00:00+02:00",
-        "location": "Casa de Cultura a Studentilor, Cluj-Napoca, Romania",
-        "volunteers_needed": 10,
-        "volunteer_tasks": "Pregatirea ghivecelor, distribuirea pamantului si semintelor si sprijinirea participantilor la plantare.",
-        "organizer_name": "Asociatia Verde Urban",
-        "contact_email": "voluntariat@verdeurban.example.org",
-        "contact_phone": "+40 700 123 101",
-        "requirements": "Nu este necesara experienta. Materialele de gradinarit sunt puse la dispozitie.",
-        "additional_notes": "Fiecare participant poate lua acasa ghiveciul plantat."
-      },
-      "image": "images/demo/events/event-05.jpg"
-    },
-    {
-      "submitted_by": "Fundatia Invatam Impreuna",
-      "payload": {
-        "title": "Sprijin la teme pentru gimnaziu",
-        "description": "Oferim elevilor de gimnaziu un spatiu prietenos in care sa lucreze la teme si sa exerseze materiile scolare.",
+        "title": "Astra Film — proiecții și public",
+        "description": "Ajută publicul și grupurile de elevi să participe la proiecții, să găsească informații și să se bucure de festival.",
         "category": "education",
-        "start_datetime": "2027-02-09T16:00:00+02:00",
-        "end_datetime": "2027-02-09T18:00:00+02:00",
-        "location": "Scoala Gimnaziala Nr. 4, Iasi, Romania",
-        "volunteers_needed": 10,
-        "volunteer_tasks": "Lucrul in grupuri mici, explicarea exercitiilor si incurajarea elevilor sa isi organizeze temele.",
-        "organizer_name": "Fundatia Invatam Impreuna",
-        "contact_email": "contact@invatam-impreuna.example.org",
-        "contact_phone": "+40 700 123 102",
-        "requirements": "Cunostinte de baza la materiile scolare si rabdare in lucrul cu copiii.",
-        "additional_notes": "Materialele de lucru sunt oferite de fundatie."
+        "start_datetime": "2026-10-17T00:00:00+03:00",
+        "end_datetime": "2026-10-25T22:59:00+02:00",
+        "location": "Astra Film Festival venues, Sibiu",
+        "volunteers_needed": null,
+        "volunteer_tasks": null,
+        "organizer_name": "Astra Film Festival",
+        "contact_email": null,
+        "contact_phone": null,
+        "requirements": null,
+        "additional_notes": null,
+        "source_url": "https://astrafilm.ro/voluntari",
+        "signup_url": "https://astrafilm.ro/voluntari"
       },
-      "image": "images/demo/events/event-06.jpg"
+      "image": "images/demo/events/real/astra-cinema-audience.jpg",
+      "roles": [
+        {
+          "payload": {
+            "title": "Astra Film Junior",
+            "description": "Support screenings and educational activities for children and teenagers by guiding school groups, checking tickets, seating the audience, and helping maintain a safe, friendly environment.",
+            "category": "education",
+            "start_datetime": "2026-10-17T00:00:00+03:00",
+            "end_datetime": "2026-10-25T22:59:00+02:00",
+            "location": "Astra Film Festival venues, Sibiu",
+            "volunteers_needed": null,
+            "volunteer_tasks": "Support screenings and educational activities for children and teenagers by guiding school groups, checking tickets, seating the audience, and helping maintain a safe, friendly environment.",
+            "organizer_name": "Astra Film Festival",
+            "contact_email": null,
+            "contact_phone": null,
+            "requirements": "Good communication with children, teamwork, patience, attention to detail, and empathy.",
+            "additional_notes": "Festival dates announced as 2026-10-17 to 2026-10-25. Morning shift listed as 07:30-15:00; confirm exact dates and shifts with the festival. Check the festival volunteer page for team details and apply through its volunteer form. Places remaining are not published on the page.",
+            "source_url": "https://astrafilm.ro/voluntari",
+            "signup_url": "https://astrafilm.ro/voluntari"
+          }
+        },
+        {
+          "payload": {
+            "title": "Astra Film Info Point",
+            "description": "Help festival visitors with information about the programme, venues, facilities, maps, schedules, and tickets.",
+            "category": "culture",
+            "start_datetime": "2026-10-17T00:00:00+03:00",
+            "end_datetime": "2026-10-25T22:59:00+02:00",
+            "location": "Astra Film Festival venues, Sibiu",
+            "volunteers_needed": null,
+            "volunteer_tasks": "Help festival visitors with information about the programme, venues, facilities, maps, schedules, and tickets.",
+            "organizer_name": "Astra Film Festival",
+            "contact_email": null,
+            "contact_phone": null,
+            "requirements": "Clear and polite communication, flexibility, teamwork, and knowledge of an international language.",
+            "additional_notes": "Festival dates announced as 2026-10-17 to 2026-10-25. Three shifts are listed: 08:00-12:00, 12:00-17:00, and 17:00-22:00; confirm exact dates with the festival. Check the festival volunteer page for team details and apply through its volunteer form. Places remaining are not published on the page.",
+            "source_url": "https://astrafilm.ro/voluntari",
+            "signup_url": "https://astrafilm.ro/voluntari"
+          }
+        },
+        {
+          "payload": {
+            "title": "Astra Film screening venues",
+            "description": "Help screenings run smoothly by checking tickets, seating audiences, keeping halls orderly, managing Q&A microphones, and updating signs.",
+            "category": "culture",
+            "start_datetime": "2026-10-17T00:00:00+03:00",
+            "end_datetime": "2026-10-25T22:59:00+02:00",
+            "location": "Astra Film Festival venues, Sibiu",
+            "volunteers_needed": null,
+            "volunteer_tasks": "Help screenings run smoothly by checking tickets, seating audiences, keeping halls orderly, managing Q&A microphones, and updating signs.",
+            "organizer_name": "Astra Film Festival",
+            "contact_email": null,
+            "contact_phone": null,
+            "requirements": "Strong communication, teamwork, attention to detail, and availability for ticketing/invitation training.",
+            "additional_notes": "Festival dates announced as 2026-10-17 to 2026-10-25. Shifts listed include 07:30-15:00, 14:30-17:30, and 17:30-23:00; confirm exact dates with the festival. Check the festival volunteer page for team details and apply through its volunteer form. Places remaining are not published on the page.",
+            "source_url": "https://astrafilm.ro/voluntari",
+            "signup_url": "https://astrafilm.ro/voluntari"
+          }
+        }
+      ],
+      "image_alt": "Publicul urm?re?te un film ?ntr-o sal? de cinema",
+      "image_is_illustrative": true
     },
     {
-      "submitted_by": "Asociatia Prieteni necuvantatori",
+      "submitted_by": "Astra Film Festival",
       "payload": {
-        "title": "Campanie de promovare a adoptiilor",
-        "description": "Ajutam animalele fara stapan sa isi gaseasca familii printr-o zi de informare si promovare a adoptiilor responsabile.",
-        "category": "animal_welfare",
-        "start_datetime": "2027-02-13T10:00:00+02:00",
-        "end_datetime": "2027-02-13T15:00:00+02:00",
-        "location": "Piata Sfatului, Brasov, Romania",
-        "volunteers_needed": 14,
-        "volunteer_tasks": "Informarea vizitatorilor, distribuirea materialelor si indrumarea persoanelor interesate catre echipa de adoptie.",
-        "organizer_name": "Asociatia Prieteni necuvantatori",
-        "contact_email": "voluntariat@prieteni-necuvantatori.example.org",
-        "contact_phone": "+40 700 123 103",
-        "requirements": "Comunicare politicoasa si respectarea regulilor privind interactiunea cu animalele.",
-        "additional_notes": "Animalele prezente vor fi insotite permanent de personalul asociatiei."
+        "title": "Astra Film — invitați și organizare",
+        "description": "Contribuie la primirea invitaților și la organizarea practică și administrativă a festivalului.",
+        "category": "culture",
+        "start_datetime": "2026-10-17T00:00:00+03:00",
+        "end_datetime": "2026-10-25T22:59:00+02:00",
+        "location": "Astra Film Festival venues, Sibiu",
+        "volunteers_needed": null,
+        "volunteer_tasks": null,
+        "organizer_name": "Astra Film Festival",
+        "contact_email": null,
+        "contact_phone": null,
+        "requirements": null,
+        "additional_notes": null,
+        "source_url": "https://astrafilm.ro/voluntari",
+        "signup_url": "https://astrafilm.ro/voluntari"
       },
-      "image": "images/demo/events/event-07.jpg"
+      "image": "images/demo/events/real/astra-festival-volunteers.jpg",
+      "roles": [
+        {
+          "payload": {
+            "title": "Astra Film Guest team",
+            "description": "Welcome filmmakers, guests, directors, and press; prepare guest packs and support gala logistics.",
+            "category": "culture",
+            "start_datetime": "2026-10-17T00:00:00+03:00",
+            "end_datetime": "2026-10-25T22:59:00+02:00",
+            "location": "Astra Film Festival venues, Sibiu",
+            "volunteers_needed": null,
+            "volunteer_tasks": "Welcome filmmakers, guests, directors, and press; prepare guest packs and support gala logistics.",
+            "organizer_name": "Astra Film Festival",
+            "contact_email": null,
+            "contact_phone": null,
+            "requirements": "Advanced English, basic computer skills, teamwork, and a professional manner.",
+            "additional_notes": "Festival dates announced as 2026-10-17 to 2026-10-25. Three shifts are listed: 09:00-13:00, 13:00-17:30, and 17:30-22:00; confirm exact dates with the festival. Check the festival volunteer page for team details and apply through its volunteer form. Places remaining are not published on the page.",
+            "source_url": "https://astrafilm.ro/voluntari",
+            "signup_url": "https://astrafilm.ro/voluntari"
+          }
+        },
+        {
+          "payload": {
+            "title": "Astra Film logistics and technical team",
+            "description": "Prepare and maintain festival venues, install equipment and signage, manage supplies, and support technical needs under coordinator guidance.",
+            "category": "culture",
+            "start_datetime": "2026-10-17T00:00:00+03:00",
+            "end_datetime": "2026-10-25T22:59:00+02:00",
+            "location": "Astra Film Festival venues, Sibiu",
+            "volunteers_needed": null,
+            "volunteer_tasks": "Prepare and maintain festival venues, install equipment and signage, manage supplies, and support technical needs under coordinator guidance.",
+            "organizer_name": "Astra Film Festival",
+            "contact_email": null,
+            "contact_phone": null,
+            "requirements": "Teamwork, flexibility, and physical fitness for active work; audio-video or IT skills are optional.",
+            "additional_notes": "Festival dates announced as 2026-10-17 to 2026-10-25. Includes setup and teardown days; exact schedule is assigned by the team. Check the festival volunteer page for team details and apply through its volunteer form. Places remaining are not published on the page.",
+            "source_url": "https://astrafilm.ro/voluntari",
+            "signup_url": "https://astrafilm.ro/voluntari"
+          }
+        },
+        {
+          "payload": {
+            "title": "Astra Film crisis management and admin support",
+            "description": "Support coordinators with special tasks, invitations, communications between volunteers and managers, supplies, and unexpected administrative needs.",
+            "category": "culture",
+            "start_datetime": "2026-10-17T00:00:00+03:00",
+            "end_datetime": "2026-10-25T22:59:00+02:00",
+            "location": "Astra Film Festival venues, Sibiu",
+            "volunteers_needed": null,
+            "volunteer_tasks": "Support coordinators with special tasks, invitations, communications between volunteers and managers, supplies, and unexpected administrative needs.",
+            "organizer_name": "Astra Film Festival",
+            "contact_email": null,
+            "contact_phone": null,
+            "requirements": "Proactive organization, flexibility, teamwork, and basic office equipment skills.",
+            "additional_notes": "Festival dates announced as 2026-10-17 to 2026-10-25. The festival lists preparation shifts before and during the festival; confirm exact dates with the team. Check the festival volunteer page for team details and apply through its volunteer form. Places remaining are not published on the page.",
+            "source_url": "https://astrafilm.ro/voluntari",
+            "signup_url": "https://astrafilm.ro/voluntari"
+          }
+        }
+      ],
+      "image_alt": "Voluntari poart? tricouri de organizare la un eveniment",
+      "image_is_illustrative": true
     },
     {
-      "submitted_by": "Centrul Comunitar Deschis",
+      "submitted_by": "Astra Film Festival",
       "payload": {
-        "title": "Masa calda pentru comunitate",
-        "description": "Pregatim si servim o masa calda pentru persoane singure si familii care au nevoie de sprijin in comunitatea locala.",
-        "category": "community",
-        "start_datetime": "2027-02-17T15:00:00+02:00",
-        "end_datetime": "2027-02-17T19:00:00+02:00",
-        "location": "Cantina Centrului Comunitar, Bucuresti, Romania",
-        "volunteers_needed": 12,
-        "volunteer_tasks": "Aranjarea meselor, pregatirea salii, servirea mancarii si strangerea veselei dupa eveniment.",
-        "organizer_name": "Centrul Comunitar Deschis",
-        "contact_email": "contact@comunitardeschis.example.org",
-        "contact_phone": "+40 700 123 104",
-        "requirements": "Respectarea regulilor de igiena si a instructiunilor echipei de bucatarie.",
-        "additional_notes": "Meniul si echipamentul de protectie sunt asigurate de organizator."
+        "title": "Astra Film — foto-video și social media",
+        "description": "Documentează festivalul sau creează conținut digital pentru publicul lui.",
+        "category": "culture",
+        "start_datetime": "2026-10-17T00:00:00+03:00",
+        "end_datetime": "2026-10-25T22:59:00+02:00",
+        "location": "Astra Film Festival venues, Sibiu",
+        "volunteers_needed": null,
+        "volunteer_tasks": null,
+        "organizer_name": "Astra Film Festival",
+        "contact_email": null,
+        "contact_phone": null,
+        "requirements": null,
+        "additional_notes": null,
+        "source_url": "https://astrafilm.ro/voluntari",
+        "signup_url": "https://astrafilm.ro/voluntari"
       },
-      "image": "images/demo/events/event-08.jpg"
+      "image": "images/demo/events/real/astra-film-crew.jpg",
+      "roles": [
+        {
+          "payload": {
+            "title": "Astra Film photo-video team",
+            "description": "Document screenings, Q&A sessions, and special events while learning to use professional equipment and edit video with guidance.",
+            "category": "culture",
+            "start_datetime": "2026-10-17T00:00:00+03:00",
+            "end_datetime": "2026-10-25T22:59:00+02:00",
+            "location": "Astra Film Festival venues, Sibiu",
+            "volunteers_needed": null,
+            "volunteer_tasks": "Document screenings, Q&A sessions, and special events while learning to use professional equipment and edit video with guidance.",
+            "organizer_name": "Astra Film Festival",
+            "contact_email": null,
+            "contact_phone": null,
+            "requirements": "Interest in film and image, attention to detail, patience, and attendance at a preparation session; prior experience is helpful but not required.",
+            "additional_notes": "Festival dates announced as 2026-10-17 to 2026-10-25. Schedule varies with filming needs; confirm exact dates and shifts with the festival. Check the festival volunteer page for team details and apply through its volunteer form. Places remaining are not published on the page.",
+            "source_url": "https://astrafilm.ro/voluntari",
+            "signup_url": "https://astrafilm.ro/voluntari"
+          }
+        },
+        {
+          "payload": {
+            "title": "Astra Film media creators",
+            "description": "Create social media content for the festival, including short-form video and daily posts, with training and feedback.",
+            "category": "culture",
+            "start_datetime": "2026-10-17T00:00:00+03:00",
+            "end_datetime": "2026-10-25T22:59:00+02:00",
+            "location": "Astra Film Festival venues, Sibiu",
+            "volunteers_needed": null,
+            "volunteer_tasks": "Create social media content for the festival, including short-form video and daily posts, with training and feedback.",
+            "organizer_name": "Astra Film Festival",
+            "contact_email": null,
+            "contact_phone": null,
+            "requirements": "For high-school students aged 14-18; interest in social media and digital creation, plus a social media profile for the application.",
+            "additional_notes": "Festival dates announced as 2026-10-17 to 2026-10-25. Includes training before the festival and daily content creation during the event; confirm dates with the organizer. Check the festival volunteer page for team details and apply through its volunteer form. Places remaining are not published on the page.",
+            "source_url": "https://astrafilm.ro/voluntari",
+            "signup_url": "https://astrafilm.ro/voluntari"
+          }
+        }
+      ],
+      "image_alt": "Echip? tehnic? lucreaz? pe un platou de filmare",
+      "image_is_illustrative": true
     },
     {
-      "submitted_by": "Asociatia Verde Urban",
+      "submitted_by": "BRD Groupe Société Générale / ZiuaV",
       "payload": {
-        "title": "Inventarierea arborilor din cartier",
-        "description": "Cartografiem arborii de pe cateva strazi si notam zonele in care spatiul verde are nevoie de ingrijire.",
-        "category": "environment",
-        "start_datetime": "2027-03-06T09:00:00+02:00",
-        "end_datetime": "2027-03-06T12:30:00+02:00",
-        "location": "Cartierul Manastur, Cluj-Napoca, Romania",
-        "volunteers_needed": 8,
-        "volunteer_tasks": "Completarea fiselor de teren, fotografierea arborilor si marcarea observatiilor pe harta echipei.",
-        "organizer_name": "Asociatia Verde Urban",
-        "contact_email": "voluntariat@verdeurban.example.org",
-        "contact_phone": "+40 700 123 101",
-        "requirements": "Telefon cu camera foto si incaltaminte potrivita pentru mers pe jos.",
-        "additional_notes": "Activitatea se desfasoara in echipe mici insotite de coordonatori."
-      },
-      "image": "images/demo/events/event-09.jpg"
-    },
-    {
-      "submitted_by": "Fundatia Invatam Impreuna",
-      "payload": {
-        "title": "Mini-laborator de stiinta pentru copii",
-        "description": "Organizam experimente simple si sigure pentru copii, cu activitati practice despre apa, aer si plante.",
+        "title": "Reading activity with children in Gura Pravăț",
+        "description": "Help children aged 6-11 enjoy a story, discuss what they read, and share their ideas in a new school reading space.",
         "category": "education",
-        "start_datetime": "2027-03-10T14:30:00+02:00",
-        "end_datetime": "2027-03-10T17:30:00+02:00",
-        "location": "Centrul Educational Copou, Iasi, Romania",
-        "volunteers_needed": 9,
-        "volunteer_tasks": "Pregatirea materialelor, explicarea pasilor experimentelor si sprijinirea copiilor la activitati.",
-        "organizer_name": "Fundatia Invatam Impreuna",
-        "contact_email": "contact@invatam-impreuna.example.org",
-        "contact_phone": "+40 700 123 102",
-        "requirements": "Respectarea instructiunilor de siguranta si interes pentru activitati educationale.",
-        "additional_notes": "Experimentele sunt non-toxice si se desfasoara sub supravegherea educatorilor."
+        "start_datetime": "2026-10-21T10:00:00+03:00",
+        "end_datetime": "2026-10-21T12:00:00+03:00",
+        "location": "Primary School, Gura Pravăț, Valea Mare Pravăț, Argeș County",
+        "volunteers_needed": 5,
+        "volunteer_tasks": "Read to one child or a small group, discuss the story, and join the informal social time.",
+        "organizer_name": "BRD Groupe Société Générale / ZiuaV",
+        "contact_email": null,
+        "contact_phone": null,
+        "requirements": "Enjoy reading with children and follow the activity schedule.",
+        "additional_notes": "Applications deadline: 2026-10-14. Five places were listed when checked 2026-10-05.",
+        "source_url": "https://ziuav.ro/proiecte/aventura-prin-lectura-in-2026",
+        "signup_url": "https://ziuav.ro/proiecte/aventura-prin-lectura-in-2026"
       },
-      "image": "images/demo/events/event-10.jpg"
+      "image": "images/demo/events/real/reading-children.jpg",
+      "image_alt": "O feti?? cite?te o carte ilustrat?",
+      "image_is_illustrative": true
     },
     {
-      "submitted_by": "Asociatia Prieteni necuvantatori",
+      "submitted_by": "Brașov Marathon",
       "payload": {
-        "title": "Pregatirea adapostului pentru primavara",
-        "description": "Punem la punct spatiile exterioare ale adapostului si pregatim zone curate si sigure pentru animalele aflate in grija.",
-        "category": "animal_welfare",
-        "start_datetime": "2027-03-13T09:30:00+02:00",
-        "end_datetime": "2027-03-13T13:30:00+02:00",
-        "location": "Adapostul Prieteni necuvantatori, Brasov, Romania",
-        "volunteers_needed": 15,
-        "volunteer_tasks": "Curatarea spatiilor exterioare, spalarea obiectelor de joaca si aranjarea materialelor pentru ingrijire.",
-        "organizer_name": "Asociatia Prieteni necuvantatori",
-        "contact_email": "voluntariat@prieteni-necuvantatori.example.org",
-        "contact_phone": "+40 700 123 103",
-        "requirements": "Haine de lucru si incaltaminte inchisa. Uneltele sunt oferite de adapost.",
-        "additional_notes": "Voluntarii nu vor lucra cu produse de curatenie fara acordul coordonatorului."
+        "title": "Brașov Marathon Night Challenge - event volunteer",
+        "description": "Join the volunteer team for Night Challenge, the fourth edition of Brașov Marathon's mountain-running event.",
+        "category": "sports",
+        "start_datetime": "2026-10-24T00:00:00+03:00",
+        "end_datetime": "2026-10-24T23:59:00+03:00",
+        "location": "Brașov, Romania",
+        "volunteers_needed": null,
+        "volunteer_tasks": "Support the event at the post assigned by the volunteer coordinator and follow the event team's instructions.",
+        "organizer_name": "Brașov Marathon",
+        "contact_email": "voluntar@brasovmarathon.ro",
+        "contact_phone": null,
+        "requirements": "Minimum age 16 on event day. Volunteers under 18 need parental consent by 2026-10-22. Wear clothing and footwear suitable for the assigned post and weather.",
+        "additional_notes": "Public volunteer form is linked on the organizer page. Exact post and shift times are assigned by organizers; places remaining are not stated.",
+        "source_url": "https://www.brasovmarathon.ro/devino-voluntar-2/",
+        "signup_url": "https://www.brasovmarathon.ro/devino-voluntar-2/"
       },
-      "image": "images/demo/events/event-11.jpg"
+      "image": "images/demo/events/real/marathon-runners.jpg",
+      "image_alt": "Alerg?tori particip? la o curs? pe ?osea",
+      "image_is_illustrative": true
     },
     {
-      "submitted_by": "Centrul Comunitar Deschis",
+      "submitted_by": "Asociația Plantează în România / BRD Groupe Société Générale",
       "payload": {
-        "title": "Atelier digital pentru seniori",
-        "description": "Sprijinim persoanele in varsta sa foloseasca telefonul, sa trimita mesaje si sa recunoasca tentativele de frauda.",
-        "category": "other",
-        "start_datetime": "2027-03-17T10:00:00+02:00",
-        "end_datetime": "2027-03-17T12:00:00+02:00",
-        "location": "Centrul Comunitar Deschis, Bucuresti, Romania",
-        "volunteers_needed": 6,
-        "volunteer_tasks": "Ghidarea participantilor pas cu pas pe telefon si explicarea unor reguli simple de siguranta online.",
-        "organizer_name": "Centrul Comunitar Deschis",
-        "contact_email": "contact@comunitardeschis.example.org",
-        "contact_phone": "+40 700 123 104",
-        "requirements": "Cunostinte de utilizare a unui smartphone si rabdare in explicatii.",
-        "additional_notes": "Participantii pot aduce propriul telefon; cateva dispozitive de imprumut vor fi disponibile."
-      },
-      "image": "images/demo/events/event-12.jpg"
-    },
-    {
-      "submitted_by": "Asociatia Verde Urban",
-      "payload": {
-        "title": "Curatenie de primavara in parc",
-        "description": "Igienizam aleile si spatiile verzi din parc si discutam cu trecatorii despre pastrarea curateniei in oras.",
+        "title": "Tree planting in Vlădeni, Brașov County",
+        "description": "Join a one-day tree-planting action with Plantează în România to support local nature and the community.",
         "category": "environment",
-        "start_datetime": "2027-04-03T09:00:00+03:00",
-        "end_datetime": "2027-04-03T12:00:00+03:00",
-        "location": "Parcul Central, Cluj-Napoca, Romania",
-        "volunteers_needed": 24,
-        "volunteer_tasks": "Adunarea deseurilor de pe alei, separarea reciclabilelor si distribuirea sacilor pe zone.",
-        "organizer_name": "Asociatia Verde Urban",
-        "contact_email": "voluntariat@verdeurban.example.org",
-        "contact_phone": "+40 700 123 101",
-        "requirements": "Incaltaminte comoda. Manusile, sacii si apa sunt oferite.",
-        "additional_notes": "Punctul de intalnire este la intrarea principala in parc."
+        "start_datetime": "2026-10-31T09:30:00+02:00",
+        "end_datetime": "2026-10-31T15:15:00+02:00",
+        "location": "Vlădeni, Brașov County",
+        "volunteers_needed": 50,
+        "volunteer_tasks": "Attend the safety briefing, plant saplings, help tidy the site, and take part in the closing meal.",
+        "organizer_name": "Asociația Plantează în România / BRD Groupe Société Générale",
+        "contact_email": null,
+        "contact_phone": null,
+        "requirements": "Follow the organizer's instructions and be prepared for outdoor work; tools and gloves are distributed at the meeting point.",
+        "additional_notes": "Applications deadline: 2026-10-26. Fifty places were listed when checked 2026-10-05. The page gives a 09:30 meeting time and a program through 15:15.",
+        "source_url": "https://ziuav.ro/proiecte/planteaza-in-romania-in-judetul-brasov",
+        "signup_url": "https://ziuav.ro/proiecte/planteaza-in-romania-in-judetul-brasov"
       },
-      "image": "images/demo/events/event-13.jpg"
+      "image": "images/demo/events/real/tree-planting.jpg",
+      "image_alt": "Voluntari planteaz? puie?i ?ntr-o zon? verde",
+      "image_is_illustrative": true
     },
     {
-      "submitted_by": "Fundatia Invatam Impreuna",
+      "submitted_by": "Asociația Life Call",
       "payload": {
-        "title": "Conversație în limba engleză",
-        "description": "Organizam jocuri si discutii in limba engleza pentru elevi care vor sa exerseze conversatia intr-un cadru relaxat.",
-        "category": "education",
-        "start_datetime": "2027-04-07T16:00:00+03:00",
-        "end_datetime": "2027-04-07T18:00:00+03:00",
-        "location": "Casa Tineretului, Iasi, Romania",
-        "volunteers_needed": 7,
-        "volunteer_tasks": "Propunerea unor subiecte de discutie, coordonarea jocurilor si incurajarea participarii tuturor elevilor.",
-        "organizer_name": "Fundatia Invatam Impreuna",
-        "contact_email": "contact@invatam-impreuna.example.org",
-        "contact_phone": "+40 700 123 102",
-        "requirements": "Nivel conversational de limba engleza si atitudine incurajatoare.",
-        "additional_notes": "Materialele de conversatie sunt pregatite de echipa educationala."
+        "title": "Run for Life — kituri și sprijin general",
+        "description": "Ajută la înregistrarea participanților, distribuirea kiturilor sau activitățile generale ale evenimentului.",
+        "category": "sports",
+        "start_datetime": "2026-11-07T07:00:00+02:00",
+        "end_datetime": "2026-11-07T16:30:00+02:00",
+        "location": "Race kit distribution point, Cluj-Napoca",
+        "volunteers_needed": null,
+        "volunteer_tasks": null,
+        "organizer_name": "Asociația Life Call",
+        "contact_email": null,
+        "contact_phone": null,
+        "requirements": null,
+        "additional_notes": null,
+        "source_url": "https://team.sportic.ro/index.php/assignments/register?id_event=4179",
+        "signup_url": "https://team.sportic.ro/index.php/assignments/register?id_event=4179"
       },
-      "image": "images/demo/events/event-14.jpg"
+      "image": "images/demo/events/real/race-kit-volunteer.jpg",
+      "roles": [
+        {
+          "payload": {
+            "title": "Run for Life - distribute race kits",
+            "description": "Help register participants and distribute race kits.",
+            "category": "sports",
+            "start_datetime": "2026-11-07T07:00:00+02:00",
+            "end_datetime": "2026-11-07T10:00:00+02:00",
+            "location": "Race kit distribution point, Cluj-Napoca",
+            "volunteers_needed": 14,
+            "volunteer_tasks": "Registration and race-kit distribution",
+            "organizer_name": "Asociația Life Call",
+            "contact_email": null,
+            "contact_phone": null,
+            "requirements": "Select a task on the live registration page or register as a general event volunteer.",
+            "additional_notes": "Source shows 13/14 availability for this shift. Event date: 2026-11-07. Check the live listing before relying on a place count.",
+            "source_url": "https://team.sportic.ro/index.php/assignments/register?id_event=4179",
+            "signup_url": "https://team.sportic.ro/index.php/assignments/register?id_event=4179"
+          }
+        },
+        {
+          "payload": {
+            "title": "Run for Life - general volunteer",
+            "description": "Register as a general event volunteer and receive a role assignment from the organizer.",
+            "category": "sports",
+            "start_datetime": "2026-11-07T09:00:00+02:00",
+            "end_datetime": "2026-11-07T16:30:00+02:00",
+            "location": "Run for Life Wonderland, Cluj-Napoca",
+            "volunteers_needed": 14,
+            "volunteer_tasks": "General event support; assigned by the volunteer coordinator",
+            "organizer_name": "Asociația Life Call",
+            "contact_email": null,
+            "contact_phone": null,
+            "requirements": "Select a task on the live registration page or register as a general event volunteer.",
+            "additional_notes": "Source shows 13/14 availability for this shift. Event date: 2026-11-07. Check the live listing before relying on a place count.",
+            "source_url": "https://team.sportic.ro/index.php/assignments/register?id_event=4179",
+            "signup_url": "https://team.sportic.ro/index.php/assignments/register?id_event=4179"
+          }
+        }
+      ],
+      "image_alt": "O participant? ??i fixeaz? num?rul de concurs ?naintea cursei",
+      "image_is_illustrative": true
     },
     {
-      "submitted_by": "Asociatia Prieteni necuvantatori",
+      "submitted_by": "Asociația Life Call",
       "payload": {
-        "title": "Plimbari ghidate pentru cainii din adapost",
-        "description": "Ajutam cainii din adapost sa faca miscare si sa se obisnuiasca treptat cu interactiunea cu voluntarii.",
-        "category": "animal_welfare",
-        "start_datetime": "2027-04-10T10:00:00+03:00",
-        "end_datetime": "2027-04-10T13:00:00+03:00",
-        "location": "Adapostul Prieteni necuvantatori, Brasov, Romania",
-        "volunteers_needed": 10,
-        "volunteer_tasks": "Plimbarea cainilor in perechi, oferirea apei si notarea observatiilor pentru ingrijitori.",
-        "organizer_name": "Asociatia Prieteni necuvantatori",
-        "contact_email": "voluntariat@prieteni-necuvantatori.example.org",
-        "contact_phone": "+40 700 123 103",
-        "requirements": "Respectarea alocarii facute de personal si purtarea incaltamintei inchise.",
-        "additional_notes": "Fiecare echipa va fi instruita inainte de inceperea plimbarilor."
+        "title": "Run for Life — traseu și puncte de suport",
+        "description": "Sprijină participanții pe traseu și la punctele de hidratare și sosire.",
+        "category": "sports",
+        "start_datetime": "2026-11-07T09:00:00+02:00",
+        "end_datetime": "2026-11-07T14:30:00+02:00",
+        "location": "Run for Life course, Cluj-Napoca",
+        "volunteers_needed": null,
+        "volunteer_tasks": null,
+        "organizer_name": "Asociația Life Call",
+        "contact_email": null,
+        "contact_phone": null,
+        "requirements": null,
+        "additional_notes": null,
+        "source_url": "https://team.sportic.ro/index.php/assignments/register?id_event=4179",
+        "signup_url": "https://team.sportic.ro/index.php/assignments/register?id_event=4179"
       },
-      "image": "images/demo/events/event-15.jpg"
-    },
-    {
-      "submitted_by": "Centrul Comunitar Deschis",
-      "payload": {
-        "title": "Ziua jocurilor pentru toate varstele",
-        "description": "Aducem impreuna copii, parinti si seniori pentru jocuri de societate si activitati de socializare.",
-        "category": "community",
-        "start_datetime": "2027-04-14T14:00:00+03:00",
-        "end_datetime": "2027-04-14T18:00:00+03:00",
-        "location": "Sala Centrului Comunitar, Bucuresti, Romania",
-        "volunteers_needed": 11,
-        "volunteer_tasks": "Primirea participantilor, explicarea regulilor jocurilor si pregatirea gustarilor pentru pauza.",
-        "organizer_name": "Centrul Comunitar Deschis",
-        "contact_email": "contact@comunitardeschis.example.org",
-        "contact_phone": "+40 700 123 104",
-        "requirements": "Comunicare prietenoasa si disponibilitate de a ajuta participanti de varste diferite.",
-        "additional_notes": "Jocurile si gustarile sunt asigurate de organizator."
-      },
-      "image": "images/demo/events/event-16.jpg"
-    },
-    {
-      "submitted_by": "Asociatia Verde Urban",
-      "payload": {
-        "title": "Amenajarea unei gradini comunitare",
-        "description": "Transformam un spatiu nefolosit intr-o gradina comuna cu plante aromatice, flori si zone pentru polenizatori.",
-        "category": "environment",
-        "start_datetime": "2027-05-08T09:00:00+03:00",
-        "end_datetime": "2027-05-08T13:00:00+03:00",
-        "location": "Cartierul Gheorgheni, Cluj-Napoca, Romania",
-        "volunteers_needed": 20,
-        "volunteer_tasks": "Pregatirea straturilor, plantarea rasadurilor, udarea si montarea etichetelor pentru plante.",
-        "organizer_name": "Asociatia Verde Urban",
-        "contact_email": "voluntariat@verdeurban.example.org",
-        "contact_phone": "+40 700 123 101",
-        "requirements": "Haine potrivite pentru lucru afara. Uneltele sunt oferite de organizator.",
-        "additional_notes": "Gradina va ramane deschisa comunitatii dupa amenajare."
-      },
-      "image": "images/demo/events/event-17.jpg"
-    },
-    {
-      "submitted_by": "Fundatia Invatam Impreuna",
-      "payload": {
-        "title": "Atelier de orientare pentru liceeni",
-        "description": "Sustinem liceenii sa isi descopere interesele si sa afle mai multe despre oportunitatile de educatie si cariera.",
-        "category": "education",
-        "start_datetime": "2027-05-12T15:00:00+03:00",
-        "end_datetime": "2027-05-12T18:00:00+03:00",
-        "location": "Centrul Educational Copou, Iasi, Romania",
-        "volunteers_needed": 8,
-        "volunteer_tasks": "Pregatirea fiselor de activitate, indrumarea grupurilor si colectarea intrebarilor participantilor.",
-        "organizer_name": "Fundatia Invatam Impreuna",
-        "contact_email": "contact@invatam-impreuna.example.org",
-        "contact_phone": "+40 700 123 102",
-        "requirements": "Interes pentru educatie si respectarea confidentialitatii discutiilor.",
-        "additional_notes": "Activitatea este coordonata de consilieri educationali."
-      },
-      "image": "images/demo/events/event-18.jpg"
-    },
-    {
-      "submitted_by": "Asociatia Prieteni necuvantatori",
-      "payload": {
-        "title": "Targ local pentru adoptii responsabile",
-        "description": "Prezentam animale care isi cauta familie si oferim vizitatorilor informatii despre ingrijirea responsabila.",
-        "category": "animal_welfare",
-        "start_datetime": "2027-05-15T10:00:00+03:00",
-        "end_datetime": "2027-05-15T16:00:00+03:00",
-        "location": "Piata Unirii, Brasov, Romania",
-        "volunteers_needed": 18,
-        "volunteer_tasks": "Amenajarea standului, distribuirea materialelor informative si indrumarea vizitatorilor catre coordonatori.",
-        "organizer_name": "Asociatia Prieteni necuvantatori",
-        "contact_email": "voluntariat@prieteni-necuvantatori.example.org",
-        "contact_phone": "+40 700 123 103",
-        "requirements": "Politete, rabdare si respectarea instructiunilor echipei de protectie a animalelor.",
-        "additional_notes": "Deciziile de adoptie sunt gestionate exclusiv de personalul asociatiei."
-      },
-      "image": "images/demo/events/event-19.jpg"
-    },
-    {
-      "submitted_by": "Centrul Comunitar Deschis",
-      "payload": {
-        "title": "Colecta de carti pentru copii",
-        "description": "Strangem carti pentru un colt de lectura destinat copiilor din familii cu acces limitat la materiale educationale.",
-        "category": "charity",
-        "start_datetime": "2027-05-19T11:00:00+03:00",
-        "end_datetime": "2027-05-19T15:00:00+03:00",
-        "location": "Centrul Comunitar Deschis, Bucuresti, Romania",
-        "volunteers_needed": 9,
-        "volunteer_tasks": "Primirea cartilor, sortarea lor dupa varsta si stare si pregatirea coletelor pentru punctele de lectura.",
-        "organizer_name": "Centrul Comunitar Deschis",
-        "contact_email": "contact@comunitardeschis.example.org",
-        "contact_phone": "+40 700 123 104",
-        "requirements": "Atentie la manipularea cartilor si lucru organizat in echipa.",
-        "additional_notes": "Se accepta carti pentru copii in stare buna, in limba romana."
-      },
-      "image": "images/demo/events/event-20.jpg"
+      "image": "images/demo/events/real/run-volunteers.jpg",
+      "roles": [
+        {
+          "payload": {
+            "title": "Run for Life - guide and control runners",
+            "description": "Help direct runners and support course control during the race.",
+            "category": "sports",
+            "start_datetime": "2026-11-07T09:00:00+02:00",
+            "end_datetime": "2026-11-07T14:30:00+02:00",
+            "location": "Run for Life course, Cluj-Napoca",
+            "volunteers_needed": 24,
+            "volunteer_tasks": "Direct and monitor competitors along the course",
+            "organizer_name": "Asociația Life Call",
+            "contact_email": null,
+            "contact_phone": null,
+            "requirements": "Select a task on the live registration page or register as a general event volunteer.",
+            "additional_notes": "Source lists 24/24 in the availability column; confirm the remaining place count on the live signup page. Event date: 2026-11-07. Check the live listing before relying on a place count.",
+            "source_url": "https://team.sportic.ro/index.php/assignments/register?id_event=4179",
+            "signup_url": "https://team.sportic.ro/index.php/assignments/register?id_event=4179"
+          }
+        },
+        {
+          "payload": {
+            "title": "Run for Life - finish food station",
+            "description": "Support the food station at the race finish.",
+            "category": "sports",
+            "start_datetime": "2026-11-07T09:00:00+02:00",
+            "end_datetime": "2026-11-07T14:30:00+02:00",
+            "location": "Finish area, Cluj-Napoca",
+            "volunteers_needed": 16,
+            "volunteer_tasks": "Prepare and distribute food at the finish point",
+            "organizer_name": "Asociația Life Call",
+            "contact_email": null,
+            "contact_phone": null,
+            "requirements": "Select a task on the live registration page or register as a general event volunteer.",
+            "additional_notes": "Source lists 16/16 in the availability column; confirm the remaining place count on the live signup page. Event date: 2026-11-07. Check the live listing before relying on a place count.",
+            "source_url": "https://team.sportic.ro/index.php/assignments/register?id_event=4179",
+            "signup_url": "https://team.sportic.ro/index.php/assignments/register?id_event=4179"
+          }
+        },
+        {
+          "payload": {
+            "title": "Run for Life - hydration point at Peana",
+            "description": "Staff the hydration point at kilometre 5.6 for the 24 km long run.",
+            "category": "sports",
+            "start_datetime": "2026-11-07T09:00:00+02:00",
+            "end_datetime": "2026-11-07T11:00:00+02:00",
+            "location": "Peana, Cluj County (24 km route, km 5.6)",
+            "volunteers_needed": 12,
+            "volunteer_tasks": "Support runners at the hydration point",
+            "organizer_name": "Asociația Life Call",
+            "contact_email": null,
+            "contact_phone": null,
+            "requirements": "Select a task on the live registration page or register as a general event volunteer.",
+            "additional_notes": "Source shows 9/12 availability for this shift. Event date: 2026-11-07. Check the live listing before relying on a place count.",
+            "source_url": "https://team.sportic.ro/index.php/assignments/register?id_event=4179",
+            "signup_url": "https://team.sportic.ro/index.php/assignments/register?id_event=4179"
+          }
+        }
+      ],
+      "image_alt": "Voluntari ?n tricouri ro?ii ajut? la organizarea unei curse",
+      "image_is_illustrative": true
     }
   ]
 }

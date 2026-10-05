@@ -191,6 +191,10 @@
   gap: 22px;
 }
 
+.ev-image-figure {
+  margin: 0;
+}
+
 .ev-image {
   display: block;
   width: 100%;
@@ -199,6 +203,12 @@
   object-fit: cover;
   border: 1px solid var(--line);
   border-radius: var(--radius);
+}
+
+.ev-image-figure figcaption {
+  margin-top: 7px;
+  color: var(--ink-2);
+  font-size: .85rem;
 }
 
 .ev-tag {
@@ -252,6 +262,25 @@
 
 .ev-dialog li+li {
   margin-top: 4px;
+}
+
+.ev-role-list {
+  display: grid;
+  gap: 12px;
+}
+
+.ev-role {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+}
+
+.ev-role h4 {
+  margin: 0 0 8px;
+}
+
+.ev-role p {
+  margin: 6px 0 0;
 }
 
 .schedule {

@@ -58,14 +58,34 @@ html.discover-scroll footer {
   overflow: hidden;
 }
 
-.discover-image {
-  display: block;
+.discover-visual {
+  position: relative;
   flex: 0 0 46%;
   width: 46%;
+  height: 100%;
+  margin: 0;
+  background: var(--control-surface);
+}
+
+.discover-image {
+  display: block;
+  width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center;
   background: var(--control-surface);
+}
+
+.discover-image-caption {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  padding: 5px 9px;
+  border: 1px solid rgba(255, 255, 255, .24);
+  border-radius: 2px;
+  background: rgba(17, 23, 16, .88);
+  color: #F5F2E9;
+  font-size: .8rem;
 }
 
 .discover-image-empty {
@@ -185,8 +205,8 @@ html.discover-scroll footer {
     overflow: hidden;
   }
 
-  .discover-image {
-    flex-basis: 40%;
+  .discover-visual {
+    flex: 0 0 40%;
     width: 100%;
     height: 40%;
     min-height: 180px;
